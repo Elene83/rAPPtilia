@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXFileReference section */
-		FAE9760A2F0E8DED00405FCB /* rAPPtilia.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = rAPPtilia.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		FAE9760A2F0E8DED00405FCB /* rAPPtilia.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; name = rAPPtilia.app; path = "/Users/macbook/Desktop/FinalProject/rAPPtilia/build/Debug-iphoneos/rAPPtilia.app"; sourceTree = "<absolute>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
@@ -46,16 +46,7 @@
 			isa = PBXGroup;
 			children = (
 				FAE9760C2F0E8DED00405FCB /* rAPPtilia */,
-				FAE9760B2F0E8DED00405FCB /* Products */,
 			);
-			sourceTree = "<group>";
-		};
-		FAE9760B2F0E8DED00405FCB /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				FAE9760A2F0E8DED00405FCB /* rAPPtilia.app */,
-			);
-			name = Products;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -108,7 +99,7 @@
 			mainGroup = FAE976012F0E8DED00405FCB;
 			minimizedProjectReferenceProxies = 1;
 			preferredProjectObjectVersion = 77;
-			productRefGroup = FAE9760B2F0E8DED00405FCB /* Products */;
+			productRefGroup = FAE976012F0E8DED00405FCB;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
