@@ -4,7 +4,10 @@
 <dict>
 	<key>UIAppFonts</key>
 	<array>
-		<string></string>
+		<string>firago-latin-300-normal.ttf</string>
+		<string>firago-latin-400-normal.ttf</string>
+		<string>firago-latin-500-normal.ttf</string>
+		<string>firago-latin-600-normal.ttf</string>
 	</array>
 	<key>UIApplicationSceneManifest</key>
 	<dict>

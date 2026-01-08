@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXFileReference section */
-		FAE9760A2F0E8DED00405FCB /* rAPPtilia.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; name = rAPPtilia.app; path = "/Users/macbook/Desktop/FinalProject/rAPPtilia/build/Debug-iphoneos/rAPPtilia.app"; sourceTree = "<absolute>"; };
+		FAE9769F2F10500C00405FCB /* rAPPtilia.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; name = rAPPtilia.app; path = "/Users/macbook/Desktop/FinalProject/rAPPtilia/build/Debug-iphoneos/rAPPtilia.app"; sourceTree = "<absolute>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
@@ -26,8 +26,9 @@
 			exceptions = (
 				FAE9761C2F0E8DEE00405FCB /* Exceptions for "rAPPtilia" folder in "rAPPtilia" target */,
 			);
-			path = rAPPtilia;
-			sourceTree = "<group>";
+			name = rAPPtilia;
+			path = /Users/macbook/Desktop/FinalProject/rAPPtilia/rAPPtilia;
+			sourceTree = "<absolute>";
 		};
 /* End PBXFileSystemSynchronizedRootGroup section */
 
@@ -71,7 +72,7 @@
 			packageProductDependencies = (
 			);
 			productName = rAPPtilia;
-			productReference = FAE9760A2F0E8DED00405FCB /* rAPPtilia.app */;
+			productReference = FAE9769F2F10500C00405FCB /* rAPPtilia.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -141,7 +142,6 @@
 				INFOPLIST_FILE = rAPPtilia/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
-				INFOPLIST_KEY_UIMainStoryboardFile = Main;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -169,7 +169,6 @@
 				INFOPLIST_FILE = rAPPtilia/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
-				INFOPLIST_KEY_UIMainStoryboardFile = Main;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				LD_RUNPATH_SEARCH_PATHS = (
