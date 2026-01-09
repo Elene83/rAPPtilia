@@ -24,7 +24,8 @@ class AppCoordinator {
         if Auth.auth().currentUser != nil {
             showMainApp()
         } else {
-            showAuth()
+//            showAuth()
+            showMainApp()
         }
     }
     

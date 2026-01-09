@@ -11,6 +11,8 @@ struct SettingsView: View {
                 coordinator.logout()
             }
         }
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
+        .background(Color("AppBG"))
         .navigationTitle("Settings")
     }
 }

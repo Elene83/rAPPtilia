@@ -7,6 +7,8 @@ struct ChatView: View {
         VStack {
             Text("Chat")
         }
-        .navigationTitle("Chat")
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
+        .background(Color("AppBG"))
+        .navigationTitle("TurtleBot")
     }
 }
