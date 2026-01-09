@@ -6,8 +6,14 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		FAE976B92F114BBC00405FCB /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = FAE976B82F114BBC00405FCB /* FirebaseAuth */; };
+		FAE976BB2F114BBC00405FCB /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = FAE976BA2F114BBC00405FCB /* FirebaseFirestore */; };
+		FAE976BD2F114BBC00405FCB /* FirebaseStorage in Frameworks */ = {isa = PBXBuildFile; productRef = FAE976BC2F114BBC00405FCB /* FirebaseStorage */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXFileReference section */
-		FAE9769F2F10500C00405FCB /* rAPPtilia.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; name = rAPPtilia.app; path = "/Users/macbook/Desktop/FinalProject/rAPPtilia/build/Debug-iphoneos/rAPPtilia.app"; sourceTree = "<absolute>"; };
+		FAE976B62F1137B600405FCB /* rAPPtilia.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = rAPPtilia.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
@@ -37,6 +43,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FAE976B92F114BBC00405FCB /* FirebaseAuth in Frameworks */,
+				FAE976BB2F114BBC00405FCB /* FirebaseFirestore in Frameworks */,
+				FAE976BD2F114BBC00405FCB /* FirebaseStorage in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -47,6 +56,7 @@
 			isa = PBXGroup;
 			children = (
 				FAE9760C2F0E8DED00405FCB /* rAPPtilia */,
+				FAE976B62F1137B600405FCB /* rAPPtilia.app */,
 			);
 			sourceTree = "<group>";
 		};
@@ -70,9 +80,12 @@
 			);
 			name = rAPPtilia;
 			packageProductDependencies = (
+				FAE976B82F114BBC00405FCB /* FirebaseAuth */,
+				FAE976BA2F114BBC00405FCB /* FirebaseFirestore */,
+				FAE976BC2F114BBC00405FCB /* FirebaseStorage */,
 			);
 			productName = rAPPtilia;
-			productReference = FAE9769F2F10500C00405FCB /* rAPPtilia.app */;
+			productReference = FAE976B62F1137B600405FCB /* rAPPtilia.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -99,6 +112,9 @@
 			);
 			mainGroup = FAE976012F0E8DED00405FCB;
 			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				FAE976B72F114BBC00405FCB /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
+			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = FAE976012F0E8DED00405FCB;
 			projectDirPath = "";
@@ -327,6 +343,35 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		FAE976B72F114BBC00405FCB /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/firebase/firebase-ios-sdk";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 12.7.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		FAE976B82F114BBC00405FCB /* FirebaseAuth */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = FAE976B72F114BBC00405FCB /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseAuth;
+		};
+		FAE976BA2F114BBC00405FCB /* FirebaseFirestore */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = FAE976B72F114BBC00405FCB /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseFirestore;
+		};
+		FAE976BC2F114BBC00405FCB /* FirebaseStorage */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = FAE976B72F114BBC00405FCB /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseStorage;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = FAE976022F0E8DED00405FCB /* Project object */;
 }

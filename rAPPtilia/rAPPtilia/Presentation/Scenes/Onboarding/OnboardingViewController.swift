@@ -54,6 +54,7 @@ class OnboardingViewController: UIViewController {
         pageControl.currentPage = 0
         pageControl.translatesAutoresizingMaskIntoConstraints = false
         pageControl.transform = CGAffineTransform(scaleX: 1.2, y: 1.2)
+        pageControl.isUserInteractionEnabled = false
         view.addSubview(pageControl)
                
         let firstPage = viewModel.getPage(at: 0)
@@ -93,7 +94,7 @@ class OnboardingViewController: UIViewController {
                 
         scrollView.contentSize = CGSize(width: pageWidth * CGFloat(viewModel.numberOfPages), height: pageHeight)
         
-        for index in 0..<viewModel.numberOfPages {
+        for index in 0..<viewModel.numberOfPages { //TODO: perhaps viewmodelshi es
             let page = viewModel.getPage(at: index)
             let pageView = OnboardingPageView(frame: CGRect(
                 x: CGFloat(index) * pageWidth,

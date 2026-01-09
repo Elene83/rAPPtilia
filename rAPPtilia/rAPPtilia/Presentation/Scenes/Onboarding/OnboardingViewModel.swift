@@ -1,7 +1,7 @@
 class OnboardingViewModel {
     private let pages = [
         OnboardingPage(title: "Greetingsss!", description: "Welcome to rAPPtilia, your friendly guide to your friendly neighbors of class reptilia.", imageName: "snek", fontColorName: "AppOrange", dotColorName: "AppLightOrange"),
-        OnboardingPage(title: "", description: "Learn, pin, keep track and read up on one of the most important class in the ecosystem.", imageName: "liz", fontColorName: "AppDarkGreen", dotColorName: "AppLightGreen"),
+        OnboardingPage(title: "", description: "Learn, pin, keep track and read up on one of the most important classes in the ecosystem.", imageName: "liz", fontColorName: "AppDarkGreen", dotColorName: "AppLightGreen"),
         OnboardingPage(title: "Ready to roll?", description: "Share your finds with like-minded people and keep our scaly friends alive and thriving.", imageName: "tort", fontColorName: "AppKhaki", dotColorName: "AppLightKhaki")
     ]
     
