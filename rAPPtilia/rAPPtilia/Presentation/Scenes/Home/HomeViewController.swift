@@ -1,26 +1,22 @@
-//
-//  ViewController.swift
-//  rAPPtilia
-//
-//  Created by Eorime on 07.01.26.
-//
-
 import UIKit
 
 class HomeViewController: UIViewController {
+    private let vm = HomeViewModel()
 
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = UIColor(named: "AppBG")
         
-        for family in UIFont.familyNames.sorted() {
-            print("Family: \(family)")
-            for name in UIFont.fontNames(forFamilyName: family) {
-                print("  - \(name)")
-            }
+        vm.onDataUpdated = { [weak self] in
+            guard let self = self else { return }
+            print("reptiles count: \(self.vm.reptiles.count)")
+            print(self.vm.reptiles)
         }
+        
+        vm.onError = { errorMessage in
+            print("Error: \(errorMessage)")
+        }
+        
+        vm.loadReptiles()
     }
-    
-    
 }
-
