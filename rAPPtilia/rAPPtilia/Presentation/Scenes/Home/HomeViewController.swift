@@ -2,6 +2,7 @@ import UIKit
 
 class HomeViewController: UIViewController {
     private let vm = HomeViewModel()
+    weak var coordinator: MainCoordinator?
 
     override func viewDidLoad() {
         super.viewDidLoad()

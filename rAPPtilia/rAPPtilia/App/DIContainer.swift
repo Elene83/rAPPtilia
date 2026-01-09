@@ -1,7 +1,3 @@
-//
-//  DIContainer.swift
-//  rAPPtilia
-//
-//  Created by Eorime on 09.01.26.
-//
 
+
+#warning("set up")
