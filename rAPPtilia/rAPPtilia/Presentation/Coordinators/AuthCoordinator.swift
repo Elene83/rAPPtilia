@@ -30,6 +30,8 @@ class AuthCoordinator {
         let signUpVC = SignUpViewController()
         signUpVC.coordinator = self
         navController.pushViewController(signUpVC, animated: true)
+        
+        print("aba")
     }
     
     func loginDidSucceed() {

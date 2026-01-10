@@ -1,7 +1,6 @@
 import UIKit
 
 class CustomButton: UIButton {
-    
     init(title: String, backgroundColor: UIColor?, cornerRadius: CGFloat = 8) {
         super.init(frame: .zero)
         
