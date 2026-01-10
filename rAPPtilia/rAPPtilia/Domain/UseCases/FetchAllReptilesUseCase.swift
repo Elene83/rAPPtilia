@@ -6,7 +6,6 @@ struct ReptileFilters {
     var venomous: Bool?
     var color: String?
     var diet: String?
-    var habitat: String?
     var activityPeriod: String?
     var temperament: String?
     var headshape: String?

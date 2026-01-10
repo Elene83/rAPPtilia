@@ -71,7 +71,7 @@ class OnboardingViewController: UIViewController {
     
     private func setupSkipButton() {
         skipButton.setTitle(viewModel.getButtonLabel(), for: .normal)
-        skipButton.titleLabel?.font = UIFont(name: "FiraGO-Medium", size: 16) ?? .systemFont(ofSize: 16, weight: .medium)
+        skipButton.titleLabel?.font = UIFont(name: "FiraGO-Medium", size: 18) ?? .systemFont(ofSize: 16, weight: .medium)
               
         let firstPage = viewModel.getPage(at: 0)
         if let fontColor = UIColor(named: firstPage.fontColorName) {

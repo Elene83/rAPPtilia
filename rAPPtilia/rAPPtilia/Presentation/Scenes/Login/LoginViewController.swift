@@ -20,6 +20,6 @@ class LoginViewController: UIViewController {
             print("Login error: \(errorMessage)")
         }
     }
-    
+    //skip button daamate romelic homeze wagviyvans
     //TODO: call login from vm when ui ready 
 }
