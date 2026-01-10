@@ -17,16 +17,24 @@ class PasswordTextFieldView: UIView {
     var textField: UITextField = {
         var textField = UITextField()
         textField.font = UIFont(name: "FiraGO-Regular", size: 14)
+        textField.textColor = UIColor(named: "AppDarkRed")  
         textField.layer.cornerRadius = 8
         textField.layer.borderWidth = 2
         textField.layer.borderColor = UIColor(named: "AppDarkRed")?.cgColor
         textField.isSecureTextEntry = true
-        
-        textField.leftView = UIView(frame: CGRect(x: 0, y: 0, width: 11, height: 0))
-        textField.leftViewMode = .always
         textField.translatesAutoresizingMaskIntoConstraints = false
+        textField.isUserInteractionEnabled = true
         
         return textField
+    }()
+    
+    private lazy var lockIcon: UIImageView = {
+        let imageView = UIImageView()
+        imageView.image = UIImage(named: "lockIcon")
+        imageView.contentMode = .scaleAspectFit
+        imageView.tintColor = UIColor(named: "AppDarkRed")
+        imageView.translatesAutoresizingMaskIntoConstraints = false
+        return imageView
     }()
     
     private lazy var toggleButton: UIButton = {
@@ -35,22 +43,7 @@ class PasswordTextFieldView: UIView {
         button.tintColor = UIColor(named: "AppDarkRed")
         button.addTarget(self, action: #selector(togglePasswordVisibility), for: .touchUpInside)
         button.translatesAutoresizingMaskIntoConstraints = false
-        
         return button
-    }()
-    
-    private lazy var rightContainerView: UIView = {
-        let containerView = UIView(frame: CGRect(x: 0, y: 0, width: 50, height: 40))
-        containerView.addSubview(toggleButton)
-        
-        NSLayoutConstraint.activate([
-            toggleButton.centerYAnchor.constraint(equalTo: containerView.centerYAnchor),
-            toggleButton.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -11),
-            toggleButton.widthAnchor.constraint(equalToConstant: 24),
-            toggleButton.heightAnchor.constraint(equalToConstant: 24)
-        ])
-        
-        return containerView
     }()
     
     init(placeholderString: String) {
@@ -81,9 +74,8 @@ class PasswordTextFieldView: UIView {
     private func setupView() {
         addSubview(label)
         addSubview(textField)
-        
-        textField.rightView = rightContainerView
-        textField.rightViewMode = .always
+        addSubview(lockIcon)
+        addSubview(toggleButton)
             
         NSLayoutConstraint.activate([
             label.topAnchor.constraint(equalTo: topAnchor),
@@ -94,8 +86,23 @@ class PasswordTextFieldView: UIView {
             textField.leadingAnchor.constraint(equalTo: leadingAnchor),
             textField.trailingAnchor.constraint(equalTo: trailingAnchor),
             textField.heightAnchor.constraint(equalToConstant: 45),
-            textField.bottomAnchor.constraint(equalTo: bottomAnchor)
+            textField.bottomAnchor.constraint(equalTo: bottomAnchor),
+            
+            lockIcon.leadingAnchor.constraint(equalTo: textField.leadingAnchor, constant: 11),
+            lockIcon.centerYAnchor.constraint(equalTo: textField.centerYAnchor),
+            lockIcon.widthAnchor.constraint(equalToConstant: 15),
+            lockIcon.heightAnchor.constraint(equalToConstant: 18),
+            
+            toggleButton.trailingAnchor.constraint(equalTo: textField.trailingAnchor, constant: -11),
+            toggleButton.centerYAnchor.constraint(equalTo: textField.centerYAnchor),
+            toggleButton.widthAnchor.constraint(equalToConstant: 30),
+            toggleButton.heightAnchor.constraint(equalToConstant: 30)
         ])
+        
+        textField.leftView = UIView(frame: CGRect(x: 0, y: 0, width: 35, height: 45))
+        textField.leftViewMode = .always
+        textField.rightView = UIView(frame: CGRect(x: 0, y: 0, width: 45, height: 45))
+        textField.rightViewMode = .always
     }
     
     @objc private func togglePasswordVisibility() {

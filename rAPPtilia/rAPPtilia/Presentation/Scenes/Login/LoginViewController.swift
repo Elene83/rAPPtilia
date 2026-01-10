@@ -4,10 +4,116 @@ class LoginViewController: UIViewController {
     weak var coordinator: AuthCoordinator?
     private let viewModel = LoginViewModel()
     
+    private let logoImageView: UIImageView = {
+        let imageView = UIImageView()
+        imageView.image = UIImage(named: "redsnek")
+        imageView.contentMode = .scaleAspectFit
+        imageView.translatesAutoresizingMaskIntoConstraints = false
+        return imageView
+    }()
+    
+    private let titleLabel: UILabel = {
+        let label = UILabel()
+        label.text = "rAPPtilia"
+        label.font = UIFont(name: "FiraGO-Medium", size: 24)
+        label.textColor = UIColor(named: "AppDarkRed")
+        label.textAlignment = .center
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    }()
+    
+    
+    private let emailField: CustomTextFieldView = {
+        let field = CustomTextFieldView(placeholderString: "Your email address")
+        field.label.text = "Email"
+        field.textField.keyboardType = .emailAddress
+        field.textField.autocapitalizationType = .none
+        field.translatesAutoresizingMaskIntoConstraints = false
+        return field
+    }()
+    
+    private let passwordField: PasswordTextFieldView = {
+        let field = PasswordTextFieldView(placeholderString: "Your password")
+        field.label.text = "Password"
+        field.translatesAutoresizingMaskIntoConstraints = false
+        return field
+    }()
+    
+    private let loginButton: CustomButton = {
+        let button = CustomButton(
+            title: "Log In",
+            backgroundColor: UIColor(named: "AppDarkRed"),
+            cornerRadius: 8
+        )
+        return button
+    }()
+    
+    private let skipButton: UIButton = {
+        let button = UIButton(type: .system)
+        button.setTitle("Ssskip", for: .normal)
+        button.titleLabel?.font = UIFont(name: "FiraGO-Medium", size: 18)
+        button.setTitleColor(UIColor(named: "AppDarkRed"), for: .normal)
+        button.translatesAutoresizingMaskIntoConstraints = false
+        return button
+    }()
+    
+    private let skipSubText: UILabel = {
+        let label = UILabel()
+        label.textColor = UIColor(named: "AppDarkRed")
+        label.text = "For now..."
+        label.font = UIFont(name: "FiraGO-Regular", size: 10)
+        label.translatesAutoresizingMaskIntoConstraints = false
+        
+        return label
+    }()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = UIColor(named: "AppBG")
+        navigationController?.setNavigationBarHidden(true, animated: false)
+        setupUI()
         setupBindings()
+        setupActions()
+    }
+    
+    private func setupUI() {
+        view.addSubview(logoImageView)
+        view.addSubview(titleLabel)
+        view.addSubview(emailField)
+        view.addSubview(passwordField)
+        view.addSubview(loginButton)
+        view.addSubview(skipButton)
+        view.addSubview(skipSubText)
+        
+        NSLayoutConstraint.activate([
+            logoImageView.topAnchor.constraint(equalTo: view.topAnchor, constant: 50),
+            logoImageView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            logoImageView.widthAnchor.constraint(equalToConstant: 300),
+            logoImageView.heightAnchor.constraint(equalToConstant: 300),
+            
+            titleLabel.topAnchor.constraint(equalTo: logoImageView.bottomAnchor, constant: -70),
+            titleLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 24),
+            titleLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -24),
+                   
+            emailField.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 60),
+            emailField.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 40),
+            emailField.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -40),
+                
+            passwordField.topAnchor.constraint(equalTo: emailField.bottomAnchor, constant: 40),
+            passwordField.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 40),
+            passwordField.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -40),
+                   
+            loginButton.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -80),
+            loginButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 40),
+            loginButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -40),
+            loginButton.heightAnchor.constraint(equalToConstant: 50),
+                   
+            skipButton.topAnchor.constraint(equalTo: view.topAnchor, constant: 70),
+            skipButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
+            
+            skipSubText.topAnchor.constraint(equalTo: skipButton.bottomAnchor, constant: 1),
+            skipSubText.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -22)
+        ])
     }
     
     private func setupBindings() {
@@ -20,6 +126,18 @@ class LoginViewController: UIViewController {
             print("Login error: \(errorMessage)")
         }
     }
-    //skip button daamate romelic homeze wagviyvans
-    //TODO: call login from vm when ui ready 
+    
+    private func setupActions() {
+        loginButton.addTarget(self, action: #selector(loginTapped), for: .touchUpInside)
+        skipButton.addTarget(self, action: #selector(skipTapped), for: .touchUpInside)
+    }
+    
+    @objc private func loginTapped() {
+        //TODO: call login from vm when ui ready
+    }
+    
+    @objc private func skipTapped() {
+        //skip button daamate romelic homeze wagviyvans
+        coordinator?.loginDidSucceed()
+    }
 }

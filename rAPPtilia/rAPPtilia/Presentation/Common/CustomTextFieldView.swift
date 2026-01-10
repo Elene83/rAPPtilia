@@ -15,6 +15,7 @@ class CustomTextFieldView: UIView {
     var textField: UITextField = {
         var textField = UITextField()
         textField.font = UIFont(name: "FiraGO-Regular", size: 14)
+        textField.textColor = UIColor(named: "AppDarkRed")
         textField.layer.cornerRadius = 8
         textField.layer.borderWidth = 2
         textField.layer.borderColor = UIColor(named: "AppDarkRed")?.cgColor
