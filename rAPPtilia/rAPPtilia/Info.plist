@@ -2,6 +2,19 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>CFBundleURLTypes</key>
+	<array>
+		<dict>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>com.googleusercontent.apps.159467388184-ingqg0qlqsurh8iqnrf4ll0o3qu2d1q9</string>
+			</array>
+		</dict>
+	</array>
+	<key>GIDClientID</key>
+	<string>159467388184-ingqg0qlqsurh8iqnrf4ll0o3qu2d1q9.apps.googleusercontent.com</string>
 	<key>UIAppFonts</key>
 	<array>
 		<string>firago-latin-300-normal.ttf</string>

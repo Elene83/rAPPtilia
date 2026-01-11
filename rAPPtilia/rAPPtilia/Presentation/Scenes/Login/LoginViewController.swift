@@ -3,7 +3,7 @@ import UIKit
 class LoginViewController: UIViewController {
     //MARK: Properties
     weak var coordinator: AuthCoordinator?
-    private let viewModel = LoginViewModel()
+    private let viewModel: LoginViewModel
     private let bottomText = BottomText()
     
     private let logoImageView: UIImageView = {
@@ -11,6 +11,7 @@ class LoginViewController: UIViewController {
         imageView.image = UIImage(named: "redsnek")
         imageView.contentMode = .scaleAspectFit
         imageView.translatesAutoresizingMaskIntoConstraints = false
+        
         return imageView
     }()
     
@@ -21,6 +22,7 @@ class LoginViewController: UIViewController {
         label.textColor = UIColor(named: "AppDarkRed")
         label.textAlignment = .center
         label.translatesAutoresizingMaskIntoConstraints = false
+        
         return label
     }()
     
@@ -30,6 +32,7 @@ class LoginViewController: UIViewController {
         field.textField.keyboardType = .emailAddress
         field.textField.autocapitalizationType = .none
         field.translatesAutoresizingMaskIntoConstraints = false
+        
         return field
     }()
     
@@ -37,7 +40,22 @@ class LoginViewController: UIViewController {
         let field = PasswordTextFieldView(placeholderString: "Your password")
         field.label.text = "Password"
         field.translatesAutoresizingMaskIntoConstraints = false
+        
         return field
+    }()
+    
+    private let googleButton: CustomButton = {
+        let button = CustomButton(
+            title: "Try with Google",
+            backgroundColor: .clear,
+            cornerRadius: 8,
+            icon: UIImage(named: "googleIcon"),
+            hasOutline: true,
+            outlineColor: UIColor(named: "AppDarkRed"),
+            textColor: UIColor(named: "AppDarkRed")
+        )
+        
+        return button
     }()
     
     private let loginButton: CustomButton = {
@@ -46,6 +64,7 @@ class LoginViewController: UIViewController {
             backgroundColor: UIColor(named: "AppDarkRed"),
             cornerRadius: 8
         )
+        
         return button
     }()
     
@@ -55,6 +74,7 @@ class LoginViewController: UIViewController {
         button.titleLabel?.font = UIFont(name: "FiraGO-Medium", size: 18)
         button.setTitleColor(UIColor(named: "AppDarkRed"), for: .normal)
         button.translatesAutoresizingMaskIntoConstraints = false
+        
         return button
     }()
     
@@ -68,6 +88,16 @@ class LoginViewController: UIViewController {
         return label
     }()
     
+    //MARK: Inits
+    init(viewModel: LoginViewModel) {
+        self.viewModel = viewModel
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     //MARK: Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -76,14 +106,23 @@ class LoginViewController: UIViewController {
         setupUI()
         setupBindings()
         setupActions()
+        
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
+        tapGesture.cancelsTouchesInView = false
+        view.addGestureRecognizer(tapGesture)
     }
     
     //MARK: Methods
+    @objc private func dismissKeyboard() {
+        view.endEditing(true)
+    }
+    
     private func setupUI() {
         view.addSubview(logoImageView)
         view.addSubview(titleLabel)
         view.addSubview(emailField)
         view.addSubview(passwordField)
+        view.addSubview(googleButton)
         view.addSubview(loginButton)
         view.addSubview(skipButton)
         view.addSubview(skipSubText)
@@ -114,6 +153,11 @@ class LoginViewController: UIViewController {
             bottomText.topAnchor.constraint(equalTo: passwordField.bottomAnchor, constant: 10),
             bottomText.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 40),
             bottomText.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -40),
+            
+            googleButton.bottomAnchor.constraint(equalTo: loginButton.topAnchor, constant: -15),
+            googleButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 40),
+            googleButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -40),
+            googleButton.heightAnchor.constraint(equalToConstant: 50),
                    
             loginButton.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -80),
             loginButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 40),
@@ -142,10 +186,20 @@ class LoginViewController: UIViewController {
     private func setupActions() {
         loginButton.addTarget(self, action: #selector(loginTapped), for: .touchUpInside)
         skipButton.addTarget(self, action: #selector(skipTapped), for: .touchUpInside)
+        googleButton.addTarget(self, action: #selector(googleSignInTapped), for: .touchUpInside)
     }
-    
+
     @objc private func loginTapped() {
-        //TODO: call login from vm when ui ready
+        guard let email = emailField.textField.text,
+              let password = passwordField.textField.text else {
+            return
+        }
+        
+        viewModel.login(email: email, password: password)
+    }
+
+    @objc private func googleSignInTapped() {
+        viewModel.signInWithGoogle(presentingViewController: self)
     }
     
     @objc private func skipTapped() {

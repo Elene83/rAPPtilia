@@ -3,23 +3,25 @@ import UIKit
 class SignUpViewController: UIViewController {
     //MARK: Properties
     weak var coordinator: AuthCoordinator?
-    private let viewModel = SignUpViewModel()
+    private let viewModel: SignUpViewModel
     
     private let backButton: UIButton = {
         let button = UIButton(type: .system)
         button.setImage(UIImage(named: "chevron"), for: .normal)
         button.tintColor = UIColor(named: "AppDarkRed")
         button.translatesAutoresizingMaskIntoConstraints = false
+        
         return button
     }()
     
     private let titleLabel: UILabel = {
         let label = UILabel()
         label.text = "Sign Up"
-        label.font = UIFont(name: "FiraGO-Medium", size: 24)
+        label.font = UIFont(name: "FiraGO-Medium", size: 20)
         label.textColor = UIColor(named: "AppDarkRed")
         label.textAlignment = .center
         label.translatesAutoresizingMaskIntoConstraints = false
+        
         return label
     }()
     
@@ -28,6 +30,7 @@ class SignUpViewController: UIViewController {
         field.label.text = "Full Name"
         field.textField.autocapitalizationType = .words
         field.translatesAutoresizingMaskIntoConstraints = false
+        
         return field
     }()
     
@@ -36,6 +39,7 @@ class SignUpViewController: UIViewController {
         field.label.text = "Username"
         field.textField.autocapitalizationType = .none
         field.translatesAutoresizingMaskIntoConstraints = false
+        
         return field
     }()
     
@@ -45,6 +49,7 @@ class SignUpViewController: UIViewController {
         field.textField.keyboardType = .emailAddress
         field.textField.autocapitalizationType = .none
         field.translatesAutoresizingMaskIntoConstraints = false
+        
         return field
     }()
     
@@ -52,6 +57,7 @@ class SignUpViewController: UIViewController {
         let field = PasswordTextFieldView(placeholderString: "Your password")
         field.label.text = "Password"
         field.translatesAutoresizingMaskIntoConstraints = false
+        
         return field
     }()
     
@@ -59,6 +65,7 @@ class SignUpViewController: UIViewController {
         let field = PasswordTextFieldView(placeholderString: "Confirm your password")
         field.label.text = "Confirm Password"
         field.translatesAutoresizingMaskIntoConstraints = false
+        
         return field
     }()
     
@@ -71,6 +78,16 @@ class SignUpViewController: UIViewController {
         return button
     }()
     
+    //MARK: Inits
+    init(viewModel: SignUpViewModel) {
+        self.viewModel = viewModel
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError()
+    }
+    
     //MARK: Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -79,9 +96,17 @@ class SignUpViewController: UIViewController {
         setupUI()
         setupBindings()
         setupActions()
+        
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
+        tapGesture.cancelsTouchesInView = false
+        view.addGestureRecognizer(tapGesture)
     }
     
     //MARK: Methods
+    @objc private func dismissKeyboard() {
+        view.endEditing(true)
+    }
+    
     private func setupUI() {
         view.addSubview(backButton)
         view.addSubview(titleLabel)
@@ -142,13 +167,31 @@ class SignUpViewController: UIViewController {
     
     private func setupActions() {
         backButton.addTarget(self, action: #selector(backTapped), for: .touchUpInside)
+        signUpButton.addTarget(self, action: #selector(signUpTapped), for: .touchUpInside)
     }
     
     @objc private func backTapped() {
         navigationController?.popViewController(animated: true)
     }
     
-    //TODO: call sign up from vm when ui ready
+    @objc private func signUpTapped() {
+        guard let fullName = fullNameField.textField.text, !fullName.isEmpty,
+              let username = usernameField.textField.text, !username.isEmpty,
+              let email = emailField.textField.text, !email.isEmpty,
+              let password = passwordField.textField.text, !password.isEmpty,
+              let confirmPassword = confirmPasswordField.textField.text, !confirmPassword.isEmpty else {
+            // TODO: show validation errors
+            return
+        }
+        
+        guard password == confirmPassword else {
+            // TODO: Show password mismatch error
+            print("Passwords don't match")
+            return
+        }
+        
+        viewModel.signUp(email: email, password: password, fullName: fullName, username: username)
+    }
 }
 
 //TODO: analogiurad on outside click let it retract keyboard

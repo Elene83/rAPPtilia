@@ -7,10 +7,12 @@ protocol AuthCoordinatorDelegate: AnyObject {
 
 class AuthCoordinator {
     private let window: UIWindow
+    private let authRepository: AuthRepository
     weak var delegate: AuthCoordinatorDelegate?
     
     init(window: UIWindow) {
         self.window = window
+        self.authRepository = FirebaseAuthRepository() 
     }
     
     func start() {
@@ -18,7 +20,8 @@ class AuthCoordinator {
     }
     
     func showLogin() {
-        let loginVC = LoginViewController()
+        let viewModel = LoginViewModel(authRepository: authRepository)
+        let loginVC = LoginViewController(viewModel: viewModel)
         loginVC.coordinator = self
         let navController = UINavigationController(rootViewController: loginVC)
         window.rootViewController = navController
@@ -27,11 +30,10 @@ class AuthCoordinator {
     
     func showSignUp() {
         guard let navController = window.rootViewController as? UINavigationController else { return }
-        let signUpVC = SignUpViewController()
+        let viewModel = SignUpViewModel(authRepository: authRepository)
+        let signUpVC = SignUpViewController(viewModel: viewModel)
         signUpVC.coordinator = self
         navController.pushViewController(signUpVC, animated: true)
-        
-        print("aba")
     }
     
     func loginDidSucceed() {

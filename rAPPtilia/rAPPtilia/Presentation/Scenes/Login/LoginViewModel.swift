@@ -1,20 +1,36 @@
-import Foundation
-import FirebaseAuth
+import UIKit
 
 class LoginViewModel {
+    private let loginUseCase: LoginUseCase
+    private let authRepository: AuthRepository
+    
     var onLoginSuccess: (() -> Void)?
     var onLoginError: ((String) -> Void)?
     
+    init(authRepository: AuthRepository) {
+        self.authRepository = authRepository
+        self.loginUseCase = LoginUseCase(authRepository: authRepository)
+    }
+    
     func login(email: String, password: String) {
-        Auth.auth().signIn(withEmail: email, password: password) { [weak self] authResult, error in
-            if let error = error {
+        loginUseCase.execute(email: email, password: password) { [weak self] result in
+            switch result {
+            case .success:
+                self?.onLoginSuccess?()
+            case .failure(let error):
                 self?.onLoginError?(error.localizedDescription)
-                return
             }
-            
-            self?.onLoginSuccess?()
+        }
+    }
+    
+    func signInWithGoogle(presentingViewController: UIViewController) {
+        authRepository.signInWithGoogle(presentingViewController: presentingViewController) { [weak self] result in
+            switch result {
+            case .success:
+                self?.onLoginSuccess?()
+            case .failure(let error):
+                self?.onLoginError?(error.localizedDescription)
+            }
         }
     }
 }
-
-//checkebi

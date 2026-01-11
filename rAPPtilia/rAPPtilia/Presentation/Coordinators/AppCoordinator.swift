@@ -5,9 +5,11 @@ class AppCoordinator {
     private let window: UIWindow
     private var authCoordinator: AuthCoordinator?
     private var mainCoordinator: MainCoordinator?
+    private var authRepository: AuthRepository
     
     init(window: UIWindow) {
         self.window = window
+        self.authRepository = FirebaseAuthRepository()
     }
     
     func start() {
@@ -65,11 +67,14 @@ extension AppCoordinator: AuthCoordinatorDelegate {
 
 extension AppCoordinator: MainCoordinatorDelegate {
     func mainCoordinatorDidLogout(_ coordinator: MainCoordinator) {
-        do {
-            try Auth.auth().signOut()
-            showAuth()
-        } catch {
-            print("error signing out: \(error.localizedDescription)")
+        authRepository.logout { [weak self] result in
+            switch result {
+            case .success:
+                self?.showAuth()
+            case .failure(let error):
+                print("Error signing out: \(error.localizedDescription)")
+                self?.showAuth()
+            }
         }
     }
 }

@@ -94,8 +94,8 @@ class PasswordTextFieldView: UIView {
             
             toggleButton.trailingAnchor.constraint(equalTo: textField.trailingAnchor, constant: -11),
             toggleButton.centerYAnchor.constraint(equalTo: textField.centerYAnchor),
-            toggleButton.widthAnchor.constraint(equalToConstant: 30),
-            toggleButton.heightAnchor.constraint(equalToConstant: 30)
+            toggleButton.widthAnchor.constraint(equalToConstant: 25),
+            toggleButton.heightAnchor.constraint(equalToConstant: 25)
         ])
         
         textField.leftView = UIView(frame: CGRect(x: 0, y: 0, width: 35, height: 45))
