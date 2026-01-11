@@ -96,17 +96,10 @@ class SignUpViewController: UIViewController {
         setupUI()
         setupBindings()
         setupActions()
-        
-        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
-        tapGesture.cancelsTouchesInView = false
-        view.addGestureRecognizer(tapGesture)
+        hideKeyboardOnTap()
     }
     
     //MARK: Methods
-    @objc private func dismissKeyboard() {
-        view.endEditing(true)
-    }
-    
     private func setupUI() {
         view.addSubview(backButton)
         view.addSubview(titleLabel)

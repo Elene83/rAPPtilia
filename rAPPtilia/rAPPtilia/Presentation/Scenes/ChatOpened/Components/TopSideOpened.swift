@@ -7,9 +7,3 @@ struct TopSideOpened: View {
         }
     }
 }
-
-#Preview {
-    NavigationStack {
-        ChatView(coordinator: MainCoordinator.preview)
-    }
-}

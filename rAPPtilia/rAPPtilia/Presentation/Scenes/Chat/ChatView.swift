@@ -15,5 +15,6 @@ struct ChatView: View {
         .padding(.top, -80)
         .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
         .background(Color("AppBG"))
+        .hideKeyboardOnTap()
     }
 }

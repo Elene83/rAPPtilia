@@ -7,6 +7,8 @@ struct Prompts: View {
         "How do I remove snakes off my property?",
         "What time do vipers come out?",
         "How many venomous snake species are in Georgia?",
+        "Do reptiles hibernate?",
+        "Do all venomous snakes have slit pupils?",
         "What to do with a non-venomous snake bite?"
     ]
     var body: some View {
@@ -22,6 +24,6 @@ struct Prompts: View {
             .frame(maxWidth: .infinity)
             .padding(.horizontal, 60)
         }
-        .padding(.top, -75)
+        .padding(.top, -85)
     }
 }
