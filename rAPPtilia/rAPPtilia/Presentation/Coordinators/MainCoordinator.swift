@@ -35,6 +35,26 @@ class MainCoordinator {
                tabBarController.tabBar.scrollEdgeAppearance = appearance
         }
         
+        let navAppearance = UINavigationBarAppearance()
+        navAppearance.configureWithDefaultBackground()
+        navAppearance.backgroundColor = UIColor(named: "AppBG")
+        navAppearance.shadowColor = nil
+        navAppearance.shadowImage = UIImage()
+        navAppearance.titleTextAttributes = [
+              .foregroundColor: UIColor(named: "AppDarkRed") ?? .red,
+              .font: UIFont(name: "Firago-Medium", size: 20) ?? UIFont.systemFont(ofSize: 20, weight: .medium)
+        ]
+        
+        let greenNavAppearance = UINavigationBarAppearance()
+        greenNavAppearance.configureWithDefaultBackground()
+        greenNavAppearance.backgroundColor = UIColor(named: "AppBG")
+        greenNavAppearance.shadowColor = nil
+        greenNavAppearance.shadowImage = UIImage()
+            greenNavAppearance.titleTextAttributes = [
+                .foregroundColor: UIColor(named: "AppDarkGreen") ?? .green,
+                .font: UIFont(name: "Firago-Medium", size: 20) ?? UIFont.systemFont(ofSize: 20, weight: .medium)
+        ]
+
         let mapVC = MapViewController()
         mapVC.tabBarItem = UITabBarItem(title: "", image: UIImage(named: "mapIcon"), tag: 0)
         let mapNav = UINavigationController(rootViewController: mapVC)
@@ -42,8 +62,11 @@ class MainCoordinator {
         let chatView = ChatView(coordinator: self)
         let chatVC = UIHostingController(rootView: chatView)
         chatVC.tabBarItem = UITabBarItem(title: "", image: UIImage(named: "chatIcon"), tag: 1)
+        chatVC.navigationItem.title = "TurtleBot"
         let chatNav = UINavigationController(rootViewController: chatVC)
-        
+        chatNav.navigationBar.standardAppearance = navAppearance
+        chatNav.navigationBar.scrollEdgeAppearance = navAppearance
+            
         let homeVC = HomeViewController()
         homeVC.coordinator = self
         homeVC.tabBarItem = UITabBarItem(title: "", image: UIImage(named: "homeIcon"), tag: 2)
@@ -52,12 +75,18 @@ class MainCoordinator {
         let profileView = ProfileView(coordinator: self)
         let profileVC = UIHostingController(rootView: profileView)
         profileVC.tabBarItem = UITabBarItem(title: "", image: UIImage(named: "profileIcon"), tag: 3)
+        profileVC.navigationItem.title = "Profile"
         let profileNav = UINavigationController(rootViewController: profileVC)
+        profileNav.navigationBar.standardAppearance = greenNavAppearance
+        profileNav.navigationBar.scrollEdgeAppearance = greenNavAppearance
         
         let settingsView = SettingsView(coordinator: self)
         let settingsVC = UIHostingController(rootView: settingsView)
         settingsVC.tabBarItem = UITabBarItem(title: "", image: UIImage(named: "settingsIcon"), tag: 4)
+        settingsVC.navigationItem.title = "Settings"
         let settingsNav = UINavigationController(rootViewController: settingsVC)
+        settingsNav.navigationBar.standardAppearance = greenNavAppearance
+        settingsNav.navigationBar.scrollEdgeAppearance = greenNavAppearance
         
         tabBarController.viewControllers = [mapNav, chatNav, homeNav, profileNav, settingsNav]
 

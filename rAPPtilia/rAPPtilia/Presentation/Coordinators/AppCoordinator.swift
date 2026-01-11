@@ -78,3 +78,5 @@ extension AppCoordinator: MainCoordinatorDelegate {
         }
     }
 }
+
+//TODO: add validations ui

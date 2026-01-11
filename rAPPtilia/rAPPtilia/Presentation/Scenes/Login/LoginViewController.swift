@@ -71,7 +71,7 @@ class LoginViewController: UIViewController {
     private let skipButton: UIButton = {
         let button = UIButton(type: .system)
         button.setTitle("Ssskip", for: .normal)
-        button.titleLabel?.font = UIFont(name: "FiraGO-Medium", size: 18)
+        button.titleLabel?.font = UIFont(name: "FiraGO-Medium", size: 16)
         button.setTitleColor(UIColor(named: "AppDarkRed"), for: .normal)
         button.translatesAutoresizingMaskIntoConstraints = false
         
