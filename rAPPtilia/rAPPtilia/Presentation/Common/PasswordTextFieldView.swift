@@ -2,7 +2,6 @@ import UIKit
 
 class PasswordTextFieldView: UIView {
     var placeholderString: String
-    
     private var isPasswordVisible = false
     
     var label: UILabel = {
