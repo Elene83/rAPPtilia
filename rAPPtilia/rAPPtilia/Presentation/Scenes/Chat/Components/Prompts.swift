@@ -7,23 +7,27 @@ struct Prompts: View {
         "How do I remove snakes off my property?",
         "What time do vipers come out?",
         "How many venomous snake species are in Georgia?",
-        "Do reptiles hibernate?",
-        "Do all venomous snakes have slit pupils?",
         "What to do with a non-venomous snake bite?"
     ]
+    
     var body: some View {
         ScrollView {
-            VStack (spacing: 20) {
-                ForEach(prompts, id: \.self) {
-                    Text($0)
+            VStack(spacing: 18) {
+                ForEach(prompts, id: \.self) { prompt in
+                    Text(prompt)
                         .font(.custom("Firago-Regular", size: 14))
                         .foregroundStyle(Color("AppDarkRed"))
                         .multilineTextAlignment(.center)
+                        .frame(maxWidth: .infinity)
+                        .padding(.vertical, 5)
+                        .padding(.horizontal, 20)
+                        .background(Color("AppLightPink"))
+                        .cornerRadius(4)
                 }
             }
             .frame(maxWidth: .infinity)
             .padding(.horizontal, 60)
         }
-        .padding(.top, -85)
+        .padding(.top, -90)
     }
 }

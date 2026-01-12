@@ -8,7 +8,7 @@ class LoginViewController: UIViewController {
     
     private let logoImageView: UIImageView = {
         let imageView = UIImageView()
-        imageView.image = UIImage(named: "redsnek")
+        imageView.image = UIImage(named: "tappedsnek")
         imageView.contentMode = .scaleAspectFit
         imageView.translatesAutoresizingMaskIntoConstraints = false
         
@@ -200,5 +200,3 @@ class LoginViewController: UIViewController {
         coordinator?.loginDidSucceed()
     }
 }
-
-#warning("outside click should cancel the keyboard")
