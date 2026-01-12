@@ -12,6 +12,8 @@
 		FAE976BD2F114BBC00405FCB /* FirebaseStorage in Frameworks */ = {isa = PBXBuildFile; productRef = FAE976BC2F114BBC00405FCB /* FirebaseStorage */; };
 		FAE977052F13F45A00405FCB /* GoogleSignIn in Frameworks */ = {isa = PBXBuildFile; productRef = FAE977042F13F45A00405FCB /* GoogleSignIn */; };
 		FAE977072F13F45A00405FCB /* GoogleSignInSwift in Frameworks */ = {isa = PBXBuildFile; productRef = FAE977062F13F45A00405FCB /* GoogleSignInSwift */; };
+		FAE977C22F153D7100405FCB /* FirebaseAILogic in Frameworks */ = {isa = PBXBuildFile; productRef = FAE977C12F153D7100405FCB /* FirebaseAILogic */; };
+		FAE977C42F153E1800405FCB /* FirebaseAI in Frameworks */ = {isa = PBXBuildFile; productRef = FAE977C32F153E1800405FCB /* FirebaseAI */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -45,6 +47,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FAE977C42F153E1800405FCB /* FirebaseAI in Frameworks */,
+				FAE977C22F153D7100405FCB /* FirebaseAILogic in Frameworks */,
 				FAE977072F13F45A00405FCB /* GoogleSignInSwift in Frameworks */,
 				FAE976B92F114BBC00405FCB /* FirebaseAuth in Frameworks */,
 				FAE977052F13F45A00405FCB /* GoogleSignIn in Frameworks */,
@@ -61,7 +65,15 @@
 			children = (
 				FAE9760C2F0E8DED00405FCB /* rAPPtilia */,
 				FAE976B62F1137B600405FCB /* rAPPtilia.app */,
+				FAE977C02F153C4600405FCB /* Frameworks */,
 			);
+			sourceTree = "<group>";
+		};
+		FAE977C02F153C4600405FCB /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -89,6 +101,8 @@
 				FAE976BC2F114BBC00405FCB /* FirebaseStorage */,
 				FAE977042F13F45A00405FCB /* GoogleSignIn */,
 				FAE977062F13F45A00405FCB /* GoogleSignInSwift */,
+				FAE977C12F153D7100405FCB /* FirebaseAILogic */,
+				FAE977C32F153E1800405FCB /* FirebaseAI */,
 			);
 			productName = rAPPtilia;
 			productReference = FAE976B62F1137B600405FCB /* rAPPtilia.app */;
@@ -395,6 +409,16 @@
 			isa = XCSwiftPackageProductDependency;
 			package = FAE977032F13F45A00405FCB /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */;
 			productName = GoogleSignInSwift;
+		};
+		FAE977C12F153D7100405FCB /* FirebaseAILogic */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = FAE976B72F114BBC00405FCB /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseAILogic;
+		};
+		FAE977C32F153E1800405FCB /* FirebaseAI */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = FAE976B72F114BBC00405FCB /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseAI;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

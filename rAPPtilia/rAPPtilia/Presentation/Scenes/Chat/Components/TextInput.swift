@@ -1,7 +1,8 @@
 import SwiftUI
 
 struct TextInput: View {
-    @State private var text: String = ""
+    @Binding var text: String
+    var onSend: () -> Void
     
     var body: some View {
         HStack {
@@ -17,13 +18,16 @@ struct TextInput: View {
             }
             
             Button(action: {
-                print("send tapped: \(text)")
+                guard !text.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty else { return }
+                onSend()
             }) {
                 Image("sendIcon")
                     .resizable()
                     .scaledToFit()
                     .frame(width: 24, height: 24)
+                    .opacity(text.isEmpty ? 0.5 : 1.0)
             }
+            .disabled(text.isEmpty)
         }
         .padding(.vertical, 7)
         .padding(.horizontal, 11)
@@ -32,5 +36,4 @@ struct TextInput: View {
                 .stroke(Color("AppDarkRed"), lineWidth: 1)
         )
     }
-
 }

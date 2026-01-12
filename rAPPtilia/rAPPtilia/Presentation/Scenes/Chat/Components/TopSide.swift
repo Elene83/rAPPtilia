@@ -1,7 +1,13 @@
 import SwiftUI
 
 struct TopSide: View {
-    @StateObject private var viewModel = ChatViewModel()
+    @StateObject private var viewModel: ChatViewModel
+    
+    init() {
+         _viewModel = StateObject(
+             wrappedValue: DIContainer.shared.makeChatViewModel()
+         )
+     }
     
     var body: some View {
         ZStack(alignment: .top) {
@@ -19,7 +25,7 @@ struct TopSide: View {
                 .fixedSize()
                 .rotationEffect(.degrees(-20))
                 .offset(x: 100, y: 80)
-                .padding(.trailing, 20) 
+                .padding(.trailing, 20)
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
     }
