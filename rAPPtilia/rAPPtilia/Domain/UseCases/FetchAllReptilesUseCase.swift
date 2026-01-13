@@ -3,6 +3,7 @@ protocol FetchAllReptilesUseCaseProtocol {
 }
 
 struct ReptileFilters {
+    var type: String?
     var venomous: Bool?
     var color: String?
     var diet: String?

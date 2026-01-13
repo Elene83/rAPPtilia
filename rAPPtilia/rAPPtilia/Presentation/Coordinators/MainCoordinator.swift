@@ -70,7 +70,10 @@ class MainCoordinator {
         let homeVC = HomeViewController()
         homeVC.coordinator = self
         homeVC.tabBarItem = UITabBarItem(title: "", image: UIImage(named: "homeIcon"), tag: 2)
+        homeVC.navigationItem.title = "Home"
         let homeNav = UINavigationController(rootViewController: homeVC)
+        homeNav.navigationBar.standardAppearance = navAppearance
+        homeNav.navigationBar.scrollEdgeAppearance = navAppearance
         
         let profileView = ProfileView(coordinator: self)
         let profileVC = UIHostingController(rootView: profileView)
@@ -89,6 +92,7 @@ class MainCoordinator {
         settingsNav.navigationBar.scrollEdgeAppearance = greenNavAppearance
         
         tabBarController.viewControllers = [mapNav, chatNav, homeNav, profileNav, settingsNav]
+        tabBarController.selectedIndex = 2
 
         self.tabBarController = tabBarController
         window.rootViewController = tabBarController

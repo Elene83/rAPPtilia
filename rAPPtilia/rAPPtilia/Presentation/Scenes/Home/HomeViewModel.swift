@@ -1,4 +1,6 @@
-class HomeViewModel {
+import SwiftUI
+
+class HomeViewModel: ObservableObject {
     private let repository: ReptileRepositoryProtocol
     
     var reptiles: [Reptile] = []

@@ -6,7 +6,6 @@ protocol ChatRepository {
     func initializeChat() -> [ChatMessage]
 }
 
-
 class FirebaseChatRepository: ChatRepository {
     private var model: GenerativeModel
     private var chat: Chat?

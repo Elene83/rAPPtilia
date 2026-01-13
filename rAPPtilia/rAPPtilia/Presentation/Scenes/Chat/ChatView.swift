@@ -75,7 +75,7 @@ struct ChatView: View {
                 .frame(height: 60)
                 .padding(.horizontal, 20)
                 .padding(.bottom, 25)
-                .padding(.top, 20)
+                .padding(.top, 10)
             }
             
             if !viewModel.messages.isEmpty {

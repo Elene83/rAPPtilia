@@ -8,7 +8,7 @@ struct MessageBubble: View {
             if message.isUser { Spacer() }
             
             Text(message.text)
-                .font(.custom("Firago-Regular", size: 11))
+                .font(.custom("Firago-Regular", size: 13))
                 .foregroundColor(Color("AppWhite"))
                 .padding(.horizontal, 13)
                 .padding(.vertical, 10)

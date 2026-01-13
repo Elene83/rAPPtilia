@@ -12,3 +12,4 @@ struct SettingsView: View {
         .background(Color("AppBG"))
     }
 }
+

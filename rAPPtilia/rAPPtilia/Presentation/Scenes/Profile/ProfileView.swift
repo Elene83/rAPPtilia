@@ -15,3 +15,5 @@ struct ProfileView: View {
         .background(Color("AppBG"))
     }
 }
+
+//TODO: if authed, show profile details, if not, show "log in or sign up"
