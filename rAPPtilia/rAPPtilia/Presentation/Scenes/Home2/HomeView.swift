@@ -10,7 +10,15 @@ struct HomeView: View {
                     Text("error: \(errorMsg)")
                         .foregroundColor(.red)
                 } else {
-                    //list
+                    HomeFilter(
+                        filters: $vm.filters,
+                        allReptiles: vm.allReptiles,
+                        onFilterChanged: {
+                            vm.applyFilters()
+                        }
+                    )
+                                        
+                    ReptileCollection(reptiles: vm.reptiles)
                 }
             }
         }

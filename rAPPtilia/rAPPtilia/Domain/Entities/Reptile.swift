@@ -3,6 +3,7 @@ struct Reptile: Identifiable {
     let about: String
     let activityPeriod: String
     let color: [String]
+    let order: String
     let commonName: String
     let diet: String
     let habitat: String

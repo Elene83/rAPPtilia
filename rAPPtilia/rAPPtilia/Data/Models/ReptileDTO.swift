@@ -5,6 +5,7 @@ struct ReptileDTO: Codable {
     let activityPeriod: String
     let color: [String]
     let commonName: String
+    let order: String
     let diet: String
     let habitat: String
     let headShape: String
@@ -21,6 +22,7 @@ struct ReptileDTO: Codable {
         case activityPeriod = "activity_period"
         case color
         case commonName = "common_name"
+        case order
         case diet
         case habitat
         case headShape = "head_shape"
@@ -39,6 +41,7 @@ struct ReptileDTO: Codable {
             about: about,
             activityPeriod: activityPeriod,
             color: color,
+            order: order,
             commonName: commonName,
             diet: diet,
             habitat: habitat,

@@ -35,10 +35,12 @@ class HomeViewController: UIViewController {
         toggle.thumbTintColor = UIColor(named: "AppDarkRed")
         
         NSLayoutConstraint.activate([
-            toggle.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -100),
+            toggle.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -110),
             toggle.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -32)
         ])
     }
+    
+    //TODO: save toggled page in userdefaults
     
     @objc private func toggleDidChange() {
         if toggle.isOn {
