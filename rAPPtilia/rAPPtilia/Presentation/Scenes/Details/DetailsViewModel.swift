@@ -9,7 +9,7 @@ final class DetailsViewModel: ObservableObject {
     
     var descriptionItems: [DescriptionItem] {
         [
-            .init(label: "Size", value: reptile.sizeRange),
+            .init(label: "Size range", value: reptile.sizeRange),
             .init(label: "Head Shape", value: reptile.headShape),
             .init(label: "Activity", value: reptile.activityPeriod),
             .init(label: "Diet", value: reptile.diet),

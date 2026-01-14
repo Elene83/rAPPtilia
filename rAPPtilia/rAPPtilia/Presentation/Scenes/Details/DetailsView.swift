@@ -42,6 +42,7 @@ struct DetailsView: View {
                     Text("Description")
                         .font(.custom("Firago-Medium", size: 16))
                         .foregroundStyle(Color("AppBrown"))
+                        .padding(.top, 13)
 
                     DescriptionStack(items: vm.descriptionItems)
                     

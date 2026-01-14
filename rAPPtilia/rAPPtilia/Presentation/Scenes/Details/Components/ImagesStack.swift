@@ -5,7 +5,7 @@ struct ImagesStack: View {
     @Binding var selectedImage: String?
     
     var body: some View {
-        HStack(spacing: 30) {
+        HStack(spacing: 25) {
             ForEach(imageUrls.prefix(3), id: \.self) { url in
                 CachedAsyncImage(url: URL(string: url)) { image in
                     image
@@ -14,7 +14,7 @@ struct ImagesStack: View {
                 } placeholder: {
                     Color("AppLightRed")
                 }
-                .frame(width: 100, height: 65)
+                .frame(width: 105, height: 70)
                 .clipShape(RoundedRectangle(cornerRadius: 4))
                 .onTapGesture {
                     selectedImage = url

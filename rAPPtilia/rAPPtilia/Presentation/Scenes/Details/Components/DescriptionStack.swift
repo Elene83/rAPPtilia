@@ -15,6 +15,6 @@ struct DescriptionStack: View {
                 DescriptionCell(descriptionLabel: item.label, descriptionString: item.value)
             }
         }
-        .padding(.top, 5)
+        .padding(.top, 10)
     }
 }

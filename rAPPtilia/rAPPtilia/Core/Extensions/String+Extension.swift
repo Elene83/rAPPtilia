@@ -13,20 +13,24 @@ extension String {
             for word in words {
                 currentSentence += (currentSentence.isEmpty ? "" : " ") + word
                 
-                if word.hasSuffix(".") {
+                if word.hasSuffix(".") || word.hasSuffix("!") || word.hasSuffix("?") {
                     let trimmed = word.trimmingCharacters(in: .punctuationCharacters)
                     
                     if trimmed.count == 1 || trimmed.first?.isLowercase == true {
                         continue
                     }
                     
-                    sentences.append(currentSentence)
+                    sentences.append(currentSentence.trimmingCharacters(in: .whitespaces))
                     currentSentence = ""
                 }
             }
             
             if !currentSentence.isEmpty {
-                sentences.append(currentSentence)
+                sentences.append(currentSentence.trimmingCharacters(in: .whitespaces))
+            }
+            
+            if sentences.isEmpty {
+                continue
             }
             
             let chunks = stride(from: 0, to: sentences.count, by: maxSentences).map {
@@ -36,6 +40,6 @@ extension String {
             result.append(contentsOf: chunks)
         }
         
-        return result
+        return result.isEmpty ? [self] : result
     }
 }
