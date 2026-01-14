@@ -52,11 +52,6 @@ struct HomeFilter: View {
     var body: some View {
         ZStack(alignment: .topLeading) {
             VStack(alignment: .leading, spacing: 12) {
-                Text("Filter by")
-                    .foregroundStyle(Color("AppDarkRed"))
-                    .font(.custom("Firago-Regular", size: 14))
-                    .padding(.horizontal, 15)
-                
                 ScrollView(.horizontal, showsIndicators: false) {
                     HStack(spacing: 14) {
                         HomeFilterCell(

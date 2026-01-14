@@ -16,6 +16,7 @@ struct ReptileDTO: Codable {
     let temperament: String
     let thumbnailUrl: String
     let venom: Bool
+    let family: String
     
     enum CodingKeys: String, CodingKey {
         case about
@@ -33,6 +34,7 @@ struct ReptileDTO: Codable {
         case temperament
         case thumbnailUrl = "thumbnail_url"
         case venom
+        case family
     }
     
     func toDomain(id: String) -> Reptile {
@@ -52,7 +54,8 @@ struct ReptileDTO: Codable {
             sizeRange: sizeRange,
             temperament: temperament,
             thumbnailUrl: thumbnailUrl,
-            venom: venom
+            venom: venom,
+            family: family
         )
     }
 }

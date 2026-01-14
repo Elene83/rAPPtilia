@@ -15,4 +15,5 @@ struct Reptile: Identifiable {
     let temperament: String
     let thumbnailUrl: String
     let venom: Bool
+    let family: String
 }

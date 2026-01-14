@@ -1,7 +1,5 @@
-//
-//  ImageCarousel.swift
-//  rAPPtilia
-//
-//  Created by Eorime on 14.01.26.
-//
+import SwiftUI
 
+struct ImagesStack {
+    
+}

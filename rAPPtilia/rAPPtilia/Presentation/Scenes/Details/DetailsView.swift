@@ -1,31 +1,62 @@
 import SwiftUI
 
 struct DetailsView: View {
-    var reptile: Reptile
+    @StateObject var vm: DetailsViewModel
     @Environment(\.dismiss) var dismiss
+    
+    //temporary pure ui
+    @State private var isFavorite: Bool = false
+    
+    init(reptile: Reptile) {
+          _vm = StateObject(wrappedValue: DetailsViewModel(reptile: reptile))
+    }
     
     var body: some View {
         ScrollView {
-            VStack(spacing: 8) {
-                Text(reptile.name)
-                    .font(.custom("Firago-Light", size: 16))
-                    .foregroundColor(Color("AppDarkRed"))
-                
-                CachedAsyncImage(url: URL(string: reptile.thumbnailUrl)) { image in
-                    image
-                        .resizable()
-                        .aspectRatio(contentMode: .fill)
-                } placeholder: {
-                    Color("AppLightRed")
+            ScrollView {
+                VStack(spacing: 8) {
+                    VStack {
+                        Text(vm.reptile.name)
+                            .font(.custom("Firago-Light", size: 16))
+                            .foregroundColor(Color("AppDarkRed"))
+
+                        CachedAsyncImage(url: URL(string: vm.reptile.thumbnailUrl)) { image in
+                            image
+                                .resizable()
+                                .aspectRatio(contentMode: .fill)
+                        } placeholder: {
+                            Color("AppLightRed")
+                        }
+                        .frame(width: 300)
+                        .cornerRadius(8)
+                        .padding(.top, 50)
+                    }
+                    .frame(maxWidth: .infinity, alignment: .center)
+
+                    VStack(alignment: .leading, spacing: 3) {
+                        Text("Description")
+                            .font(.custom("Firago-Medium", size: 16))
+                            .foregroundStyle(Color("AppBrown"))
+
+                        DescriptionStack(items: vm.descriptionItems)
+                        
+                        About(
+                            description: vm.reptile.about,
+                            suborder: vm.reptile.order,
+                            family: vm.reptile.family,
+                            species: vm.reptile.name
+                        )
+                        .padding(.top, 13)
+                    }
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                    .padding(.leading, 15)
+                    .padding(.trailing, 20)
+                    .padding(.top, 10)
                 }
-                .frame(width: 300)
-                .cornerRadius(8)
-                .padding(.top, 50)
-                
             }
             .frame(maxWidth: .infinity, alignment: .center)
         }
-        .navigationTitle(reptile.commonName)
+        .navigationTitle(vm.reptile.commonName)
         .navigationBarBackButtonHidden(true)
         .toolbar {
             ToolbarItem(placement: .navigationBarLeading) {
@@ -38,8 +69,11 @@ struct DetailsView: View {
             }
             
             ToolbarItem(placement: .navigationBarTrailing) {
-                HStack {
-                    Image("favorite")
+                Button(action: {
+                    //ui only temp
+                    isFavorite.toggle()
+                }) {
+                    Image(isFavorite ? "favoriteActive" : "favorite")
                         .resizable()
                         .scaledToFit()
                         .frame(height: 33)
