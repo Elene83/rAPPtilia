@@ -5,6 +5,9 @@ struct HomeView: View {
     
     var body: some View {
         ZStack {
+            Color("AppBG")
+                .ignoresSafeArea()
+            
             VStack {
                 if let errorMsg = vm.errorMsg {
                     Text("error: \(errorMsg)")
@@ -17,12 +20,10 @@ struct HomeView: View {
                             vm.applyFilters()
                         }
                     )
-                                        
+                    
                     ReptileCollection(reptiles: vm.reptiles)
                 }
             }
         }
-        .frame(maxWidth: .infinity, maxHeight: .infinity)
-        .background(Color("AppBG"))
     }
 }
