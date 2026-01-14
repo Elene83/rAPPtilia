@@ -10,12 +10,12 @@ final class DetailsViewModel: ObservableObject {
     var descriptionItems: [DescriptionItem] {
         [
             .init(label: "Size", value: reptile.sizeRange),
-            .init(label: "Temperament", value: reptile.temperament),
+            .init(label: "Head Shape", value: reptile.headShape),
             .init(label: "Activity", value: reptile.activityPeriod),
             .init(label: "Diet", value: reptile.diet),
             .init(label: "Venom", value: reptile.venom ? "Venomous" : "Non-venomous"),
             .init(label: "Lifespan", value: reptile.lifespan),
-            .init(label: "Head Shape", value: reptile.headShape),
+            .init(label: "Temperament", value: reptile.temperament),
             .init(label: "Habitat", value: reptile.habitat),
             .init(label: "Color", value: flattenedColors)
         ]

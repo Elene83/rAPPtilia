@@ -2,6 +2,7 @@ import SwiftUI
 
 struct HomeView: View {
     @ObservedObject var vm: HomeViewModel
+    var navigationController: UINavigationController?
     
     var body: some View {
         ZStack {
@@ -21,7 +22,10 @@ struct HomeView: View {
                         }
                     )
                     
-                    ReptileCollection(reptiles: vm.reptiles)
+                    ReptileCollection(
+                        reptiles: vm.reptiles,
+                        navigationController: navigationController
+                    )
                 }
             }
         }

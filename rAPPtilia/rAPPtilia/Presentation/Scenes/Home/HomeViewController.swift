@@ -40,8 +40,6 @@ class HomeViewController: UIViewController {
         ])
     }
     
-    //TODO: save toggled page in userdefaults
-    
     @objc private func toggleDidChange() {
         if toggle.isOn {
             showHome2()
@@ -53,7 +51,7 @@ class HomeViewController: UIViewController {
     }
     
     private func showHome2() {
-        let swiftUIView = HomeView(vm: vm)
+        let swiftUIView = HomeView(vm: vm, navigationController: navigationController)
         
         let hostingController = UIHostingController(rootView: swiftUIView)
         

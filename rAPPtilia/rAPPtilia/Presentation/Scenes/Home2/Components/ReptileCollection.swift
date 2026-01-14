@@ -2,6 +2,7 @@ import SwiftUI
 
 struct ReptileCollection: View {
     var reptiles: [Reptile]
+    var navigationController: UINavigationController?
     
     let columns = [
         GridItem(.flexible(), spacing: 55),
@@ -13,16 +14,13 @@ struct ReptileCollection: View {
         ScrollView(.vertical, showsIndicators: false) {
             LazyVGrid(columns: columns, spacing: 55) {
                 ForEach(reptiles) { reptile in
-                    NavigationLink(destination:
-                        DetailsView(reptile: reptile)
-                            .navigationTitle(reptile.commonName)
-                            .navigationBarTitleDisplayMode(.inline)
-                    ) {
-                        ReptileCell(
-                            image: reptile.thumbnailUrl,
-                            commonName: reptile.commonName,
-                            name: reptile.name
-                        )
+                    ReptileCell(
+                        image: reptile.thumbnailUrl,
+                        commonName: reptile.commonName,
+                        name: reptile.name
+                    )
+                    .onTapGesture {
+                        navigateToDetails(reptile: reptile)
                     }
                 }
             }
@@ -30,5 +28,16 @@ struct ReptileCollection: View {
             .padding(.bottom, 55)
             .padding(.top, 20)
         }
+    }
+    
+    private func navigateToDetails(reptile: Reptile) {
+        guard let navController = navigationController else { return }
+        
+        let detailsView = DetailsView(reptile: reptile)
+        let detailsVC = UIHostingController(rootView: detailsView)
+        detailsVC.navigationItem.title = reptile.commonName
+        detailsVC.navigationItem.hidesBackButton = true 
+        
+        navController.pushViewController(detailsVC, animated: true)
     }
 }

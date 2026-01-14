@@ -99,17 +99,17 @@ class MainCoordinator {
         window.makeKeyAndVisible()
     }
     
-//    func showDetails(for item: type) {
-//        guard let tabBarController = tabBarController,
-//              let homeNav = tabBarController.viewControllers?.first as? UINavigationController else {
-//            return
-//        }
-//        
-//        let detailsView = DetailsView(item: item, coordinator: self)
-//        let detailsVC = UIHostingController(rootView: detailsView)
-//        homeNav.pushViewController(detailsVC, animated: true)
-//    }
-  
+    func showDetails(for reptile: Reptile, from navigationController: UINavigationController) {
+        let detailsView = DetailsView(reptile: reptile)
+        let detailsVC = UIHostingController(rootView: detailsView)
+        detailsVC.navigationItem.title = reptile.commonName
+        navigationController.pushViewController(detailsVC, animated: true)
+    }
+    
+    func popDetails(from navigationController: UINavigationController) {
+        navigationController.popViewController(animated: true)
+    }
+      
     func logout() {
         delegate?.mainCoordinatorDidLogout(self)
     }
