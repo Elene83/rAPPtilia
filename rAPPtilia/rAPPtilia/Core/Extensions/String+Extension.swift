@@ -1,9 +1,41 @@
 extension String {
     func splitText(maxSentences: Int) -> [String] {
-        let sentences = self.components(separatedBy: ". ")
-        return stride(from: 0, to: sentences.count, by: maxSentences).map {
-            sentences[$0..<min($0 + maxSentences, sentences.count)]
-                .joined(separator: ". ")
+        let paragraphs = self.components(separatedBy: "\n").filter { !$0.trimmingCharacters(in: .whitespaces).isEmpty }
+        
+        var result: [String] = []
+        
+        for paragraph in paragraphs {
+            var sentences: [String] = []
+            var currentSentence = ""
+            
+            let words = paragraph.split(separator: " ", omittingEmptySubsequences: false)
+            
+            for word in words {
+                currentSentence += (currentSentence.isEmpty ? "" : " ") + word
+                
+                if word.hasSuffix(".") {
+                    let trimmed = word.trimmingCharacters(in: .punctuationCharacters)
+                    
+                    if trimmed.count == 1 || trimmed.first?.isLowercase == true {
+                        continue
+                    }
+                    
+                    sentences.append(currentSentence)
+                    currentSentence = ""
+                }
+            }
+            
+            if !currentSentence.isEmpty {
+                sentences.append(currentSentence)
+            }
+            
+            let chunks = stride(from: 0, to: sentences.count, by: maxSentences).map {
+                sentences[$0..<min($0 + maxSentences, sentences.count)].joined(separator: " ")
+            }
+            
+            result.append(contentsOf: chunks)
         }
+        
+        return result
     }
 }
