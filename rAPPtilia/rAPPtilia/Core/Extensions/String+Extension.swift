@@ -10,18 +10,22 @@ extension String {
             
             let words = paragraph.split(separator: " ", omittingEmptySubsequences: false)
             
-            for word in words {
+            for (index, word) in words.enumerated() {
                 currentSentence += (currentSentence.isEmpty ? "" : " ") + word
                 
                 if word.hasSuffix(".") || word.hasSuffix("!") || word.hasSuffix("?") {
-                    let trimmed = word.trimmingCharacters(in: .punctuationCharacters)
-                    
-                    if trimmed.count == 1 || trimmed.first?.isLowercase == true {
-                        continue
+                    let isEndOfSentence: Bool
+                    if index + 1 < words.count {
+                        let nextWord = words[index + 1]
+                        isEndOfSentence = nextWord.first?.isUppercase == true
+                    } else {
+                        isEndOfSentence = true 
                     }
                     
-                    sentences.append(currentSentence.trimmingCharacters(in: .whitespaces))
-                    currentSentence = ""
+                    if isEndOfSentence {
+                        sentences.append(currentSentence.trimmingCharacters(in: .whitespaces))
+                        currentSentence = ""
+                    }
                 }
             }
             
