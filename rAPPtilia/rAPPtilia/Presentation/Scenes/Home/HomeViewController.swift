@@ -13,6 +13,9 @@ class HomeViewController: UIViewController {
         view.backgroundColor = UIColor(named: "AppBG")
         setupToggle()
         
+        toggle.isOn = UserDefaults.standard.isOtherViewEnabled
+        updateViewForToggleState()
+        
         vm.onDataUpdated = { [weak self] in
             guard let self = self else { return }
         }
@@ -35,6 +38,8 @@ class HomeViewController: UIViewController {
     }
     
     @objc private func toggleDidChange() {
+        UserDefaults.standard.isOtherViewEnabled = toggle.isOn
+        
         if toggle.isOn {
             showHome2()
             toggle.thumbTintColor = UIColor(named: "AppBG")
@@ -64,6 +69,16 @@ class HomeViewController: UIViewController {
         currentHostingController = hostingController
         
         view.bringSubviewToFront(toggle)
+    }
+    
+    private func updateViewForToggleState() {
+        if toggle.isOn {
+            showHome2()
+            toggle.thumbTintColor = UIColor(named: "AppBG")
+        } else {
+            hideHome2()
+            toggle.thumbTintColor = UIColor(named: "AppDarkRed")
+        }
     }
     
     private func hideHome2() {

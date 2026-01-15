@@ -57,6 +57,7 @@ struct ProfileView: View {
                 .cornerRadius(4)
                 .padding(.bottom, 30)
             } else {
+                ScrollView{
                 VStack {
                     Image("darkgreenliz")
                         .padding(.bottom, 80)
@@ -69,6 +70,8 @@ struct ProfileView: View {
                     }
                     .font(.custom("Firago-Medium", size: 20))
                     .foregroundStyle(Color("AppDarkGreen"))
+                }
+                .padding(.top, 70)
                 }
             }
         }

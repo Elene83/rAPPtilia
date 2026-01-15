@@ -92,7 +92,7 @@ struct DetailsView: View {
                         .scaledToFit()
                         .frame(height: 33)
                         .padding(.trailing, 10)
-                        .padding(.top, 6)
+                        .padding(.top, 4)
                         .frame(height: 50)
                         .opacity(vm.isLoading ? 0.5 : 1.0)
                 }
