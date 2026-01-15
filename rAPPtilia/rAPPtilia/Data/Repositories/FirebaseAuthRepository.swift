@@ -1,5 +1,7 @@
 import FirebaseAuth
 import FirebaseFirestore
+import GoogleSignIn
+import FirebaseCore
 
 class FirebaseAuthRepository: AuthRepository {
     func logout(completion: @escaping (Result<Void, any Error>) -> Void) {
@@ -98,16 +100,13 @@ class FirebaseAuthRepository: AuthRepository {
                 username: data["username"] as? String ?? "",
                 email: data["email"] as? String ?? "",
                 imageUrl: data["imageUrl"] as? String ?? "",
-                reptiles: []
+                reptiles: data["reptiles"] as? [String] ?? [] //TODO: add this to profile
             )
             
             completion(.success(user))
         }
     }
 }
-
-import GoogleSignIn
-import FirebaseCore
 
 extension FirebaseAuthRepository {
     func signInWithGoogle(presentingViewController: UIViewController, completion: @escaping (Result<User, Error>) -> Void) {
@@ -144,13 +143,11 @@ extension FirebaseAuthRepository {
                     return
                 }
                 
-                // Check if user exists in Firestore
                 self?.fetchUser(userId: firebaseUser.uid) { result in
                     switch result {
                     case .success(let existingUser):
                         completion(.success(existingUser))
                     case .failure:
-                        // Create new user if doesn't exist
                         let newUser = User(
                             id: firebaseUser.uid,
                             fullName: firebaseUser.displayName ?? "",

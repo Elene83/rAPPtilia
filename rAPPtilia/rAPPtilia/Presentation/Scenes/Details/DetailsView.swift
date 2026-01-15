@@ -85,16 +85,18 @@ struct DetailsView: View {
             
             ToolbarItem(placement: .navigationBarTrailing) {
                 Button(action: {
-                    isFavorite.toggle()
+                    vm.toggleFavorite()
                 }) {
-                    Image(isFavorite ? "favoriteActive" : "favorite")
+                    Image(vm.isFavorite ? "favoriteActive" : "favorite")
                         .resizable()
                         .scaledToFit()
                         .frame(height: 33)
                         .padding(.trailing, 10)
                         .padding(.top, 6)
                         .frame(height: 50)
+                        .opacity(vm.isLoading ? 0.5 : 1.0)
                 }
+                .disabled(vm.isLoading)
             }
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
