@@ -82,7 +82,7 @@ class FirebaseAuthRepository: AuthRepository {
         }
     }
     
-    private func fetchUser(userId: String, completion: @escaping (Result<User, Error>) -> Void) {
+    func fetchUser(userId: String, completion: @escaping (Result<User, Error>) -> Void) {
         db.collection("users").document(userId).getDocument { snapshot, error in
             if let error = error {
                 completion(.failure(error))

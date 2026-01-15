@@ -8,10 +8,12 @@ protocol MainCoordinatorDelegate: AnyObject {
 class MainCoordinator {
     private let window: UIWindow
     private var tabBarController: UITabBarController?
+    private let currentUser: User?
     weak var delegate: MainCoordinatorDelegate?
     
-    init(window: UIWindow) {
+    init(window: UIWindow, currentUser: User?) {
         self.window = window
+        self.currentUser = currentUser
     }
     
     func start() {
@@ -75,7 +77,12 @@ class MainCoordinator {
         homeNav.navigationBar.standardAppearance = navAppearance
         homeNav.navigationBar.scrollEdgeAppearance = navAppearance
         
-        let profileView = ProfileView(coordinator: self)
+        
+        let profileViewModel = DIContainer.shared.makeProfileViewModel(
+                   user: currentUser,
+                   coordinator: self
+               )
+        let profileView = ProfileView(vm: profileViewModel)
         let profileVC = UIHostingController(rootView: profileView)
         profileVC.tabBarItem = UITabBarItem(title: "", image: UIImage(named: "profileIcon"), tag: 3)
         profileVC.navigationItem.title = "Profile"
@@ -109,7 +116,7 @@ class MainCoordinator {
     func popDetails(from navigationController: UINavigationController) {
         navigationController.popViewController(animated: true)
     }
-      
+    
     func logout() {
         delegate?.mainCoordinatorDidLogout(self)
     }

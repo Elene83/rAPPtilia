@@ -35,7 +35,7 @@ final class DetailsViewModel: ObservableObject {
     }
     
     private var flattenedColors: String {
-        guard !reptile.color.isEmpty else {return "-"}
+        guard !reptile.color.isEmpty else { return "-" }
         return reptile.color.joined(separator: ",")
     }
     

@@ -3,6 +3,7 @@ import FirebaseAuth
 
 protocol AuthCoordinatorDelegate: AnyObject {
     func authCoordinatorDidFinish(_ coordinator: AuthCoordinator)
+    func authCoordinatorDidSkip(_ coordinator: AuthCoordinator)
 }
 
 class AuthCoordinator {
@@ -34,6 +35,10 @@ class AuthCoordinator {
         let signUpVC = SignUpViewController(viewModel: viewModel)
         signUpVC.coordinator = self
         navController.pushViewController(signUpVC, animated: true)
+    }
+    
+    func skipAuth() {
+        delegate?.authCoordinatorDidSkip(self)
     }
     
     func loginDidSucceed() {

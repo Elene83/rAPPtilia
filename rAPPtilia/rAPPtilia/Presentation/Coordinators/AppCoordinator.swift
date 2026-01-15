@@ -27,7 +27,6 @@ class AppCoordinator {
             showMainApp()
         } else {
             showAuth()
-//            showMainApp()
         }
     }
     
@@ -47,7 +46,32 @@ class AppCoordinator {
     }
     
     func showMainApp() {
-        let mainCoordinator = MainCoordinator(window: window)
+        if let firebaseUser = Auth.auth().currentUser {
+            guard let firebaseAuthRepo = authRepository as? FirebaseAuthRepository else {
+                createMainCoordinator(with: nil)
+                return
+            }
+            
+            firebaseAuthRepo.fetchUser(userId: firebaseUser.uid) { [weak self] result in
+                guard let self = self else { return }
+                
+                DispatchQueue.main.async {
+                    switch result {
+                    case .success(let user):
+                        self.createMainCoordinator(with: user)
+                    case .failure(let error):
+                        print("Failed to fetch user: \(error.localizedDescription)")
+                        self.createMainCoordinator(with: nil)
+                    }
+                }
+            }
+        } else {
+            createMainCoordinator(with: nil)
+        }
+    }
+
+    private func createMainCoordinator(with user: User?) {
+        let mainCoordinator = MainCoordinator(window: window, currentUser: user)
         mainCoordinator.delegate = self
         mainCoordinator.start()
         self.mainCoordinator = mainCoordinator
@@ -60,6 +84,10 @@ class AppCoordinator {
 }
 
 extension AppCoordinator: AuthCoordinatorDelegate {
+    func authCoordinatorDidSkip(_ coordinator: AuthCoordinator) {
+        createMainCoordinator(with: nil)
+    }
+    
     func authCoordinatorDidFinish(_ coordinator: AuthCoordinator) {
         showMainApp()
     }
@@ -67,15 +95,7 @@ extension AppCoordinator: AuthCoordinatorDelegate {
 
 extension AppCoordinator: MainCoordinatorDelegate {
     func mainCoordinatorDidLogout(_ coordinator: MainCoordinator) {
-        authRepository.logout { [weak self] result in
-            switch result {
-            case .success:
-                self?.showAuth()
-            case .failure(let error):
-                print("Error signing out: \(error.localizedDescription)")
-                self?.showAuth()
-            }
-        }
+        showAuth()
     }
 }
 

@@ -196,7 +196,6 @@ class LoginViewController: UIViewController {
     }
     
     @objc private func skipTapped() {
-        //skip button daamate romelic homeze wagviyvans
-        coordinator?.loginDidSucceed()
+        coordinator?.skipAuth()
     }
 }

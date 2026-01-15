@@ -3,7 +3,11 @@ import SwiftUI
 class DIContainer {
     static let shared = DIContainer()
     
-    private init() {}
+    private let authRepository: AuthRepository
+    
+    private init() {
+        self.authRepository = FirebaseAuthRepository()
+    }
     
     func makeChatViewModel() -> ChatViewModel {
         let repository = FirebaseChatRepository()
@@ -13,6 +17,19 @@ class DIContainer {
         return ChatViewModel(
             sendMessageUseCase: sendMessageUseCase,
             resetChatUseCase: resetChatUseCase
+        )
+    }
+    
+    func makeProfileViewModel(user: User?, coordinator: MainCoordinator) -> ProfileViewModel {
+        let userRepository = UserRepository()
+        let getFavoriteUseCase = GetFavoritesUseCase(userRepositoryProtocol: userRepository)
+        let logoutUseCase = LogoutUseCase(authRepository: authRepository)
+        
+        return ProfileViewModel(
+            profile: user,
+            getFavoriteUseCase: getFavoriteUseCase,
+            logoutUseCase: logoutUseCase,
+            coordinator: coordinator
         )
     }
 }
