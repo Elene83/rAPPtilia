@@ -10,11 +10,12 @@ struct ProfileView: View {
                     Text(vm.profile?.fullName ?? "Profile Name")
                         .font(.custom("Firago-Medium", size: 16))
                         .foregroundStyle(Color("AppDarkGreen"))
+                        .padding(.top, 20)
 
                     Text(vm.profile?.username ?? "Username")
                         .font(.custom("Firago-Regular", size: 14))
                         .foregroundStyle(Color("AppDarkGreen"))
-                        .padding(.top, 4)
+                        .padding(.top, 10)
                     
                     Text("Your Reptiles")
                         .font(.custom("Firago-Medium", size: 16))
@@ -34,6 +35,11 @@ struct ProfileView: View {
                             .foregroundStyle(Color("AppDarkGreen"))
                             .padding(.top, 15)
                     }
+                    
+                    Text("Your Locations")
+                        .font(.custom("Firago-Medium", size: 16))
+                        .foregroundStyle(Color("AppDarkGreen"))
+                        .padding(.top, 20)
                     
                     Spacer()
                 }

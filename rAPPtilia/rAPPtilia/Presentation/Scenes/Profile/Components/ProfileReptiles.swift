@@ -12,5 +12,6 @@ struct ProfileReptiles: View {
                 }
             }
         }
+        .frame(height: 200)
     }
 }
