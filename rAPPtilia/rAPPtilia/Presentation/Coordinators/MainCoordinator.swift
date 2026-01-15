@@ -26,8 +26,8 @@ class MainCoordinator {
         appearance.shadowColor = nil
         appearance.shadowImage = nil
         
-        appearance.stackedLayoutAppearance.normal.iconColor = UIColor(named: "AppOpaqueGreen")
-        appearance.stackedLayoutAppearance.normal.titleTextAttributes = [.foregroundColor: UIColor(named: "AppOpaqueGreen") ?? .gray]
+        appearance.stackedLayoutAppearance.normal.iconColor = UIColor(named: "AppTranslucentGreen")
+        appearance.stackedLayoutAppearance.normal.titleTextAttributes = [.foregroundColor: UIColor(named: "AppTranslucentGreen") ?? .gray]
             
         appearance.stackedLayoutAppearance.selected.iconColor = UIColor(named: "AppDarkGreen")
         appearance.stackedLayoutAppearance.selected.titleTextAttributes = [.foregroundColor: UIColor(named: "AppDarkGreen") ?? .gray]

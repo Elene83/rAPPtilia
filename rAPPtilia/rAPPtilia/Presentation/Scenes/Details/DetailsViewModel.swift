@@ -53,6 +53,7 @@ final class DetailsViewModel: ObservableObject {
                        switch result {
                        case .success:
                            self?.isFavorite = false
+                           NotificationCenter.default.post(name: .favoritesDidChange, object: nil)
                        case .failure(let error):
                            print("ar gamevida \(error.localizedDescription)")
                        }
@@ -65,6 +66,7 @@ final class DetailsViewModel: ObservableObject {
                        switch result {
                        case .success:
                            self?.isFavorite = true
+                           NotificationCenter.default.post(name: .favoritesDidChange, object: nil)
                        case .failure(let error):
                            print((error.localizedDescription))
                        }

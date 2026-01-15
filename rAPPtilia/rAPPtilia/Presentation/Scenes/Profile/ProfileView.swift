@@ -6,18 +6,50 @@ struct ProfileView: View {
     var body: some View {
         VStack {
             if vm.isLoggedIn {
-                VStack {
-                    //danarcheni ragacebi
-                    Button("Log Out") {
-                        vm.logOut()
+                VStack(alignment: .leading, spacing: 0) {
+                    Text(vm.profile?.fullName ?? "Profile Name")
+                        .font(.custom("Firago-Medium", size: 16))
+                        .foregroundStyle(Color("AppDarkGreen"))
+
+                    Text(vm.profile?.username ?? "Username")
+                        .font(.custom("Firago-Regular", size: 14))
+                        .foregroundStyle(Color("AppDarkGreen"))
+                        .padding(.top, 4)
+                    
+                    Text("Your Reptiles")
+                        .font(.custom("Firago-Medium", size: 16))
+                        .foregroundStyle(Color("AppDarkGreen"))
+                        .padding(.top, 20)
+
+                    if vm.isLoadingReptiles {
+                        ProgressView()
+                            .padding(.top)
+                            .progressViewStyle(CircularProgressViewStyle(tint: Color("AppDarkRed")))
+                    } else if !vm.userReptiles.isEmpty {
+                        ProfileReptiles(reptiles: vm.userReptiles, onRemove: vm.removeFavorite)
+                            .padding(.top, 15)
+                    } else {
+                        Text("No reptiles yet 🦎")
+                            .font(.custom("Firago-Regular", size: 14))
+                            .foregroundStyle(Color("AppDarkGreen"))
+                            .padding(.top, 15)
                     }
-                    .padding(.horizontal, 18)
-                    .padding(.vertical, 8)
-                    .background(Color("AppOrange"))
-                    .foregroundStyle(Color("AppBG"))
-                    .font(.custom("Firago-Regular", size: 18))
-                    .cornerRadius(4)
+                    
+                    Spacer()
                 }
+                .padding(.horizontal, 30)
+                .frame(maxWidth: .infinity, alignment: .leading)
+                
+                Button("Log Out") {
+                    vm.logOut()
+                }
+                .padding(.horizontal, 18)
+                .padding(.vertical, 8)
+                .background(Color("AppOrange"))
+                .foregroundStyle(Color("AppBG"))
+                .font(.custom("Firago-Regular", size: 18))
+                .cornerRadius(4)
+                .padding(.bottom, 30)
             } else {
                 VStack {
                     Image("darkgreenliz")
@@ -31,7 +63,6 @@ struct ProfileView: View {
                     }
                     .font(.custom("Firago-Medium", size: 20))
                     .foregroundStyle(Color("AppDarkGreen"))
-                    
                 }
             }
         }

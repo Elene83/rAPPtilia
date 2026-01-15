@@ -15,14 +15,8 @@ class HomeViewController: UIViewController {
         
         vm.onDataUpdated = { [weak self] in
             guard let self = self else { return }
-            print("reptiles count: \(self.vm.reptiles.count)")
-            print(self.vm.reptiles)
         }
-        
-        vm.onError = { errorMessage in
-            print("Error: \(errorMessage)")
-        }
-        
+                
         vm.loadReptiles()
     }
     

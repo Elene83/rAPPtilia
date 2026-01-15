@@ -1,4 +1,4 @@
-struct Reptile: Identifiable {
+struct Reptile: Identifiable, Hashable {
     let id: String
     let about: String
     let activityPeriod: String

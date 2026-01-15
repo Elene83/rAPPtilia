@@ -4,9 +4,11 @@ class DIContainer {
     static let shared = DIContainer()
     
     private let authRepository: AuthRepository
-    
+    private let reptileRepository: ReptileRepositoryProtocol
+
     private init() {
         self.authRepository = FirebaseAuthRepository()
+        self.reptileRepository = ReptileRepository()
     }
     
     func makeChatViewModel() -> ChatViewModel {
@@ -23,13 +25,17 @@ class DIContainer {
     func makeProfileViewModel(user: User?, coordinator: MainCoordinator) -> ProfileViewModel {
         let userRepository = UserRepository()
         let getFavoriteUseCase = GetFavoritesUseCase(userRepositoryProtocol: userRepository)
+        let removeFavoriteUseCase = RemoveFavoriteUseCase(userRepositoryProtocol: userRepository)
+        let getReptilesByIdsUseCase = GetReptilesByIdsUseCase(repository: reptileRepository)
         let logoutUseCase = LogoutUseCase(authRepository: authRepository)
-        
-        return ProfileViewModel(
-            profile: user,
-            getFavoriteUseCase: getFavoriteUseCase,
-            logoutUseCase: logoutUseCase,
-            coordinator: coordinator
-        )
-    }
-}
+         
+         return ProfileViewModel(
+             profile: user,
+             getFavoriteUseCase: getFavoriteUseCase,
+             removeFavofiteUseCase: removeFavoriteUseCase,
+             reptilesByIds: getReptilesByIdsUseCase,
+             logoutUseCase: logoutUseCase,
+             coordinator: coordinator
+         )
+     }
+ }
