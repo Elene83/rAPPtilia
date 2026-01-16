@@ -4,6 +4,8 @@ final class ProfileViewModel: ObservableObject {
     @Published var profile: User?
     @Published var userReptiles: [Reptile] = []
     @Published var isLoadingReptiles = false
+    @Published var isUpdatingProfile = false
+    @Published var errorMessage: String?
     
     var isLoggedIn: Bool {
         profile != nil
@@ -13,16 +15,31 @@ final class ProfileViewModel: ObservableObject {
     private var removeFavoriteUseCase: RemoveFavoriteUseCase
     private let reptilesByIds: GetReptilesByIdsUseCase
     private let logoutUseCase: LogoutUseCase
+    
+    private let updateFullNameUseCase: UpdateFullNameUseCase
+    private let updateUsernameUseCase: UpdateUsernameUseCase
+    
     let coordinator: MainCoordinator
 
-    init(profile: User? = nil, isLoadingReptiles: Bool = false, getFavoriteUseCase: GetFavoritesUseCase, removeFavofiteUseCase: RemoveFavoriteUseCase, reptilesByIds: GetReptilesByIdsUseCase, logoutUseCase: LogoutUseCase, coordinator: MainCoordinator) {
-        self.profile = profile
-        self.isLoadingReptiles = isLoadingReptiles
-        self.getFavoriteUseCase = getFavoriteUseCase
-        self.removeFavoriteUseCase = removeFavofiteUseCase
-        self.reptilesByIds = reptilesByIds
-        self.logoutUseCase = logoutUseCase
-        self.coordinator = coordinator
+    init(
+        profile: User? = nil,
+        isLoadingReptiles: Bool = false,
+        getFavoriteUseCase: GetFavoritesUseCase,
+        removeFavofiteUseCase: RemoveFavoriteUseCase,
+        reptilesByIds: GetReptilesByIdsUseCase,
+        logoutUseCase: LogoutUseCase,
+        updateFullNameUseCase: UpdateFullNameUseCase,
+        updateUsernameUseCase: UpdateUsernameUseCase,
+        coordinator: MainCoordinator) {
+            self.profile = profile
+            self.isLoadingReptiles = isLoadingReptiles
+            self.getFavoriteUseCase = getFavoriteUseCase
+            self.removeFavoriteUseCase = removeFavofiteUseCase
+            self.reptilesByIds = reptilesByIds
+            self.logoutUseCase = logoutUseCase
+            self.updateFullNameUseCase = updateFullNameUseCase
+            self.updateUsernameUseCase = updateUsernameUseCase
+            self.coordinator = coordinator
         
         NotificationCenter.default.addObserver(
             self,
@@ -129,4 +146,58 @@ final class ProfileViewModel: ObservableObject {
     func showAuth() {
         coordinator.logout()
     }
+    
+    func updateFullName(_ fullName: String) {
+        guard let userId = profile?.id, !fullName.isEmpty else { return }
+        
+        isUpdatingProfile = true
+        
+        updateFullNameUseCase.execute(userId: userId, fullName: fullName) { [weak self] result in
+            DispatchQueue.main.async {
+                self?.isUpdatingProfile = false
+                
+                switch result {
+                case .success:
+                    self?.profile = User(
+                        id: userId,
+                        fullName: fullName,
+                        username: self?.profile?.username ?? "",
+                        email: self?.profile?.email ?? "",
+                        imageUrl: self?.profile?.imageUrl ?? "",
+                        reptiles: self?.profile?.reptiles ?? [])
+                case .failure(let error):
+                    self?.errorMessage = "failed to update name \(error.localizedDescription)"
+                }
+            }
+            
+        }
+    }
+    
+    func updateUsername(_ userName: String) {
+        guard let userId = profile?.id, !userName.isEmpty else { return }
+        
+        isUpdatingProfile = true
+        
+        updateUsernameUseCase.execute(userId: userId, username: userName) { [weak self] result in
+            DispatchQueue.main.async {
+                self?.isUpdatingProfile = false
+                
+                switch result {
+                case .success:
+                    self?.profile = User(
+                        id: userId,
+                        fullName: self?.profile?.fullName ?? "",
+                        username: userName,
+                        email: self?.profile?.email ?? "",
+                        imageUrl: self?.profile?.imageUrl ?? "",
+                        reptiles: self?.profile?.reptiles ?? [])
+                case .failure(let error):
+                    self?.errorMessage = "failed to update name \(error.localizedDescription)"
+                }
+            }
+        }
+    }
 }
+
+
+//TODO: add image upload/update functionality

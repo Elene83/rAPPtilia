@@ -28,6 +28,9 @@ class DIContainer {
         let removeFavoriteUseCase = RemoveFavoriteUseCase(userRepositoryProtocol: userRepository)
         let getReptilesByIdsUseCase = GetReptilesByIdsUseCase(repository: reptileRepository)
         let logoutUseCase = LogoutUseCase(authRepository: authRepository)
+        let updateFullNameUseCase = UpdateFullNameUseCase(userRepository: userRepository)
+        let updateUsernameUseCase = UpdateUsernameUseCase(userRepository: userRepository)
+
          
          return ProfileViewModel(
              profile: user,
@@ -35,6 +38,8 @@ class DIContainer {
              removeFavofiteUseCase: removeFavoriteUseCase,
              reptilesByIds: getReptilesByIdsUseCase,
              logoutUseCase: logoutUseCase,
+             updateFullNameUseCase: updateFullNameUseCase,
+             updateUsernameUseCase: updateUsernameUseCase,
              coordinator: coordinator
          )
      }

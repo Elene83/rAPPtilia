@@ -14,8 +14,8 @@ class FirebaseChatRepository: ChatRepository {
         let ai = FirebaseAI.firebaseAI(backend: .vertexAI())
         let config = GenerationConfig(
             temperature: 0.7,
-            maxOutputTokens: 800,
-            thinkingConfig: ThinkingConfig(thinkingBudget: 200)
+            maxOutputTokens: 900,
+            thinkingConfig: ThinkingConfig(thinkingBudget: 300)
         )
         self.model = ai.generativeModel(modelName: "gemini-2.5-flash", generationConfig: config)
         setupChat()
