@@ -16,34 +16,53 @@ struct SettingsView: View {
                     handleThemeChange(option)
                 }
                 
-                Divider()
-                    .background(Color("AppDarkGreen").opacity(0.3))
-                
-                PasswordChangeView(
-                    currentPassword: $vm.currentPassword,
-                    newPassword: $vm.newPassword,
-                    confirmNewPassword: $vm.confirmNewPassword,
-                    focusedField: $focusedField,
-                    isUpdating: vm.isUpdating,
-                    onChangePassword: {
-                        vm.changePassword()
-                        focusedField = nil
-                    }
-                )
-                
-                Divider()
-                    .background(Color("AppDarkGreen").opacity(0.3))
-                
-                DeleteAccountView(
-                    isUpdating: vm.isUpdating,
-                    onDeleteAccount: { showDeleteWarning = true }
-                )
-                
-                StatusView(
-                    isUpdating: vm.isUpdating,
-                    errorMessage: vm.errorMessage,
-                    successMessage: vm.successMessage
-                )
+                if vm.isLoggedIn {
+                    Divider()
+                        .background(Color("AppDarkGreen").opacity(0.3))
+                    
+                    PasswordChangeView(
+                        currentPassword: $vm.currentPassword,
+                        newPassword: $vm.newPassword,
+                        confirmNewPassword: $vm.confirmNewPassword,
+                        focusedField: $focusedField,
+                        isUpdating: vm.isUpdating,
+                        onChangePassword: {
+                            vm.changePassword()
+                            focusedField = nil
+                        }
+                    )
+                    
+                    Divider()
+                        .background(Color("AppDarkGreen").opacity(0.3))
+                    
+                    DeleteAccountView(
+                        isUpdating: vm.isUpdating,
+                        onDeleteAccount: { showDeleteWarning = true }
+                    )
+                    
+                    StatusView(
+                        isUpdating: vm.isUpdating,
+                        errorMessage: vm.errorMessage,
+                        successMessage: vm.successMessage
+                    )
+                } else {
+                    VStack(spacing: 16) {
+                        Image("darkgreenliz")
+                            .padding(.top, 40)
+                            .padding(.bottom, 20)
+                                            
+                        Text("Log in to manage your account")
+                            .font(.custom("Firago-Regular", size: 16))
+                            .foregroundStyle(Color("AppDarkGreen").opacity(0.6))
+                                            
+                        Button("Log In") {
+                                vm.showAuth()
+                            }
+                            .font(.custom("Firago-Medium", size: 20))
+                            .foregroundStyle(Color("AppDarkGreen"))
+                        }
+                    .frame(maxWidth: .infinity)
+                }
             }
             .padding(.horizontal, 30)
             .padding(.top, 20)

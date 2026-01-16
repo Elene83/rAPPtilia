@@ -156,7 +156,7 @@ class FirebaseAuthRepository: AuthRepository {
                 username: data["username"] as? String ?? "",
                 email: data["email"] as? String ?? "",
                 imageUrl: data["imageUrl"] as? String ?? "",
-                reptiles: data["reptiles"] as? [String] ?? [] //TODO: add this to profile
+                reptiles: data["reptiles"] as? [String] ?? []
             )
             
             completion(.success(user))

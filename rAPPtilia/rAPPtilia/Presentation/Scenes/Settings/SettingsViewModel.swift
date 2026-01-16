@@ -12,6 +12,12 @@ final class SettingsViewModel: ObservableObject {
     @Published var deleteAccountPassword = ""
     @Published var showDeleteConfirmation = false
     
+    var profile: User?
+    
+    var isLoggedIn: Bool {
+        profile != nil
+    }
+    
     private let changePasswordUseCase: ChangePasswordUseCaseProtocol
     private let deleteAccountUseCase: DeleteAccountUseCaseProtocol
     let coordinator: MainCoordinator
@@ -26,10 +32,12 @@ final class SettingsViewModel: ObservableObject {
     }
     
     init(
+        profile: User? = nil,
         changePasswordUseCase: ChangePasswordUseCase,
         deleteAccountUseCase: DeleteAccountUseCase,
         coordinator: MainCoordinator
     ) {
+        self.profile = profile
         self.changePasswordUseCase = changePasswordUseCase
         self.deleteAccountUseCase = deleteAccountUseCase
         self.coordinator = coordinator
@@ -102,5 +110,9 @@ final class SettingsViewModel: ObservableObject {
     func clearMessages() {
         errorMessage = nil
         successMessage = nil
+    }
+    
+    func showAuth() {
+        coordinator.logout()
     }
 }

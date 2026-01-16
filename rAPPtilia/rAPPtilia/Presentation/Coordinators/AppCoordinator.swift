@@ -98,5 +98,3 @@ extension AppCoordinator: MainCoordinatorDelegate {
         showAuth()
     }
 }
-
-//TODO: add validations ui
