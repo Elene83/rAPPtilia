@@ -29,8 +29,8 @@ class MainCoordinator {
         appearance.stackedLayoutAppearance.normal.iconColor = UIColor(named: "AppTranslucentGreen")
         appearance.stackedLayoutAppearance.normal.titleTextAttributes = [.foregroundColor: UIColor(named: "AppTranslucentGreen") ?? .gray]
             
-        appearance.stackedLayoutAppearance.selected.iconColor = UIColor(named: "AppDarkGreenStatic")
-        appearance.stackedLayoutAppearance.selected.titleTextAttributes = [.foregroundColor: UIColor(named: "AppDarkGreenStatic") ?? .gray]
+        appearance.stackedLayoutAppearance.selected.iconColor = UIColor(named: "AppDarkGreen")
+        appearance.stackedLayoutAppearance.selected.titleTextAttributes = [.foregroundColor: UIColor(named: "AppDarkGreen") ?? .gray]
         
         tabBarController.tabBar.standardAppearance = appearance
         if #available(iOS 15.0, *) {
