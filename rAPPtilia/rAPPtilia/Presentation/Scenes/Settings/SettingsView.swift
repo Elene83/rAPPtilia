@@ -46,19 +46,20 @@ struct SettingsView: View {
                         successMessage: vm.successMessage
                     )
                 } else {
-                    VStack(spacing: 16) {
-                        Image("darkgreenliz")
+                    VStack() {
+                        Image("smolliz")
                             .padding(.top, 40)
-                            .padding(.bottom, 20)
+                            .padding(.bottom, 35)
                                             
-                        Text("Log in to manage your account")
+                        Text("You are not logged in")
                             .font(.custom("Firago-Regular", size: 16))
-                            .foregroundStyle(Color("AppDarkGreen").opacity(0.6))
+                            .foregroundStyle(Color("AppOrange"))
+                            .padding(.bottom, 20)
                                             
                         Button("Log In") {
                                 vm.showAuth()
                             }
-                            .font(.custom("Firago-Medium", size: 20))
+                            .font(.custom("Firago-Medium", size: 18))
                             .foregroundStyle(Color("AppDarkGreen"))
                         }
                     .frame(maxWidth: .infinity)
