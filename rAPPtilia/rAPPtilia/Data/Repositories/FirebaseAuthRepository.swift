@@ -4,6 +4,62 @@ import GoogleSignIn
 import FirebaseCore
 
 class FirebaseAuthRepository: AuthRepository {
+    func changePassword(currentPassword: String, newPassword: String, completion: @escaping (Result<Void, Error>) -> Void) {
+        guard let user = Auth.auth().currentUser,
+              let email = user.email else {
+            completion(.failure(NSError(domain: "AuthError", code: -1, userInfo: [NSLocalizedDescriptionKey: "No user logged in"])))
+            return
+        }
+        
+        let credentials = EmailAuthProvider.credential(withEmail: email, password: currentPassword)
+        
+        user.reauthenticate(with: credentials) { _, error in
+            if let error = error {
+                completion(.failure(error))
+                return
+            }
+            
+            user.updatePassword(to: newPassword) { error in
+                if let error = error {
+                    completion(.failure(error))
+                } else {
+                    completion(.success(()))
+                }
+            }
+        }
+    }
+
+    func deleteAccount(password: String, completion: @escaping (Result<Void, Error>) -> Void) {
+        guard let user = Auth.auth().currentUser,
+              let email = user.email else {
+            completion(.failure(NSError(domain: "AuthError", code: -1, userInfo: [NSLocalizedDescriptionKey: "No user logged in"])))
+            return
+        }
+        
+        let credentials = EmailAuthProvider.credential(withEmail: email, password: password)
+        
+        user.reauthenticate(with: credentials) { [weak self] _, error in
+            if let error = error {
+                completion(.failure(error))
+                return
+            }
+            
+            self?.db.collection("users").document(user.uid).delete { error in
+                if let error = error {
+                    completion(.failure(error))
+                    return
+                }
+                
+                user.delete { error in
+                    if let error = error {
+                        completion(.failure(error))
+                    } else {
+                        completion(.success(()))
+                    }
+                }
+            }
+        }
+    }
     func logout(completion: @escaping (Result<Void, any Error>) -> Void) {
         do {
             try Auth.auth().signOut()

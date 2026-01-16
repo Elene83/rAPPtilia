@@ -43,4 +43,12 @@ class DIContainer {
              coordinator: coordinator
          )
      }
+    
+    func makeSettingsViewModel(coordinator: MainCoordinator) -> SettingsViewModel {
+        return SettingsViewModel(
+            changePasswordUseCase: ChangePasswordUseCase(authRepository: authRepository),
+            deleteAccountUseCase: DeleteAccountUseCase(authRepository: authRepository),
+            coordinator: coordinator
+        )
+    }
  }
