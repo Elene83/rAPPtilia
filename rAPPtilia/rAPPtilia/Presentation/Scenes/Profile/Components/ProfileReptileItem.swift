@@ -9,7 +9,7 @@ struct ProfileReptileItem: View {
         VStack(spacing: 10) {
             ScrollView() {
                 Rectangle()
-                    .fill(Color("AppTabBG"))
+                    .fill(Color("AppListsGreen"))
                     .frame(maxWidth: .infinity)
                     .frame(height: 35)
                     .overlay {

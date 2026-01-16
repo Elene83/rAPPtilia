@@ -1,6 +1,9 @@
 import UIKit
 
 class CustomButton: UIButton {
+    private let hasOutline: Bool
+    private let outlineColor: UIColor?
+    
     init(
         title: String,
         backgroundColor: UIColor?,
@@ -10,12 +13,15 @@ class CustomButton: UIButton {
         outlineColor: UIColor? = nil,
         textColor: UIColor? = nil
     ) {
+        self.hasOutline = hasOutline
+        self.outlineColor = outlineColor
+        
         super.init(frame: .zero)
         
         var config = UIButton.Configuration.filled()
         config.title = title
         config.baseBackgroundColor = backgroundColor
-        config.baseForegroundColor = textColor ?? UIColor(named: "AppBG")
+        config.baseForegroundColor = textColor ?? UIColor(named: "AppStaticBG")
         config.cornerStyle = .fixed
         
         var titleAttr = AttributedString(title)
@@ -35,7 +41,13 @@ class CustomButton: UIButton {
         
         if hasOutline {
             layer.borderWidth = 1.5
-            layer.borderColor = (outlineColor ?? UIColor(named: "AppDarkRed"))?.cgColor
+            layer.borderColor = (outlineColor ?? UIColor(named: "AppOutlineRed"))?.cgColor
+        }
+        
+        if hasOutline {
+            registerForTraitChanges([UITraitUserInterfaceStyle.self]) { (self: Self, previousTraitCollection) in
+                self.layer.borderColor = (self.outlineColor ?? UIColor(named: "AppOutlineRed"))?.cgColor
+            }
         }
     }
     

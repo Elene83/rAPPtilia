@@ -51,7 +51,7 @@ class LoginViewController: UIViewController {
             cornerRadius: 8,
             icon: UIImage(named: "googleIcon"),
             hasOutline: true,
-            outlineColor: UIColor(named: "AppDarkRed"),
+            outlineColor: UIColor(named: "AppOutlineRed"),
             textColor: UIColor(named: "AppDarkRed")
         )
         
@@ -61,7 +61,7 @@ class LoginViewController: UIViewController {
     private let loginButton: CustomButton = {
         let button = CustomButton(
             title: "Log In",
-            backgroundColor: UIColor(named: "AppDarkRed"),
+            backgroundColor: UIColor(named: "AppButtonRed"),
             cornerRadius: 8
         )
         

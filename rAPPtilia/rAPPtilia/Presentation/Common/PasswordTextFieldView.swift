@@ -102,6 +102,10 @@ class PasswordTextFieldView: UIView {
         textField.leftViewMode = .always
         textField.rightView = UIView(frame: CGRect(x: 0, y: 0, width: 45, height: 45))
         textField.rightViewMode = .always
+        
+        registerForTraitChanges([UITraitUserInterfaceStyle.self]) { (self: Self, previousTraitCollection) in
+            self.textField.layer.borderColor = UIColor(named: "AppDarkRed")?.cgColor
+        }
     }
     
     @objc private func togglePasswordVisibility() {

@@ -7,7 +7,7 @@ class SignUpViewController: UIViewController {
     
     private let backButton: UIButton = {
         let button = UIButton(type: .system)
-        button.setImage(UIImage(named: "chevron"), for: .normal)
+        button.setImage(UIImage(named: "chevronRed"), for: .normal)
         button.tintColor = UIColor(named: "AppDarkRed")
         button.translatesAutoresizingMaskIntoConstraints = false
         
@@ -72,7 +72,7 @@ class SignUpViewController: UIViewController {
     private let signUpButton: CustomButton = {
         let button = CustomButton(
             title: "Sign Up",
-            backgroundColor: UIColor(named: "AppDarkRed"),
+            backgroundColor: UIColor(named: "AppButtonRed"),
             cornerRadius: 8
         )
         return button

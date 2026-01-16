@@ -69,5 +69,9 @@ class CustomTextFieldView: UIView {
             textField.heightAnchor.constraint(equalToConstant: 45),
             textField.bottomAnchor.constraint(equalTo: bottomAnchor)
         ])
+        
+        registerForTraitChanges([UITraitUserInterfaceStyle.self]) { (self: Self, previousTraitCollection) in
+            self.textField.layer.borderColor = UIColor(named: "AppDarkRed")?.cgColor
+        }
     }
 }
