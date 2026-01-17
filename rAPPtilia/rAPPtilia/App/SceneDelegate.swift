@@ -9,13 +9,13 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
         guard let windowScene = (scene as? UIWindowScene) else { return }
         
-        UserDefaults.standard.set(false, forKey: "hasSeenOnboarding") //TODO: handle this
-
+        UserDefaults.standard.set(false, forKey: "hasSeenOnboarding")
         let window = UIWindow(windowScene: windowScene)
         self.window = window
         
         appCoordinator = AppCoordinator(window: window)
         appCoordinator?.start()
+        ThemeManager.shared.applyThemeToWindow(window: window)
     }
     
     func scene(_ scene: UIScene, openURLContexts URLContexts: Set<UIOpenURLContext>) {

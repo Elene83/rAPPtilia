@@ -64,6 +64,25 @@ class ThemeManager: ObservableObject {
                     window.overrideUserInterfaceStyle = interfaceStyle
                 }
             }
+            
+            NotificationCenter.default.post(name: NSNotification.Name("ThemeDidChange"), object: nil)
         }
+    }
+    
+    func applyThemeToWindow(window: UIWindow?) {
+        guard let window = window else { return }
+        
+        let interfaceStyle: UIUserInterfaceStyle
+        
+        switch themeOption {
+        case .light:
+            interfaceStyle = .light
+        case .dark:
+            interfaceStyle = .dark
+        case .system:
+            interfaceStyle = .unspecified
+        }
+        
+        window.overrideUserInterfaceStyle = interfaceStyle
     }
 }

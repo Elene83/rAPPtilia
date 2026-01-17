@@ -7,6 +7,7 @@ class HomeViewController: UIViewController {
     
     private let toggle = UISwitch()
     private var currentHostingController: UIHostingController<HomeView>?
+    private var cardsHostingController: UIHostingController<HomeCards>?
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -14,13 +15,13 @@ class HomeViewController: UIViewController {
         setupToggle()
         
         toggle.isOn = UserDefaults.standard.isOtherViewEnabled
-        updateViewForToggleState()
         
         vm.onDataUpdated = { [weak self] in
             guard let self = self else { return }
         }
                 
         vm.loadReptiles()
+        updateViewForToggleState()
     }
     
     private func setupToggle() {
@@ -41,10 +42,12 @@ class HomeViewController: UIViewController {
         UserDefaults.standard.isOtherViewEnabled = toggle.isOn
         
         if toggle.isOn {
+            hideHomeCards()
             showHome2()
             toggle.thumbTintColor = UIColor(named: "AppBG")
         } else {
             hideHome2()
+            showHomeCards()
             toggle.thumbTintColor = UIColor(named: "AppDarkRed")
         }
     }
@@ -71,12 +74,38 @@ class HomeViewController: UIViewController {
         view.bringSubviewToFront(toggle)
     }
     
+    private func showHomeCards() {
+        let swiftUIView = HomeCards(
+            vm: vm,
+            coordinator: coordinator,
+            navigationController: navigationController
+        )
+        
+        let hostingController = UIHostingController(rootView: swiftUIView)
+        
+        addChild(hostingController)
+        view.addSubview(hostingController.view)
+        hostingController.view.translatesAutoresizingMaskIntoConstraints = false
+        
+        NSLayoutConstraint.activate([
+            hostingController.view.topAnchor.constraint(equalTo: view.topAnchor),
+            hostingController.view.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            hostingController.view.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            hostingController.view.bottomAnchor.constraint(equalTo: view.bottomAnchor)
+        ])
+        
+        hostingController.didMove(toParent: self)
+        cardsHostingController = hostingController
+        
+        view.bringSubviewToFront(toggle)
+    }
+    
     private func updateViewForToggleState() {
         if toggle.isOn {
             showHome2()
             toggle.thumbTintColor = UIColor(named: "AppBG")
         } else {
-            hideHome2()
+            showHomeCards()
             toggle.thumbTintColor = UIColor(named: "AppDarkRed")
         }
     }
@@ -86,5 +115,12 @@ class HomeViewController: UIViewController {
         currentHostingController?.view.removeFromSuperview()
         currentHostingController?.removeFromParent()
         currentHostingController = nil
+    }
+    
+    private func hideHomeCards() {
+        cardsHostingController?.willMove(toParent: nil)
+        cardsHostingController?.view.removeFromSuperview()
+        cardsHostingController?.removeFromParent()
+        cardsHostingController = nil
     }
 }

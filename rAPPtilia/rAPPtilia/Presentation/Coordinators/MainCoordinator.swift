@@ -90,7 +90,7 @@ class MainCoordinator {
         profileNav.navigationBar.standardAppearance = greenNavAppearance
         profileNav.navigationBar.scrollEdgeAppearance = greenNavAppearance
         
-        let settingsViewModel = DIContainer.shared.makeSettingsViewModel(coordinator: self)
+        let settingsViewModel = DIContainer.shared.makeSettingsViewModel(user: currentUser, coordinator: self)
         let settingsView = SettingsView(vm: settingsViewModel)
         let settingsVC = UIHostingController(rootView: settingsView)
         settingsVC.tabBarItem = UITabBarItem(title: "", image: UIImage(named: "settingsIcon"), tag: 4)

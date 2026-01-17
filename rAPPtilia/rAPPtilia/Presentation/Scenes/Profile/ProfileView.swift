@@ -58,7 +58,7 @@ struct ProfileView: View {
                                 .disabled(editedFullName.isEmpty || editedFullName == vm.profile?.fullName)
                             }
                         }
-                        .padding(.top, 20)
+                        .padding(.top, 30)
 
                         HStack {
                             if isEditingUsername {
@@ -126,7 +126,7 @@ struct ProfileView: View {
                         Text("Your Reptiles")
                             .font(.custom("Firago-Medium", size: 16))
                             .foregroundStyle(Color("AppDarkGreen"))
-                            .padding(.top, 20)
+                            .padding(.top, 30)
 
                         if vm.isLoadingReptiles {
                             ProgressView()
@@ -145,7 +145,7 @@ struct ProfileView: View {
                         Text("Your Locations")
                             .font(.custom("Firago-Medium", size: 16))
                             .foregroundStyle(Color("AppDarkGreen"))
-                            .padding(.top, 20)
+                            .padding(.top, 30)
                     }
                     .padding(.horizontal, 30)
                     .frame(maxWidth: .infinity, alignment: .leading)

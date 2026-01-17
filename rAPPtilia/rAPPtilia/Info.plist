@@ -17,6 +17,7 @@
 	<string>159467388184-ingqg0qlqsurh8iqnrf4ll0o3qu2d1q9.apps.googleusercontent.com</string>
 	<key>UIAppFonts</key>
 	<array>
+		<string>firago-latin-900-normal.ttf</string>
 		<string>firago-latin-300-normal.ttf</string>
 		<string>firago-latin-400-normal.ttf</string>
 		<string>firago-latin-500-normal.ttf</string>
