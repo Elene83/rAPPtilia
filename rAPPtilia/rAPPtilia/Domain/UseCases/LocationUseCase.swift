@@ -50,7 +50,7 @@ class GetUserLocationsUseCase: GetUserLocationsUseCaseProtocol {
 
 
 protocol GetAllLocationsUseCaseProtocol {
-    func execute(userId: String, completion: @escaping (Result<[LocationModel], Error>) -> Void)
+    func execute(completion: @escaping (Result<[LocationModel], Error>) -> Void)
 }
 
 class GetAllLocationsUseCase: GetAllLocationsUseCaseProtocol {
@@ -60,7 +60,7 @@ class GetAllLocationsUseCase: GetAllLocationsUseCaseProtocol {
         self.repository = repository
     }
     
-    func execute(userId: String, completion: @escaping (Result<[LocationModel], any Error>) -> Void) {
-        repository.getAllLocations(userId: userId, completion: completion)
+    func execute(completion: @escaping (Result<[LocationModel], any Error>) -> Void) {
+        repository.getAllLocations(completion: completion)
     }
 }

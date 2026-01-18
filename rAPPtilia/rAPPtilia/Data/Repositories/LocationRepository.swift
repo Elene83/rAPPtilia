@@ -5,7 +5,7 @@ protocol LocationRepositoryProtocol {
     func addLocation(userId: String, location: LocationModel, completion: @escaping (Result<Void, Error>) -> Void)
     func removeLocation(userId: String, locationId: String, completion: @escaping (Result<Void, Error>) -> Void)
     func getLocations(userId: String, completion: @escaping (Result<[LocationModel], Error>) -> Void)
-    func getAllLocations(userId: String, completion: @escaping (Result<[LocationModel], Error>) -> Void)
+    func getAllLocations(completion: @escaping (Result<[LocationModel], Error>) -> Void)
 }
 
 class LocationRepository: LocationRepositoryProtocol {
@@ -85,11 +85,41 @@ class LocationRepository: LocationRepositoryProtocol {
         }
     }
     
-    func getAllLocations(userId: String, completion: @escaping (Result<[LocationModel], any Error>) -> Void) {
-        <#code#>
-    }
-    
-    
+    func getAllLocations(completion: @escaping (Result<[LocationModel], any Error>) -> Void) {
+        db.collectionGroup("locations")
+            .getDocuments { snapshot, error in
+                if let error = error {
+                    completion(.failure(error))
+                    return
+                }
+                
+                guard let documents = snapshot?.documents else {
+                    completion(.success([]))
+                    return
+                }
+                
+                let locations = documents.compactMap { doc -> LocationModel? in
+                    let data = doc.data()
+                    guard let id = data["id"] as? String,
+                          let latitude = data["latitude"] as? Double,
+                          let longitude = data["longitude"] as? Double,
+                          let reptileId = data["reptileId"] as? String,
+                          let userId = data["userId"] as? String,
+                          let timestamp = data["timestamp"] as? Timestamp else {
+                        return nil
+                    }
+                    
+                    return LocationModel(
+                        id: id,
+                        latitude: latitude,
+                        longitude: longitude,
+                        reptileId: reptileId,
+                        userId: userId,
+                        timeStamp: timestamp.dateValue()
+                    )
+                }
+                completion(.success(locations))
+            }
+        }
 }
 
-//how does it know to remove
