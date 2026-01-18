@@ -1,4 +1,4 @@
-import SwiftUI
+import UIKit
 
 class DIContainer {
     static let shared = DIContainer()

@@ -1,4 +1,4 @@
-import Foundation
+import UIKit
 
 protocol ReptileRepositoryProtocol {
     func fetchAllReptiles() async throws -> [Reptile]

@@ -5,5 +5,5 @@ struct User {
     let email: String
     let imageUrl: String
     let reptiles: [String]
-//    let locations: [LocationModel]
+    let locations: [LocationModel]
 }
