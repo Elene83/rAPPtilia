@@ -57,9 +57,15 @@ class MainCoordinator {
                 .font: UIFont(name: "Firago-Medium", size: 20) ?? UIFont.systemFont(ofSize: 20, weight: .medium)
         ]
 
-        let mapVC = MapViewController()
+        let mapViewModel = DIContainer.shared.makeMapViewModel(user: currentUser)
+        let mapView = MapView(viewModel: mapViewModel)
+        let mapVC = UIHostingController(rootView: mapView)
         mapVC.tabBarItem = UITabBarItem(title: "", image: UIImage(named: "mapIcon"), tag: 0)
+        mapVC.navigationItem.title = "Map"
         let mapNav = UINavigationController(rootViewController: mapVC)
+        mapNav.navigationBar.standardAppearance = navAppearance
+        mapNav.navigationBar.scrollEdgeAppearance = navAppearance
+        mapNav.navigationBar.compactAppearance = navAppearance 
         
         let chatView = ChatView(coordinator: self)
         let chatVC = UIHostingController(rootView: chatView)

@@ -62,27 +62,27 @@ class LocationRepository: LocationRepositoryProtocol {
                     return
                 }
                 
-                let locations = documents.compactMap { docum -> LocationModel? in
-                    let data = docum.data()
+                let locations = documents.compactMap { doc -> LocationModel? in
+                    let data = doc.data()
                     guard let id = data["id"] as? String,
                           let latitude = data["latitude"] as? Double,
                           let longitude = data["longitude"] as? Double,
                           let reptileId = data["reptileId"] as? String,
                           let userId = data["userId"] as? String,
-                          let timeStamp = data["timeStamp"] as? Timestamp else {
+                          let timestamp = data["timestamp"] as? Timestamp else { 
                         return nil
                     }
-                return LocationModel(
-                    id:id,
-                    latitude: latitude,
-                    longitude: longitude,
-                    reptileId: reptileId,
-                    userId: userId,
-                    timeStamp: timeStamp.dateValue()
-                )
-            }
+                    return LocationModel(
+                        id: id,
+                        latitude: latitude,
+                        longitude: longitude,
+                        reptileId: reptileId,
+                        userId: userId,
+                        timeStamp: timestamp.dateValue()
+                    )
+                }
                 completion(.success(locations))
-        }
+            }
     }
     
     func getAllLocations(completion: @escaping (Result<[LocationModel], any Error>) -> Void) {
@@ -120,6 +120,5 @@ class LocationRepository: LocationRepositoryProtocol {
                 }
                 completion(.success(locations))
             }
-        }
+    }
 }
-

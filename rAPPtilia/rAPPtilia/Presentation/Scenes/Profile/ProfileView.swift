@@ -146,6 +146,24 @@ struct ProfileView: View {
                             .font(.custom("Firago-Medium", size: 16))
                             .foregroundStyle(Color("AppDarkGreen"))
                             .padding(.top, 30)
+                        
+                        if vm.isLoadingLocations {
+                            ProgressView()
+                                .padding(.top)
+                                .progressViewStyle(CircularProgressViewStyle(tint: Color("AppDarkRed")))
+                        } else if !vm.userLocations.isEmpty {
+                            ProfileLocations(
+                                locations: vm.userLocations,
+                                getLocationAddress: vm.getLocationAddress,
+                                onRemove: vm.removeLocation
+                            )
+                            .padding(.top, 15)
+                        } else {
+                            Text("No locations yet 📍")
+                                .font(.custom("Firago-Regular", size: 14))
+                                .foregroundStyle(Color("AppDarkGreen"))
+                                .padding(.top, 15)
+                        }
                     }
                     .padding(.horizontal, 30)
                     .frame(maxWidth: .infinity, alignment: .leading)

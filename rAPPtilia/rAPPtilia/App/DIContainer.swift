@@ -5,10 +5,12 @@ class DIContainer {
     
     private let authRepository: AuthRepository
     private let reptileRepository: ReptileRepositoryProtocol
+    private let locationRepository: LocationRepository
 
     private init() {
         self.authRepository = FirebaseAuthRepository()
         self.reptileRepository = ReptileRepository()
+        self.locationRepository = LocationRepository()
     }
     
     func makeChatViewModel() -> ChatViewModel {
@@ -30,6 +32,8 @@ class DIContainer {
         let logoutUseCase = LogoutUseCase(authRepository: authRepository)
         let updateFullNameUseCase = UpdateFullNameUseCase(userRepository: userRepository)
         let updateUsernameUseCase = UpdateUsernameUseCase(userRepository: userRepository)
+        let getUserLocationsUseCase = GetUserLocationsUseCase(repository: locationRepository)
+        let removeLocationUseCase = RemoveLocationUseCase(repository: locationRepository)
 
          
          return ProfileViewModel(
@@ -38,6 +42,8 @@ class DIContainer {
              removeFavofiteUseCase: removeFavoriteUseCase,
              reptilesByIds: getReptilesByIdsUseCase,
              logoutUseCase: logoutUseCase,
+             getUserLocationsUseCase: getUserLocationsUseCase,
+             removeLocationUseCase: removeLocationUseCase,
              updateFullNameUseCase: updateFullNameUseCase,
              updateUsernameUseCase: updateUsernameUseCase,
              coordinator: coordinator
@@ -52,4 +58,18 @@ class DIContainer {
             coordinator: coordinator
         )
     }
- }
+    
+    func makeMapViewModel(user: User?) -> MapViewModel {
+        let getAllLocationsUseCase = GetAllLocationsUseCase(repository: locationRepository)
+        let addLocationUseCase = AddLocationUseCase(repository: locationRepository)
+        let removeLocationUseCase = RemoveLocationUseCase(repository: locationRepository)
+        let fetchAllReptilesUseCase = FetchAllReptilesUseCase(repository: reptileRepository)
+        
+        return MapViewModel(
+            profile: user,
+            getAllLocationsUseCase: getAllLocationsUseCase,
+            addLocationUseCase: addLocationUseCase,
+            removeLocationUseCase: removeLocationUseCase,
+            fetchAllReptilesUseCase: fetchAllReptilesUseCase)
+    }
+}

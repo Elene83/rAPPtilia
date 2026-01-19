@@ -32,7 +32,6 @@ struct HomeCards: View {
                             }
                         }
                     )
-                    .transition(.move(edge: .trailing))
                 } else {
                     HStack(spacing: 0) {
                         ReptiliaCardView(hasUserSwiped: $hasUserSwiped)

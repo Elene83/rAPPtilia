@@ -1,23 +1,69 @@
 import SwiftUI
 import MapKit
+import CoreLocation
 
-final class MapViewModel: ObservableObject {
+final class MapViewModel: NSObject, ObservableObject, CLLocationManagerDelegate {
     @Published var locations: [LocationModel] = []
     @Published var filteredLocations: [LocationModel] = []
     @Published var allReptiles: [Reptile] = []
-    @Published var selectedReptileFilter: Reptile?
+    @Published var selectedOrderFilter: String?
+    @Published var selectedSpeciesFilter: String?
     @Published var isLoading = false
     @Published var errorMessage: String?
-    @Published var showingAddLocation = false
+    @Published var showingImagePreview = false
+    @Published var previewImageUrl: String?
+    
+    @Published var isAddingLocation = false
+    @Published var currentStep: AddLocationStep = .selectOrder
+    @Published var selectedOrder: String?
     @Published var selectedCoordinate: CLLocationCoordinate2D?
     @Published var selectedReptileForNewLocation: Reptile?
     
-    @Published var cameraPosition: MapCameraPosition = .automatic
+    @Published var cameraPosition: MapCameraPosition = .region(MKCoordinateRegion(
+        center: CLLocationCoordinate2D(latitude: 41.7151, longitude: 44.8271),
+        span: MKCoordinateSpan(latitudeDelta: 0.05, longitudeDelta: 0.05)
+    ))
+    @Published var userLocation: CLLocationCoordinate2D?
+    
+    private let locationManager = CLLocationManager()
+    private var hasSetInitialCamera = false
     
     var profile: User?
     
     var isLoggedIn: Bool {
         profile != nil
+    }
+    
+    func showImagePreview(_ url: String) {
+        previewImageUrl = url
+        showingImagePreview = true
+    }
+    
+    enum AddLocationStep {
+        case selectOrder
+        case markLocation
+        case selectSpecies
+    }
+    
+    var filteredReptilesByOrder: [Reptile] {
+        guard let order = selectedOrder else { return [] }
+        return allReptiles.filter { $0.order.lowercased() == order.lowercased() }
+    }
+    
+    var availableOrders: [String] {
+        let orders = Set(allReptiles.map { $0.order })
+        return Array(orders).sorted()
+    }
+    
+    var availableSpecies: [String] {
+        var reptilesToFilter = allReptiles
+        
+        if let orderFilter = selectedOrderFilter {
+            reptilesToFilter = allReptiles.filter { $0.order.lowercased() == orderFilter.lowercased() }
+        }
+        
+        let species = Set(reptilesToFilter.map { $0.commonName })
+        return Array(species).sorted()
     }
     
     private let getAllLocationsUseCase: GetAllLocationsUseCaseProtocol
@@ -37,12 +83,94 @@ final class MapViewModel: ObservableObject {
         self.addLocationUseCase = addLocationUseCase
         self.removeLocationUseCase = removeLocationUseCase
         self.fetchAllReptilesUseCase = fetchAllReptilesUseCase
+        super.init()
+        setupLocationManager()
+    }
+    
+    private func setupLocationManager() {
+        locationManager.delegate = self
+        locationManager.desiredAccuracy = kCLLocationAccuracyBest
+        
+        let status = locationManager.authorizationStatus
+        
+        switch status {
+        case .notDetermined:
+            locationManager.requestWhenInUseAuthorization()
+        case .authorizedWhenInUse, .authorizedAlways:
+            locationManager.startUpdatingLocation()
+        case .denied, .restricted:
+            print("Location access denied or restricted")
+        @unknown default:
+            break
+        }
+    }
+    
+    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        guard let location = locations.last else { return }
+        
+        DispatchQueue.main.async {
+            self.userLocation = location.coordinate
+            
+            if !self.hasSetInitialCamera {
+                self.hasSetInitialCamera = true
+                self.cameraPosition = .region(MKCoordinateRegion(
+                    center: location.coordinate,
+                    span: MKCoordinateSpan(latitudeDelta: 0.05, longitudeDelta: 0.05)
+                ))
+            }
+        }
+    }
+    
+    func locationManagerDidChangeAuthorization(_ manager: CLLocationManager) {
+        let status = manager.authorizationStatus
+        
+        switch status {
+        case .authorizedWhenInUse, .authorizedAlways:
+            locationManager.startUpdatingLocation()
+        case .denied, .restricted:
+            DispatchQueue.main.async {
+                self.errorMessage = "Location access is required to show your position on the map. Please enable it in Settings."
+            }
+        case .notDetermined:
+            break
+        @unknown default:
+            break
+        }
+    }
+    
+    func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
+        if let clError = error as? CLError {
+            switch clError.code {
+            case .locationUnknown:
+                print("trying to find the location")
+                return
+                
+            case .denied:
+                DispatchQueue.main.async {
+                    self.errorMessage = "Location access denied. Please enable it in Settings."
+                }
+                
+            case .network:
+                DispatchQueue.main.async {
+                    self.errorMessage = "Network error while getting location. Please check your connection."
+                }
+                
+            default:
+                DispatchQueue.main.async {
+                    self.errorMessage = "Location error: \(error.localizedDescription)"
+                }
+            }
+        } else {
+            DispatchQueue.main.async {
+                self.errorMessage = "Location error: \(error.localizedDescription)"
+            }
+        }
     }
     
     func loadData() {
         Task {
             await loadReptiles()
-            loadLocations()
+            await loadLocations()
         }
     }
     
@@ -51,55 +179,104 @@ final class MapViewModel: ObservableObject {
         do {
             allReptiles = try await fetchAllReptilesUseCase.execute(filters: nil)
         } catch {
-            errorMessage = "failed to fetch reptiles \(error.localizedDescription)"
+            errorMessage = "Failed to load reptiles: \(error.localizedDescription)"
         }
     }
     
-    func loadLocations() {
+    @MainActor
+    func loadLocations() async {
         isLoading = true
         errorMessage = nil
         
-        getAllLocationsUseCase.execute { [weak self] result in
-            DispatchQueue.main.async {
-                self?.isLoading = false
-                
-                switch result {
-                case .success(let locations):
-                    self?.locations = locations
-                    self?.applyFilter()
-                case .failure(let error):
-                    self?.errorMessage = "couldnt get locations \(error.localizedDescription)"
+        await withCheckedContinuation { continuation in
+            getAllLocationsUseCase.execute { [weak self] result in
+                DispatchQueue.main.async {
+                    self?.isLoading = false
+                    
+                    switch result {
+                    case .success(let locations):
+                        self?.locations = locations
+                        self?.applyFilter()
+                    case .failure(let error):
+                        self?.errorMessage = "Failed to load locations: \(error.localizedDescription)"
+                    }
+                    continuation.resume()
                 }
             }
         }
     }
     
     func applyFilter() {
-        if let filter = selectedReptileFilter {
-            filteredLocations = locations.filter { $0.reptileId == filter.id }
-           } else {
-            filteredLocations = locations
+        var filtered = locations
+        
+        if let orderFilter = selectedOrderFilter {
+            filtered = filtered.filter { location in
+                guard let reptile = allReptiles.first(where: { $0.id == location.reptileId }) else { return false }
+                return reptile.order.lowercased() == orderFilter.lowercased()
+            }
         }
+        
+        if let speciesFilter = selectedSpeciesFilter {
+            filtered = filtered.filter { location in
+                guard let reptile = allReptiles.first(where: { $0.id == location.reptileId }) else { return false }
+                return reptile.commonName == speciesFilter
+            }
+        }
+        
+        filteredLocations = filtered
     }
     
-    func setFilter(_ reptile: Reptile?) {
-        selectedReptileFilter = reptile
-        applyFilter()
-    }
-       
-    func clearFilter() {
-        selectedReptileFilter = nil
+    func setOrderFilter(_ order: String?) {
+        selectedOrderFilter = order
         applyFilter()
     }
     
-    func handleMapTap(coordinate: CLLocationCoordinate2D) {
+    func setSpeciesFilter(_ species: String?) {
+        selectedSpeciesFilter = species
+        applyFilter()
+    }
+    
+    func clearAllFilters() {
+        selectedOrderFilter = nil
+        selectedSpeciesFilter = nil
+        applyFilter()
+    }
+    
+    func startAddingLocation() {
         guard isLoggedIn else {
-            errorMessage = "Please log in to add a new location."
+            errorMessage = "You must be logged in to add locations"
             return
         }
+        isAddingLocation = true
+        currentStep = .selectOrder
+    }
     
+    func cancelAddingLocation() {
+        isAddingLocation = false
+        currentStep = .selectOrder
+        selectedOrder = nil
+        selectedCoordinate = nil
+        selectedReptileForNewLocation = nil
+    }
+    
+    func selectOrder(_ order: String) {
+        selectedOrder = order
+        currentStep = .markLocation
+    }
+    
+    func handleMapTap(at coordinate: CLLocationCoordinate2D) {
+        guard currentStep == .markLocation else { return }
         selectedCoordinate = coordinate
-        showingAddLocation = true
+        currentStep = .selectSpecies
+    }
+    
+    func selectSpecies(_ reptile: Reptile) {
+        selectedReptileForNewLocation = reptile
+        addLocation()
+    }
+    
+    func goBackToSpeciesSelection() {
+        currentStep = .selectSpecies
     }
     
     func addLocation() {
@@ -127,12 +304,13 @@ final class MapViewModel: ObservableObject {
                 
                 switch result {
                 case .success:
-                    self?.showingAddLocation = false
-                    self?.selectedCoordinate = nil
-                    self?.selectedReptileForNewLocation = nil
-                    self?.loadLocations()
+                    self?.cancelAddingLocation()
+                    Task {
+                        await self?.loadLocations()
+                    }
+                NotificationCenter.default.post(name: .locationsDidChange, object: nil)
                 case .failure(let error):
-                    self?.errorMessage = "couldnt add location \(error.localizedDescription)"
+                    self?.errorMessage = "Failed to add location: \(error.localizedDescription)"
                 }
             }
         }
@@ -142,7 +320,7 @@ final class MapViewModel: ObservableObject {
         guard let userId = profile?.id else { return }
         
         guard location.userId == userId else {
-            errorMessage = "you can only delete your own locations goof"
+            errorMessage = "You can only delete your own locations"
             return
         }
         
@@ -155,9 +333,12 @@ final class MapViewModel: ObservableObject {
                 
                 switch result {
                 case .success:
-                    self?.loadLocations()
+                    Task {
+                        await self?.loadLocations()
+                    }
+                NotificationCenter.default.post(name: .locationsDidChange, object: nil)
                 case .failure(let error):
-                    self?.errorMessage = "couldnt remove location \(error.localizedDescription)"
+                    self?.errorMessage = "Failed to remove location: \(error.localizedDescription)"
                 }
             }
         }
@@ -167,9 +348,20 @@ final class MapViewModel: ObservableObject {
         allReptiles.first { $0.id == location.reptileId }
     }
     
-    func cancelAddingLocation() {
-        showingAddLocation = false
-        selectedCoordinate = nil
-        selectedReptileForNewLocation = nil
+    func getMarkerIcon(for order: String) -> String {
+        switch order.lowercased() {
+        case "testudines":
+            return "turtlepin"
+        case "serpentes":
+            return "snakepin"
+        case "sauria":
+            return "lizpin"
+        default:
+            return "turtlepin"
+        }
+    }
+    
+    func getObserver(for location: LocationModel) -> String {
+        return location.userId
     }
 }

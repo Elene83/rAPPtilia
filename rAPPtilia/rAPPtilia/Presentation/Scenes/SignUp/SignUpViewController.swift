@@ -153,6 +153,7 @@ class SignUpViewController: UIViewController {
         }
         
         viewModel.onSignUpError = { [weak self] errorMessage in
+            guard self != nil else { return }
             //TODO: handle after ui
             print("Sign up error: \(errorMessage)")
         }

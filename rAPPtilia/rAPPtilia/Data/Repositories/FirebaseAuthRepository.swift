@@ -105,7 +105,8 @@ class FirebaseAuthRepository: AuthRepository {
                 username: username,
                 email: email,
                 imageUrl: "",
-                reptiles: []
+                reptiles: [],
+                locations: []
             )
             
             self?.saveUser(user: user, completion: { result in
@@ -156,7 +157,8 @@ class FirebaseAuthRepository: AuthRepository {
                 username: data["username"] as? String ?? "",
                 email: data["email"] as? String ?? "",
                 imageUrl: data["imageUrl"] as? String ?? "",
-                reptiles: data["reptiles"] as? [String] ?? []
+                reptiles: data["reptiles"] as? [String] ?? [],
+                locations: data["locations"] as? [LocationModel] ?? []
             )
             
             completion(.success(user))
@@ -210,7 +212,8 @@ extension FirebaseAuthRepository {
                             username: firebaseUser.email?.components(separatedBy: "@").first ?? "",
                             email: firebaseUser.email ?? "",
                             imageUrl: firebaseUser.photoURL?.absoluteString ?? "",
-                            reptiles: []
+                            reptiles: [],
+                            locations: []
                         )
                         
                         self?.saveUser(user: newUser) { saveResult in

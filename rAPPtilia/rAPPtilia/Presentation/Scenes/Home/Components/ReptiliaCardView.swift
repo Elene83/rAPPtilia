@@ -26,7 +26,7 @@ struct ReptiliaCardView: View {
                             textOpacity = 0.3
                         }
                     }
-                    .transition(.opacity)
+                    .animation(.easeInOut(duration: 1.5), value: textOpacity)
             }
             Spacer()
         }

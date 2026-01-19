@@ -17,7 +17,7 @@ class HomeViewController: UIViewController {
         toggle.isOn = UserDefaults.standard.isOtherViewEnabled
         
         vm.onDataUpdated = { [weak self] in
-            guard let self = self else { return }
+            guard self != nil else { return }
         }
                 
         vm.loadReptiles()

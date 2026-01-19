@@ -52,9 +52,7 @@ class AppCoordinator {
                 return
             }
             
-            firebaseAuthRepo.fetchUser(userId: firebaseUser.uid) { [weak self] result in
-                guard let self = self else { return }
-                
+            firebaseAuthRepo.fetchUser(userId: firebaseUser.uid) { result in                
                 DispatchQueue.main.async {
                     switch result {
                     case .success(let user):

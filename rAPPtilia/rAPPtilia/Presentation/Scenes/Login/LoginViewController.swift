@@ -171,6 +171,8 @@ class LoginViewController: UIViewController {
         }
         
         viewModel.onLoginError = { [weak self] errorMessage in
+            guard self != nil else { return }
+
             //TODO: handle when ui is built
             print("Login error: \(errorMessage)")
         }
