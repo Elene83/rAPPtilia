@@ -7,7 +7,7 @@ class HomeViewController: UIViewController {
     
     private let toggle = UISwitch()
     private var currentHostingController: UIHostingController<HomeView>?
-    private var cardsHostingController: UIHostingController<HomeCards>?
+    private var cardsViewController: UIViewController?
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -75,27 +75,25 @@ class HomeViewController: UIViewController {
     }
     
     private func showHomeCards() {
-        let swiftUIView = HomeCards(
+        let cardsVC = HomeCardsViewController(
             vm: vm,
             coordinator: coordinator,
             navigationController: navigationController
         )
         
-        let hostingController = UIHostingController(rootView: swiftUIView)
-        
-        addChild(hostingController)
-        view.addSubview(hostingController.view)
-        hostingController.view.translatesAutoresizingMaskIntoConstraints = false
+        addChild(cardsVC)
+        view.addSubview(cardsVC.view)
+        cardsVC.view.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([
-            hostingController.view.topAnchor.constraint(equalTo: view.topAnchor),
-            hostingController.view.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            hostingController.view.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            hostingController.view.bottomAnchor.constraint(equalTo: view.bottomAnchor)
+            cardsVC.view.topAnchor.constraint(equalTo: view.topAnchor),
+            cardsVC.view.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            cardsVC.view.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            cardsVC.view.bottomAnchor.constraint(equalTo: view.bottomAnchor)
         ])
         
-        hostingController.didMove(toParent: self)
-        cardsHostingController = hostingController
+        cardsVC.didMove(toParent: self)
+        cardsViewController = cardsVC
         
         view.bringSubviewToFront(toggle)
     }
@@ -118,9 +116,9 @@ class HomeViewController: UIViewController {
     }
     
     private func hideHomeCards() {
-        cardsHostingController?.willMove(toParent: nil)
-        cardsHostingController?.view.removeFromSuperview()
-        cardsHostingController?.removeFromParent()
-        cardsHostingController = nil
+        cardsViewController?.willMove(toParent: nil)
+        cardsViewController?.view.removeFromSuperview()
+        cardsViewController?.removeFromParent()
+        cardsViewController = nil
     }
 }

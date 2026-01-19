@@ -1,7 +1,6 @@
 import SwiftUI
 
 struct TopSideOpened: View {
-    
     var body: some View {
         ZStack(alignment: .top) {
             Rectangle()
