@@ -16,7 +16,7 @@ struct LocationDetailModal: View {
                 }
             
             VStack(spacing: 0) {
-                VStack(spacing: 10) {
+                VStack(spacing: 12) {
                     if let reptile = reptile {
                         HStack(alignment: .top, spacing: 20) {
                             CachedAsyncImage(url: URL(string: reptile.thumbnailUrl)) { image in
@@ -41,7 +41,7 @@ struct LocationDetailModal: View {
                             .frame(maxWidth: .infinity, alignment: .leading)
                         }
                     
-                        HStack(alignment: .top, spacing: 12) {
+                        HStack(alignment: .top, spacing: 14) {
                             VStack(alignment: .leading, spacing: 4) {
                                 Text("Size Range")
                                     .font(.custom("Firago-Regular", size: 12))
@@ -111,7 +111,7 @@ struct LocationDetailModal: View {
                 }
                 .padding()
             }
-            .frame(width: 360, height: 200)
+            .frame(width: 330, height: 200)
             .background(Color("AppBG"))
             .clipShape(RoundedRectangle(cornerRadius: 8))
             .transition(.scale.combined(with: .opacity))

@@ -75,6 +75,7 @@ struct MapView: View {
                         viewModel.setSpeciesFilter(species)
                     }
                 )
+                .equatable()
                 
                 Spacer()
                
@@ -86,6 +87,7 @@ struct MapView: View {
                         viewModel.setOrderFilter(order)
                     }
                 )
+                .equatable()
             }
             .padding()
             .padding(.top, 20)

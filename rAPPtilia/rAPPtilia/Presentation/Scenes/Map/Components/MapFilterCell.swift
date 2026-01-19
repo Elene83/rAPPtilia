@@ -1,10 +1,16 @@
 import SwiftUI
 
-struct MapFilterCell: View {
+struct MapFilterCell: View, Equatable {
     var title: String
     var selectedValue: String?
     var options: [String]
     var onSelect: (String?) -> Void
+    
+    static func == (lhs: MapFilterCell, rhs: MapFilterCell) -> Bool {
+        lhs.title == rhs.title &&
+        lhs.selectedValue == rhs.selectedValue &&
+        lhs.options == rhs.options
+    }
     
     var body: some View {
         Menu {

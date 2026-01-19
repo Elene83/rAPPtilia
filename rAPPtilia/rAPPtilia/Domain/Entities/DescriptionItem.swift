@@ -1,4 +1,4 @@
-import SwiftUI
+import Foundation
 
 struct DescriptionItem: Identifiable {
     let id = UUID()

@@ -1,4 +1,4 @@
-import SwiftUI
+import Foundation
 
 struct ChatMessage: Identifiable, Equatable {
     let id = UUID()

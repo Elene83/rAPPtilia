@@ -1,4 +1,4 @@
-import SwiftUI
+import Foundation
 
 struct IdentifiableImgString: Identifiable {
     let id = UUID()
