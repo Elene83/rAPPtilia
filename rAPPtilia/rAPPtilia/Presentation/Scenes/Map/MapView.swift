@@ -110,7 +110,7 @@ struct MapView: View {
                     
                     modalContent
                 }
-                .transition(.scale.combined(with: .opacity))
+                .animation(.easeInOut(duration: 0.2), value: viewModel.currentStep)
             }
         }
     }

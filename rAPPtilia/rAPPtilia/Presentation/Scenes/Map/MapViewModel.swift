@@ -281,6 +281,7 @@ final class MapViewModel: NSObject, ObservableObject, CLLocationManagerDelegate 
     
     func addLocation() {
         guard let userId = profile?.id,
+              let username = profile?.fullName,
               let coordinate = selectedCoordinate,
               let reptile = selectedReptileForNewLocation else {
             return
@@ -292,6 +293,7 @@ final class MapViewModel: NSObject, ObservableObject, CLLocationManagerDelegate 
             longitude: coordinate.longitude,
             reptileId: reptile.id,
             userId: userId,
+            username: username,
             timeStamp: Date()
         )
         

@@ -18,6 +18,7 @@ class LocationRepository: LocationRepositoryProtocol {
             "longitude": location.longitude,
             "reptileId": location.reptileId,
             "userId": location.userId,
+            "username": location.username,
             "timestamp": Timestamp(date: location.timeStamp)
         ]
         
@@ -69,7 +70,8 @@ class LocationRepository: LocationRepositoryProtocol {
                           let longitude = data["longitude"] as? Double,
                           let reptileId = data["reptileId"] as? String,
                           let userId = data["userId"] as? String,
-                          let timestamp = data["timestamp"] as? Timestamp else { 
+                          let username = data["username"] as? String,
+                          let timestamp = data["timestamp"] as? Timestamp else {
                         return nil
                     }
                     return LocationModel(
@@ -78,6 +80,7 @@ class LocationRepository: LocationRepositoryProtocol {
                         longitude: longitude,
                         reptileId: reptileId,
                         userId: userId,
+                        username: username,
                         timeStamp: timestamp.dateValue()
                     )
                 }
@@ -105,6 +108,7 @@ class LocationRepository: LocationRepositoryProtocol {
                           let longitude = data["longitude"] as? Double,
                           let reptileId = data["reptileId"] as? String,
                           let userId = data["userId"] as? String,
+                          let username = data["username"] as? String,
                           let timestamp = data["timestamp"] as? Timestamp else {
                         return nil
                     }
@@ -115,6 +119,7 @@ class LocationRepository: LocationRepositoryProtocol {
                         longitude: longitude,
                         reptileId: reptileId,
                         userId: userId,
+                        username: username,
                         timeStamp: timestamp.dateValue()
                     )
                 }

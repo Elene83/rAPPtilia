@@ -7,6 +7,7 @@ struct LocationModel: Identifiable, Codable, Hashable {
     let longitude: Double
     let reptileId: String
     let userId: String
+    let username: String
     let timeStamp: Date
     
     var coordinate: CLLocationCoordinate2D {
@@ -19,6 +20,7 @@ struct LocationModel: Identifiable, Codable, Hashable {
         case longitude
         case reptileId
         case userId
+        case username
         case timeStamp
     }
 }

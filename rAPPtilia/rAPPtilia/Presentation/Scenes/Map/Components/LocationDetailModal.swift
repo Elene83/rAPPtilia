@@ -91,7 +91,7 @@ struct LocationDetailModal: View {
                                     Text("Observed by")
                                         .font(.custom("Firago-Regular", size: 12))
                                         .foregroundColor(Color("AppLightBrown"))
-                                    Text(location.userId)
+                                    Text(location.username)
                                         .font(.custom("Firago-Regular", size: 12))
                                         .foregroundColor(Color("AppBrown"))
                                 }
