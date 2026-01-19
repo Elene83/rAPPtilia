@@ -50,5 +50,3 @@ struct HomeFilterCell: View {
         }
     }
 }
-
-//TODO: stylize it

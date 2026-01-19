@@ -19,7 +19,7 @@ struct LocationDetailModal: View {
                 VStack(spacing: 10) {
                     if let reptile = reptile {
                         HStack(alignment: .top, spacing: 20) {
-                            AsyncImage(url: URL(string: reptile.thumbnailUrl)) { image in
+                            CachedAsyncImage(url: URL(string: reptile.thumbnailUrl)) { image in
                                 image
                                     .resizable()
                                     .scaledToFit()
@@ -27,9 +27,9 @@ struct LocationDetailModal: View {
                                 Color("AppLightBrown")
                             }
                             .frame(width: 80, height: 80)
-                            .clipShape(RoundedRectangle(cornerRadius: 12))
+                            .clipShape(RoundedRectangle(cornerRadius: 8))
                             
-                            VStack(alignment: .leading, spacing: 8) {
+                            VStack(alignment: .leading, spacing: 5) {
                                 Text(reptile.commonName)
                                     .font(.custom("Firago-SemiBold", size: 16))
                                     .foregroundColor(Color("AppOrangeFont"))
@@ -114,6 +114,9 @@ struct LocationDetailModal: View {
             .frame(width: 360, height: 200)
             .background(Color("AppBG"))
             .clipShape(RoundedRectangle(cornerRadius: 8))
+            .transition(.scale.combined(with: .opacity))
         }
+        .transition(.opacity)
+        .animation(.easeInOut(duration: 0.2), value: reptile != nil)
     }
 }
