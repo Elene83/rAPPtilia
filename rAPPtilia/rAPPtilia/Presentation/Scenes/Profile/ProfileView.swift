@@ -126,7 +126,7 @@ struct ProfileView: View {
                         Text("Your Reptiles")
                             .font(.custom("Firago-Medium", size: 16))
                             .foregroundStyle(Color("AppDarkGreen"))
-                            .padding(.top, 30)
+                            .padding(.top, 20)
 
                         if vm.isLoadingReptiles {
                             ProgressView()
@@ -145,7 +145,7 @@ struct ProfileView: View {
                         Text("Your Locations")
                             .font(.custom("Firago-Medium", size: 16))
                             .foregroundStyle(Color("AppDarkGreen"))
-                            .padding(.top, 30)
+                            .padding(.top, 20)
                         
                         if vm.isLoadingLocations {
                             ProgressView()

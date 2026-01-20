@@ -115,9 +115,9 @@ class MainCoordinator: NSObject, UINavigationControllerDelegate {
     }
     
     func navigationController(_ navigationController: UINavigationController,
-                             willShow viewController: UIViewController,
-                             animated: Bool) {
-        let isMapView = viewController == navigationController.viewControllers.first
+                               willShow viewController: UIViewController,
+                               animated: Bool) {
+        let isMapView = viewController is UIHostingController<MapView>
         navigationController.setNavigationBarHidden(isMapView, animated: animated)
     }
     
