@@ -5,7 +5,7 @@ protocol MainCoordinatorDelegate: AnyObject {
     func mainCoordinatorDidLogout(_ coordinator: MainCoordinator)
 }
 
-class MainCoordinator {
+class MainCoordinator: NSObject, UINavigationControllerDelegate {
     private let window: UIWindow
     private var tabBarController: UITabBarController?
     private let currentUser: User?
@@ -52,9 +52,9 @@ class MainCoordinator {
         greenNavAppearance.backgroundColor = UIColor(named: "AppBG")
         greenNavAppearance.shadowColor = nil
         greenNavAppearance.shadowImage = UIImage()
-            greenNavAppearance.titleTextAttributes = [
-                .foregroundColor: UIColor(named: "AppDarkGreen") ?? .green,
-                .font: UIFont(name: "Firago-Medium", size: 20) ?? UIFont.systemFont(ofSize: 20, weight: .medium)
+        greenNavAppearance.titleTextAttributes = [
+            .foregroundColor: UIColor(named: "AppDarkGreen") ?? .green,
+            .font: UIFont(name: "Firago-Medium", size: 20) ?? UIFont.systemFont(ofSize: 20, weight: .medium)
         ]
 
         let mapViewModel = DIContainer.shared.makeMapViewModel(user: currentUser, coordinator: self)
@@ -65,7 +65,8 @@ class MainCoordinator {
         let mapNav = UINavigationController(rootViewController: mapVC)
         mapNav.navigationBar.standardAppearance = navAppearance
         mapNav.navigationBar.scrollEdgeAppearance = navAppearance
-        mapNav.navigationBar.compactAppearance = navAppearance 
+        mapNav.navigationBar.compactAppearance = navAppearance
+        mapNav.delegate = self
         
         let chatView = ChatView(coordinator: self)
         let chatVC = UIHostingController(rootView: chatView)
@@ -82,12 +83,12 @@ class MainCoordinator {
         let homeNav = UINavigationController(rootViewController: homeVC)
         homeNav.navigationBar.standardAppearance = navAppearance
         homeNav.navigationBar.scrollEdgeAppearance = navAppearance
-        
+        homeNav.delegate = self
         
         let profileViewModel = DIContainer.shared.makeProfileViewModel(
-                   user: currentUser,
-                   coordinator: self
-               )
+            user: currentUser,
+            coordinator: self
+        )
         let profileView = ProfileView(vm: profileViewModel)
         let profileVC = UIHostingController(rootView: profileView)
         profileVC.tabBarItem = UITabBarItem(title: "", image: UIImage(named: "profileIcon"), tag: 3)
@@ -113,18 +114,22 @@ class MainCoordinator {
         window.makeKeyAndVisible()
     }
     
+    func navigationController(_ navigationController: UINavigationController,
+                             willShow viewController: UIViewController,
+                             animated: Bool) {
+        let isMapView = viewController == navigationController.viewControllers.first
+        navigationController.setNavigationBarHidden(isMapView, animated: animated)
+    }
+    
     func showDetails(for reptile: Reptile, from navigationController: UINavigationController) {
         let detailsView = DetailsView(reptile: reptile)
         let detailsVC = UIHostingController(rootView: detailsView)
         detailsVC.navigationItem.title = reptile.commonName
-        
-        navigationController.setNavigationBarHidden(false, animated: true)
         navigationController.pushViewController(detailsVC, animated: true)
     }
     
     func popDetails(from navigationController: UINavigationController) {
         navigationController.popViewController(animated: true)
-        navigationController.setNavigationBarHidden(true, animated: true)
     }
     
     func logout() {
