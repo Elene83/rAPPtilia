@@ -57,7 +57,7 @@ class MainCoordinator {
                 .font: UIFont(name: "Firago-Medium", size: 20) ?? UIFont.systemFont(ofSize: 20, weight: .medium)
         ]
 
-        let mapViewModel = DIContainer.shared.makeMapViewModel(user: currentUser)
+        let mapViewModel = DIContainer.shared.makeMapViewModel(user: currentUser, coordinator: self)
         let mapView = MapView(viewModel: mapViewModel)
         let mapVC = UIHostingController(rootView: mapView)
         mapVC.tabBarItem = UITabBarItem(title: "", image: UIImage(named: "mapIcon"), tag: 0)
@@ -117,11 +117,14 @@ class MainCoordinator {
         let detailsView = DetailsView(reptile: reptile)
         let detailsVC = UIHostingController(rootView: detailsView)
         detailsVC.navigationItem.title = reptile.commonName
+        
+        navigationController.setNavigationBarHidden(false, animated: true)
         navigationController.pushViewController(detailsVC, animated: true)
     }
     
     func popDetails(from navigationController: UINavigationController) {
         navigationController.popViewController(animated: true)
+        navigationController.setNavigationBarHidden(true, animated: true)
     }
     
     func logout() {

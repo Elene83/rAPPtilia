@@ -6,6 +6,7 @@ struct LocationDetailModal: View {
     let canDelete: Bool
     let onDelete: () -> Void
     let onDismiss: () -> Void
+    let onDetailsTap: () -> Void
     
     var body: some View {
         ZStack {
@@ -100,7 +101,7 @@ struct LocationDetailModal: View {
                             Spacer()
                             
                             Button {
-                                //detalebze gadasvla
+                                onDetailsTap()
                             } label: {
                                 Text("Read More")
                                     .font(.custom("Firago-Medium", size: 14))

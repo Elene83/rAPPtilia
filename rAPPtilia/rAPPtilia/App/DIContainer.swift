@@ -59,17 +59,20 @@ class DIContainer {
         )
     }
     
-    func makeMapViewModel(user: User?) -> MapViewModel {
+    func makeMapViewModel(user: User?, coordinator: MainCoordinator) -> MapViewModel {
         let getAllLocationsUseCase = GetAllLocationsUseCase(repository: locationRepository)
         let addLocationUseCase = AddLocationUseCase(repository: locationRepository)
         let removeLocationUseCase = RemoveLocationUseCase(repository: locationRepository)
         let fetchAllReptilesUseCase = FetchAllReptilesUseCase(repository: reptileRepository)
         
-        return MapViewModel(
+        let viewModel = MapViewModel(
             profile: user,
             getAllLocationsUseCase: getAllLocationsUseCase,
             addLocationUseCase: addLocationUseCase,
             removeLocationUseCase: removeLocationUseCase,
-            fetchAllReptilesUseCase: fetchAllReptilesUseCase)
+            fetchAllReptilesUseCase: fetchAllReptilesUseCase
+        )
+           viewModel.coordinator = coordinator
+           return viewModel
     }
 }

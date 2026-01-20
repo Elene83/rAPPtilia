@@ -30,6 +30,8 @@ final class MapViewModel: NSObject, ObservableObject, CLLocationManagerDelegate 
     
     var profile: User?
     
+    var coordinator: MainCoordinator?
+    
     var isLoggedIn: Bool {
         profile != nil
     }
@@ -206,6 +208,16 @@ final class MapViewModel: NSObject, ObservableObject, CLLocationManagerDelegate 
         }
     }
     
+    func seeDetails(for reptile: Reptile?, from navigationController: UINavigationController?) {
+        guard let reptile = reptile else {
+            return
+        }
+        guard let navigationController = navigationController else {
+            return
+        }
+        coordinator?.showDetails(for: reptile, from: navigationController)
+    }
+    
     func applyFilter() {
         var filtered = locations
         
@@ -365,5 +377,17 @@ final class MapViewModel: NSObject, ObservableObject, CLLocationManagerDelegate 
     
     func getObserver(for location: LocationModel) -> String {
         return location.userId
+    }
+}
+
+extension View {
+    func getNavigationController() -> UINavigationController? {
+        guard let scene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
+              let rootVC = scene.windows.first?.rootViewController,
+              let tabBarController = rootVC as? UITabBarController,
+              let navController = tabBarController.selectedViewController as? UINavigationController else {
+            return nil
+        }
+        return navController
     }
 }

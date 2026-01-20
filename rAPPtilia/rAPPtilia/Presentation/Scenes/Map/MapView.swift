@@ -205,6 +205,11 @@ struct MapView: View {
                     },
                     onDismiss: {
                         selectedLocation = nil
+                    },
+                    onDetailsTap: {
+                        viewModel.seeDetails(
+                            for: viewModel.getReptile(for: location),
+                            from: getNavigationController())
                     }
                 )
                 .zIndex(1001)
