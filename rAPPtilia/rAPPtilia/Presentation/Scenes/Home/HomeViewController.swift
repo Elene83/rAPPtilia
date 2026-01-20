@@ -2,6 +2,7 @@ import UIKit
 import SwiftUI
 
 class HomeViewController: UIViewController {
+    //MARK: Properties
     private let vm = HomeViewModel()
     weak var coordinator: MainCoordinator?
     
@@ -9,6 +10,7 @@ class HomeViewController: UIViewController {
     private var currentHostingController: UIHostingController<HomeView>?
     private var cardsViewController: UIViewController?
 
+    //MARK: Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = UIColor(named: "AppBG")
@@ -24,6 +26,7 @@ class HomeViewController: UIViewController {
         updateViewForToggleState()
     }
     
+    //MARK: Methods
     private func setupToggle() {
         view.addSubview(toggle)
         toggle.translatesAutoresizingMaskIntoConstraints = false

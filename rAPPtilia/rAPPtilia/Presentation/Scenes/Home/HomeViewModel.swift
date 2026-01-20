@@ -1,6 +1,7 @@
 import SwiftUI
 
 class HomeViewModel: ObservableObject {
+    //MARK: Properties
     private let useCase: FetchAllReptilesUseCaseProtocol
     
     @Published var reptiles: [Reptile] = []
@@ -12,10 +13,12 @@ class HomeViewModel: ObservableObject {
     var onDataUpdated: (() -> Void)?
     var onError: ((String) -> Void)?
 
+    //MARK: Inits
     init(useCase: FetchAllReptilesUseCaseProtocol = FetchAllReptilesUseCase(repository: ReptileRepository())) {
           self.useCase = useCase
     }
     
+    //MARK: Methods
     func loadReptiles() {
         Task {
             do {

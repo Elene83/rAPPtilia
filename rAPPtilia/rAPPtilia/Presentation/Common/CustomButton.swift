@@ -1,9 +1,11 @@
 import UIKit
 
 class CustomButton: UIButton {
+    //MARK: Properties
     private let hasOutline: Bool
     private let outlineColor: UIColor?
     
+    //MARK: Inits
     init(
         title: String,
         backgroundColor: UIColor?,

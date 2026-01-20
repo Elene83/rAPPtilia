@@ -1,6 +1,7 @@
 import UIKit
 
 class PasswordTextFieldView: UIView {
+    //MARK: Properties
     var placeholderString: String
     private var isPasswordVisible = false
     
@@ -45,6 +46,7 @@ class PasswordTextFieldView: UIView {
         return button
     }()
     
+    //MARK: Inits
     init(placeholderString: String) {
         self.placeholderString = placeholderString
         super.init(frame: .zero)
@@ -62,6 +64,7 @@ class PasswordTextFieldView: UIView {
         fatalError()
     }
     
+    //MARK: Methods
     private func configurePlaceholder() {
         let attributes: [NSAttributedString.Key: Any] = [
             .font: UIFont(name: "FiraGO-Regular", size: 14)!,

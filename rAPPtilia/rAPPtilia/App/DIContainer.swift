@@ -1,18 +1,21 @@
 import UIKit
 
 class DIContainer {
+    //MARK: Properties
     static let shared = DIContainer()
     
     private let authRepository: AuthRepository
     private let reptileRepository: ReptileRepositoryProtocol
     private let locationRepository: LocationRepository
 
+    //MARK: Inits
     private init() {
         self.authRepository = FirebaseAuthRepository()
         self.reptileRepository = ReptileRepository()
         self.locationRepository = LocationRepository()
     }
     
+    //MARK: Methods
     func makeChatViewModel() -> ChatViewModel {
         let repository = FirebaseChatRepository()
         let sendMessageUseCase = SendMessageUseCase(repository: repository)

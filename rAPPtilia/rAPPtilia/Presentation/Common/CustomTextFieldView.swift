@@ -1,6 +1,7 @@
 import UIKit
 
 class CustomTextFieldView: UIView {
+    //MARK: Properties
     var placeholderString: String
     
     var label: UILabel = {
@@ -29,6 +30,7 @@ class CustomTextFieldView: UIView {
         return textField
     }()
     
+    //MARK: Inits
     init(placeholderString: String) {
         self.placeholderString = placeholderString
         super.init(frame: .zero)
@@ -46,6 +48,7 @@ class CustomTextFieldView: UIView {
         fatalError()
     }
     
+    //MARK: Methods
     private func configurePlaceholder() {
         let attributes: [NSAttributedString.Key: Any] = [
             .font: UIFont(name: "FiraGO-Regular", size: 14)!,

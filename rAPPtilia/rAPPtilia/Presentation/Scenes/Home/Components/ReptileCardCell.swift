@@ -1,8 +1,10 @@
 import UIKit
 
 class ReptileCardCell: UICollectionViewCell {
+    //MARK: Properties
     private var cardView: ReptileSpeciesCardView?
     
+    //MARK: Inits
     override init(frame: CGRect) {
         super.init(frame: frame)
     }
@@ -11,6 +13,7 @@ class ReptileCardCell: UICollectionViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
+    //MARK: Methods
     func configure(with reptile: Reptile) {
         cardView?.removeFromSuperview()
         
