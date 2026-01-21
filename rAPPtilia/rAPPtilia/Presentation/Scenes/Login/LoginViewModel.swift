@@ -16,23 +16,35 @@ class LoginViewModel {
     
     //MARK: Methods
     func login(email: String, password: String) {
+        LoaderManager.shared.show()
+        
         loginUseCase.execute(email: email, password: password) { [weak self] result in
-            switch result {
-            case .success:
-                self?.onLoginSuccess?()
-            case .failure(let error):
-                self?.onLoginError?(error.localizedDescription)
+            DispatchQueue.main.async {
+                LoaderManager.shared.hide()
+                
+                switch result {
+                case .success:
+                    self?.onLoginSuccess?()
+                case .failure(let error):
+                    self?.onLoginError?(error.localizedDescription)
+                }
             }
         }
     }
     
     func signInWithGoogle(presentingViewController: UIViewController) {
+        LoaderManager.shared.show()
+        
         authRepository.signInWithGoogle(presentingViewController: presentingViewController) { [weak self] result in
-            switch result {
-            case .success:
-                self?.onLoginSuccess?()
-            case .failure(let error):
-                self?.onLoginError?(error.localizedDescription)
+            DispatchQueue.main.async {
+                LoaderManager.shared.hide()
+                
+                switch result {
+                case .success:
+                    self?.onLoginSuccess?()
+                case .failure(let error):
+                    self?.onLoginError?(error.localizedDescription)
+                }
             }
         }
     }
