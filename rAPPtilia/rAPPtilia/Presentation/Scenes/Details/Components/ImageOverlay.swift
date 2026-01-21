@@ -28,8 +28,14 @@ struct ImageOverlay: View {
                     .resizable()
                     .aspectRatio(contentMode: .fit)
                     .cornerRadius(8)
+                    .onAppear {
+                        LoaderManager.shared.hide()
+                    }
             } placeholder: {
-                ProgressView()
+                Color.clear
+                    .onAppear {
+                        LoaderManager.shared.show()
+                    }
             }
             .frame(maxWidth: .infinity, maxHeight: .infinity)
             .padding(20)
@@ -42,6 +48,9 @@ struct ImageOverlay: View {
                     showContent = true
                 }
             }
+        }
+        .onDisappear {
+            LoaderManager.shared.hide()
         }
     }
 }
