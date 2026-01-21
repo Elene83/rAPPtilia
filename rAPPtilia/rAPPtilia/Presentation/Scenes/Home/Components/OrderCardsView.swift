@@ -4,6 +4,7 @@ class OrderCardsView: UIView {
     //MARK: Properties
     private let mainStackView = UIStackView()
     private let horizontalStackView = UIStackView()
+    private let instructionLabel = UILabel()
     private var onOrderTapped: ((String) -> Void)?
     
     private let orders: [(String, String)] = [
@@ -12,11 +13,19 @@ class OrderCardsView: UIView {
         ("SAURIA", ReptileData.sauriaInfo)
     ]
     
+    var hasUserTapped: Bool = false {
+        didSet {
+            updateInstructionVisibility()
+        }
+    }
+    
     //MARK: Inits
-    init(onOrderTapped: @escaping (String) -> Void) {
+    init(hasUserTapped: Bool = false, onOrderTapped: @escaping (String) -> Void) {
+        self.hasUserTapped = hasUserTapped
         self.onOrderTapped = onOrderTapped
         super.init(frame: .zero)
         setupView()
+        startPulsingAnimation()
     }
     
     required init?(coder: NSCoder) {
@@ -45,12 +54,21 @@ class OrderCardsView: UIView {
             horizontalStackView.addArrangedSubview(card)
         }
         
+        instructionLabel.text = "Tap on a card to see more!"
+        instructionLabel.font = UIFont(name: "Firago-Regular", size: 13)
+        instructionLabel.textColor = UIColor(named: "AppDarkRed") ?? .red
+        instructionLabel.textAlignment = .center
+        instructionLabel.numberOfLines = 0
+        instructionLabel.alpha = 1.0
+        mainStackView.addArrangedSubview(instructionLabel)
+        
         let spacer = UIView()
         spacer.translatesAutoresizingMaskIntoConstraints = false
         spacer.setContentHuggingPriority(.defaultLow, for: .vertical)
         mainStackView.addArrangedSubview(spacer)
         
         mainStackView.setCustomSpacing(17, after: firstCard)
+        mainStackView.setCustomSpacing(30, after: horizontalStackView)
         
         NSLayoutConstraint.activate([
             mainStackView.topAnchor.constraint(equalTo: topAnchor, constant: 60),
@@ -58,6 +76,8 @@ class OrderCardsView: UIView {
             mainStackView.trailingAnchor.constraint(equalTo: trailingAnchor),
             mainStackView.bottomAnchor.constraint(equalTo: bottomAnchor)
         ])
+        
+        updateInstructionVisibility()
     }
     
     private func createCard(for order: (String, String)) -> CardView {
@@ -83,6 +103,39 @@ class OrderCardsView: UIView {
     @objc private func cardTapped(_ sender: UITapGestureRecognizer) {
         guard let cardView = sender.view, cardView.tag < orders.count else { return }
         let orderName = orders[cardView.tag].0
+        hasUserTapped = true
         onOrderTapped?(orderName)
+    }
+    
+    private func updateInstructionVisibility() {
+        instructionLabel.isHidden = hasUserTapped
+        
+        if hasUserTapped {
+            instructionLabel.layer.removeAllAnimations()
+        } else {
+            startPulsingAnimation()
+        }
+    }
+    
+    private func startPulsingAnimation() {
+        guard !hasUserTapped && instructionLabel.window != nil else { return }
+        
+        UIView.animate(
+            withDuration: 1.5,
+            delay: 0,
+            options: [.autoreverse, .repeat, .allowUserInteraction, .curveEaseInOut],
+            animations: {
+                self.instructionLabel.alpha = 0.3
+            }
+        )
+    }
+    
+    //MARK: Lifecycle
+    override func didMoveToWindow() {
+        super.didMoveToWindow()
+        
+        if window != nil && !hasUserTapped {
+            startPulsingAnimation()
+        }
     }
 }
