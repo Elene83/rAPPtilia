@@ -17,7 +17,6 @@ class LoginViewModel {
     //MARK: Methods
     func login(email: String, password: String) {
         LoaderManager.shared.show()
-        
         loginUseCase.execute(email: email, password: password) { [weak self] result in
             DispatchQueue.main.async {
                 LoaderManager.shared.hide()
@@ -33,12 +32,8 @@ class LoginViewModel {
     }
     
     func signInWithGoogle(presentingViewController: UIViewController) {
-        LoaderManager.shared.show()
-        
         authRepository.signInWithGoogle(presentingViewController: presentingViewController) { [weak self] result in
             DispatchQueue.main.async {
-                LoaderManager.shared.hide()
-                
                 switch result {
                 case .success:
                     self?.onLoginSuccess?()
