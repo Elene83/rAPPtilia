@@ -4,6 +4,8 @@ import GoogleSignIn
 import FirebaseCore
 
 class FirebaseAuthRepository: AuthRepository {
+    private let db = Firestore.firestore()
+    
     func changePassword(currentPassword: String, newPassword: String, completion: @escaping (Result<Void, Error>) -> Void) {
         guard let user = Auth.auth().currentUser,
               let email = user.email else {
@@ -29,37 +31,98 @@ class FirebaseAuthRepository: AuthRepository {
         }
     }
 
-    func deleteAccount(password: String, completion: @escaping (Result<Void, Error>) -> Void) {
-        guard let user = Auth.auth().currentUser,
-              let email = user.email else {
+    func deleteAccount(password: String?, presentingViewController: UIViewController?, completion: @escaping (Result<Void, Error>) -> Void) {
+        guard let user = Auth.auth().currentUser else {
             completion(.failure(NSError(domain: "AuthError", code: -1, userInfo: [NSLocalizedDescriptionKey: "No user logged in"])))
             return
         }
         
-        let credentials = EmailAuthProvider.credential(withEmail: email, password: password)
+        let isGoogleProvider = user.providerData.contains { $0.providerID == "google.com" }
         
-        user.reauthenticate(with: credentials) { [weak self] _, error in
-            if let error = error {
-                completion(.failure(error))
+        if isGoogleProvider {
+            guard let viewController = presentingViewController else {
+                completion(.failure(NSError(domain: "AuthError", code: -1, userInfo: [NSLocalizedDescriptionKey: "View controller required for Google reauthentication"])))
                 return
             }
             
-            self?.db.collection("users").document(user.uid).delete { error in
+            reauthenticateWithGoogle(presentingViewController: viewController) { [weak self] result in
+                switch result {
+                case .success:
+                    self?.performAccountDeletion(userId: user.uid, completion: completion)
+                case .failure(let error):
+                    completion(.failure(error))
+                }
+            }
+        } else {
+            guard let email = user.email, let password = password else {
+                completion(.failure(NSError(domain: "AuthError", code: -1, userInfo: [NSLocalizedDescriptionKey: "Email and password required"])))
+                return
+            }
+            
+            let credentials = EmailAuthProvider.credential(withEmail: email, password: password)
+            
+            user.reauthenticate(with: credentials) { [weak self] _, error in
                 if let error = error {
                     completion(.failure(error))
                     return
                 }
                 
-                user.delete { error in
-                    if let error = error {
-                        completion(.failure(error))
-                    } else {
-                        completion(.success(()))
-                    }
+                self?.performAccountDeletion(userId: user.uid, completion: completion)
+            }
+        }
+    }
+    
+    private func reauthenticateWithGoogle(presentingViewController: UIViewController, completion: @escaping (Result<Void, Error>) -> Void) {
+        guard let clientID = FirebaseApp.app()?.options.clientID else {
+            completion(.failure(NSError(domain: "AuthError", code: -3, userInfo: [NSLocalizedDescriptionKey: "Missing client id"])))
+            return
+        }
+        
+        let config = GIDConfiguration(clientID: clientID)
+        GIDSignIn.sharedInstance.configuration = config
+        
+        GIDSignIn.sharedInstance.signIn(withPresenting: presentingViewController) { result, error in
+            if let error = error {
+                completion(.failure(error))
+                return
+            }
+            
+            guard let user = result?.user,
+                  let idToken = user.idToken?.tokenString else {
+                completion(.failure(NSError(domain: "AuthError", code: -4, userInfo: [NSLocalizedDescriptionKey: "Failed to get google credentials"])))
+                return
+            }
+            
+            let credential = GoogleAuthProvider.credential(withIDToken: idToken, accessToken: user.accessToken.tokenString)
+            
+            Auth.auth().currentUser?.reauthenticate(with: credential) { _, error in
+                if let error = error {
+                    completion(.failure(error))
+                } else {
+                    completion(.success(()))
                 }
             }
         }
     }
+    
+    private func performAccountDeletion(userId: String, completion: @escaping (Result<Void, Error>) -> Void) {
+        db.collection("users").document(userId).delete { error in
+            if let error = error {
+                completion(.failure(error))
+                return
+            }
+            
+            Auth.auth().currentUser?.delete { error in
+                if let error = error {
+                    completion(.failure(error))
+                } else {
+                    GIDSignIn.sharedInstance.signOut()
+                    completion(.success(()))
+                }
+            }
+        }
+    }
+    
     func logout(completion: @escaping (Result<Void, any Error>) -> Void) {
         do {
             try Auth.auth().signOut()
@@ -68,8 +131,6 @@ class FirebaseAuthRepository: AuthRepository {
             completion(.failure(error))
         }
     }
-    
-    private let db = Firestore.firestore()
     
     func login(email: String, password: String, completion: @escaping (Result<User, Error>) -> Void) {
         Auth.auth().signIn(withEmail: email, password: password) { [weak self] authResult, error in

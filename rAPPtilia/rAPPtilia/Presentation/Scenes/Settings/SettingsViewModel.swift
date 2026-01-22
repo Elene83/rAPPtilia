@@ -1,4 +1,5 @@
 import SwiftUI
+import FirebaseAuth
 
 final class SettingsViewModel: ObservableObject {
     @Published var isUpdating = false
@@ -16,6 +17,10 @@ final class SettingsViewModel: ObservableObject {
     
     var isLoggedIn: Bool {
         profile != nil
+    }
+    
+    var isGoogleUser: Bool {
+        Auth.auth().currentUser?.providerData.contains { $0.providerID == "google.com" } ?? false
     }
     
     private let changePasswordUseCase: ChangePasswordUseCaseProtocol
@@ -91,8 +96,16 @@ final class SettingsViewModel: ObservableObject {
     func deleteAccount() {
         isUpdating = true
         errorMessage = nil
+        
+        let viewController = UIApplication.shared.connectedScenes
+            .compactMap { $0 as? UIWindowScene }
+            .flatMap { $0.windows }
+            .first { $0.isKeyWindow }?
+            .rootViewController
+        
+        let password = isGoogleUser ? nil : deleteAccountPassword
 
-        deleteAccountUseCase.execute(password: deleteAccountPassword) { [weak self] result in
+        deleteAccountUseCase.execute(password: password, presentingViewController: viewController) { [weak self] result in
             DispatchQueue.main.async {
                 self?.isUpdating = false
 

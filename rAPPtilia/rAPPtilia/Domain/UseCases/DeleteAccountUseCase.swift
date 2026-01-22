@@ -1,5 +1,7 @@
+import UIKit
+
 protocol DeleteAccountUseCaseProtocol {
-    func execute(password: String, completion: @escaping (Result<Void, Error>) -> Void)
+    func execute(password: String?, presentingViewController: UIViewController?, completion: @escaping (Result<Void, Error>) -> Void)
 }
 
 class DeleteAccountUseCase: DeleteAccountUseCaseProtocol {
@@ -9,7 +11,7 @@ class DeleteAccountUseCase: DeleteAccountUseCaseProtocol {
         self.authRepository = authRepository
     }
     
-    func execute(password: String, completion: @escaping (Result<Void, Error>) -> Void) {
-        authRepository.deleteAccount(password: password, completion: completion)
+    func execute(password: String?, presentingViewController: UIViewController?, completion: @escaping (Result<Void, Error>) -> Void) {
+        authRepository.deleteAccount(password: password, presentingViewController: presentingViewController, completion: completion)
     }
 }

@@ -1,6 +1,7 @@
 import SwiftUI
 
 struct SettingsView: View {
+    //MARK: Properties
     @StateObject var vm: SettingsViewModel
     @FocusState private var focusedField: Field?
     @State private var showDeleteWarning = false
@@ -79,7 +80,9 @@ struct SettingsView: View {
             Text("This action cannot be undone! All your data will be PERMANENTLY deleted 🐉")
         }
         .alert("", isPresented: $vm.showDeleteConfirmation) {
-            SecureField("Password", text: $vm.deleteAccountPassword)
+            if !vm.isGoogleUser {
+                SecureField("Password", text: $vm.deleteAccountPassword)
+            }
             Button("Changed my mind", role: .cancel) {
                 vm.deleteAccountPassword = ""
             }
@@ -87,12 +90,24 @@ struct SettingsView: View {
                 vm.deleteAccount()
             }
         } message: {
-            Text("Pleassse enter your password to confirm account deletion 🐍")
+            if vm.isGoogleUser {
+                Text("One lassst time, this action cannot be undone 🐍")
+            } else {
+                Text("Pleassse enter your password to confirm account deletion 🐍")
+            }
         }
         .onTapGesture {
             focusedField = nil
             vm.clearMessages()
         }
+    }
+    
+    private func getRootVC() -> UIViewController? {
+        UIApplication.shared.connectedScenes
+            .compactMap { $0 as? UIWindowScene }
+            .flatMap { $0.windows }
+            .first { $0.isKeyWindow }?
+            .rootViewController
     }
     
     private func handleThemeChange(_ option: ThemeManager.ThemeOption) {
