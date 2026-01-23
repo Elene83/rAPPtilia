@@ -3,10 +3,27 @@ import SwiftUI
 struct DetailsView: View {
     @StateObject var vm: DetailsViewModel
     @State private var isFavorite: Bool = false
-    @State private var selectedImage: String? = nil 
+    @State private var selectedImage: String? = nil
     
     init(reptile: Reptile) {
         _vm = StateObject(wrappedValue: DetailsViewModel(reptile: reptile))
+    }
+    
+    @ViewBuilder
+    private var placeholderImg: some View {
+        if vm.reptile.order == "Serpentes" {
+            Image("snekplaceholder")
+                .resizable()
+                .aspectRatio(contentMode: .fit)
+        } else if vm.reptile.order == "Testudines" {
+            Image("turtleplaceholder")
+                .resizable()
+                .aspectRatio(contentMode: .fit)
+        } else {
+            Image("lizplaceholder")
+                .resizable()
+                .aspectRatio(contentMode: .fit)
+        }
     }
     
     var body: some View {
@@ -22,7 +39,8 @@ struct DetailsView: View {
                             .resizable()
                             .aspectRatio(contentMode: .fill)
                     } placeholder: {
-                        Color("AppLightRed")
+                        placeholderImg
+                            .frame(width: 200)
                     }
                     .frame(width: 300)
                     .cornerRadius(8)
