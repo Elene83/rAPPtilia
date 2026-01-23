@@ -17,7 +17,8 @@ struct ReptileCollection: View {
                     ReptileCell(
                         image: reptile.thumbnailUrl,
                         commonName: reptile.commonName,
-                        name: reptile.name
+                        name: reptile.name,
+                        reptileOrder: reptile.order
                     )
                     .onTapGesture {
                         navigateToDetails(reptile: reptile)
