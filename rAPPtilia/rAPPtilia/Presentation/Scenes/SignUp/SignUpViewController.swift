@@ -153,9 +153,7 @@ class SignUpViewController: UIViewController {
         }
         
         viewModel.onSignUpError = { [weak self] errorMessage in
-            guard self != nil else { return }
-            //TODO: handle after ui
-            print("Sign up error: \(errorMessage)")
+            self?.showError(errorMessage)
         }
     }
     
@@ -164,28 +162,69 @@ class SignUpViewController: UIViewController {
         signUpButton.addTarget(self, action: #selector(signUpTapped), for: .touchUpInside)
     }
     
+    private func clearAllErrors() {
+        fullNameField.showError(nil)
+        usernameField.showError(nil)
+        emailField.showError(nil)
+        passwordField.showError(nil)
+        confirmPasswordField.showError(nil)
+    }
+    
+    private func showError(_ message: String) {
+        if message.contains("full name") || message.contains("Full name") {
+            fullNameField.showError(message)
+        } else if message.contains("username") || message.contains("Username") {
+            usernameField.showError(message)
+        } else if message.contains("email") || message.contains("Email") {
+            emailField.showError(message)
+        } else if message.contains("match") || message.contains("Confirm") {
+            confirmPasswordField.showError(message)
+        } else if message.contains("Password") || message.contains("password") ||
+                  message.contains("uppercase") || message.contains("number") ||
+                  message.contains("character") {
+            passwordField.showError(message)
+        } else {
+            passwordField.showError(message)
+        }
+    }
+    
     @objc private func backTapped() {
         navigationController?.popViewController(animated: true)
     }
     
     @objc private func signUpTapped() {
-        guard let fullName = fullNameField.textField.text, !fullName.isEmpty,
-              let username = usernameField.textField.text, !username.isEmpty,
-              let email = emailField.textField.text, !email.isEmpty,
-              let password = passwordField.textField.text, !password.isEmpty,
-              let confirmPassword = confirmPasswordField.textField.text, !confirmPassword.isEmpty else {
-            // TODO: show validation errors
+        clearAllErrors()
+        
+        guard let fullName = fullNameField.textField.text, !fullName.isEmpty else {
+            fullNameField.showError("Full name is required")
+            return
+        }
+        
+        guard let username = usernameField.textField.text, !username.isEmpty else {
+            usernameField.showError("Username is required")
+            return
+        }
+        
+        guard let email = emailField.textField.text, !email.isEmpty else {
+            emailField.showError("Email is required")
+            return
+        }
+        
+        guard let password = passwordField.textField.text, !password.isEmpty else {
+            passwordField.showError("Password is required")
+            return
+        }
+        
+        guard let confirmPassword = confirmPasswordField.textField.text, !confirmPassword.isEmpty else {
+            confirmPasswordField.showError("Please confirm your password")
             return
         }
         
         guard password == confirmPassword else {
-            // TODO: Show password mismatch error
-            print("Passwords don't match")
+            confirmPasswordField.showError("Passwords don't match")
             return
         }
         
         viewModel.signUp(email: email, password: password, fullName: fullName, username: username)
     }
 }
-
-//TODO: analogiurad on outside click let it retract keyboard

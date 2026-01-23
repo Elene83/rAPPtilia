@@ -171,10 +171,7 @@ class LoginViewController: UIViewController {
         }
         
         viewModel.onLoginError = { [weak self] errorMessage in
-            guard self != nil else { return }
-
-            //TODO: handle when ui is built
-            print("Login error: \(errorMessage)")
+            self?.showError(errorMessage)
         }
     }
     
@@ -183,8 +180,26 @@ class LoginViewController: UIViewController {
         skipButton.addTarget(self, action: #selector(skipTapped), for: .touchUpInside)
         googleButton.addTarget(self, action: #selector(googleSignInTapped), for: .touchUpInside)
     }
+    
+    private func clearAllErrors() {
+        emailField.showError(nil)
+        passwordField.showError(nil)
+    }
+    
+    private func showError(_ message: String) {
+        if message.contains("email") || message.contains("Email") {
+            emailField.showError(message)
+        } else if message.contains("password") || message.contains("Password") ||
+                  message.contains("account") {
+            passwordField.showError(message)
+        } else {
+            passwordField.showError(message)
+        }
+    }
 
     @objc private func loginTapped() {
+        clearAllErrors()
+        
         guard let email = emailField.textField.text,
               let password = passwordField.textField.text else {
             return
@@ -194,6 +209,7 @@ class LoginViewController: UIViewController {
     }
 
     @objc private func googleSignInTapped() {
+        clearAllErrors()
         viewModel.signInWithGoogle(presentingViewController: self)
     }
     

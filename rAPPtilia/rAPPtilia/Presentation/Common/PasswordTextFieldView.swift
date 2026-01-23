@@ -46,6 +46,16 @@ class PasswordTextFieldView: UIView {
         return button
     }()
     
+    private lazy var errorLabel: UILabel = {
+        let label = UILabel()
+        label.textColor = UIColor(named: "AppRed")
+        label.font = UIFont(name: "FiraGO-Regular", size: 12)
+        label.numberOfLines = 0
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.isHidden = true
+        return label
+    }()
+    
     //MARK: Inits
     init(placeholderString: String) {
         self.placeholderString = placeholderString
@@ -78,6 +88,7 @@ class PasswordTextFieldView: UIView {
         addSubview(textField)
         addSubview(lockIcon)
         addSubview(toggleButton)
+        addSubview(errorLabel)
             
         NSLayoutConstraint.activate([
             label.topAnchor.constraint(equalTo: topAnchor),
@@ -88,7 +99,6 @@ class PasswordTextFieldView: UIView {
             textField.leadingAnchor.constraint(equalTo: leadingAnchor),
             textField.trailingAnchor.constraint(equalTo: trailingAnchor),
             textField.heightAnchor.constraint(equalToConstant: 45),
-            textField.bottomAnchor.constraint(equalTo: bottomAnchor),
             
             lockIcon.leadingAnchor.constraint(equalTo: textField.leadingAnchor, constant: 11),
             lockIcon.centerYAnchor.constraint(equalTo: textField.centerYAnchor),
@@ -98,7 +108,12 @@ class PasswordTextFieldView: UIView {
             toggleButton.trailingAnchor.constraint(equalTo: textField.trailingAnchor, constant: -11),
             toggleButton.centerYAnchor.constraint(equalTo: textField.centerYAnchor),
             toggleButton.widthAnchor.constraint(equalToConstant: 25),
-            toggleButton.heightAnchor.constraint(equalToConstant: 25)
+            toggleButton.heightAnchor.constraint(equalToConstant: 25),
+            
+            errorLabel.topAnchor.constraint(equalTo: textField.bottomAnchor, constant: 4),
+            errorLabel.leadingAnchor.constraint(equalTo: leadingAnchor),
+            errorLabel.trailingAnchor.constraint(equalTo: trailingAnchor),
+            errorLabel.bottomAnchor.constraint(equalTo: bottomAnchor)
         ])
         
         textField.leftView = UIView(frame: CGRect(x: 0, y: 0, width: 35, height: 45))
@@ -108,6 +123,17 @@ class PasswordTextFieldView: UIView {
         
         registerForTraitChanges([UITraitUserInterfaceStyle.self]) { (self: Self, previousTraitCollection) in
             self.textField.layer.borderColor = UIColor(named: "AppDarkRed")?.cgColor
+        }
+    }
+    
+    func showError(_ message: String?) {
+        if let message = message {
+            errorLabel.text = message
+            errorLabel.isHidden = false
+        } else {
+            errorLabel.text = nil
+            errorLabel.isHidden = true
+            textField.layer.borderColor = UIColor(named: "AppDarkRed")?.cgColor
         }
     }
     
