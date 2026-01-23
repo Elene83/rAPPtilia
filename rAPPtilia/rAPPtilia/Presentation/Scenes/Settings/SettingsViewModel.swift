@@ -56,6 +56,22 @@ final class SettingsViewModel: ObservableObject {
         themeManager.setSystemTheme()
     }
     
+    func validatePassword(_ password: String) -> String? {
+        guard password.count >= 8 else {
+            return "Password must be at least 8 characters"
+        }
+        
+        guard password.rangeOfCharacter(from: .uppercaseLetters) != nil else {
+            return "Password must incude at least one uppercase character"
+        }
+        
+        guard password.rangeOfCharacter(from: .decimalDigits) != nil else {
+            return "Password must contain at least one number"
+        }
+        
+        return nil
+    }
+    
     func changePassword() {
         guard !currentPassword.isEmpty, !newPassword.isEmpty else {
             errorMessage = "Please fill in all fields"
@@ -67,8 +83,8 @@ final class SettingsViewModel: ObservableObject {
             return
         }
         
-        guard newPassword.count >= 6 else {
-            errorMessage = "Password must be at least 6 characters"
+        if let validationError = validatePassword(newPassword) {
+            errorMessage = validationError
             return
         }
         

@@ -20,11 +20,11 @@ struct LocationAnnotationView: View {
     var markerSize: CGFloat {
         switch markerIcon {
         case "snakepin":
-            return 28
+            return 32
         case "turtlepin":
-            return 33
+            return 37
         case "lizpin":
-            return 40
+            return 44
         default:
             return 30
         }
