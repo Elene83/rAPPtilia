@@ -125,7 +125,7 @@ class MainCoordinator: NSObject, UINavigationControllerDelegate {
         let detailsView = DetailsView(reptile: reptile)
         let detailsVC = UIHostingController(rootView: detailsView)
         detailsVC.navigationItem.title = reptile.commonName
-        navigationController.pushViewController(detailsVC, animated: true)
+        navigationController.pushViewController(detailsVC, animated: false)
     }
     
     func popDetails(from navigationController: UINavigationController) {

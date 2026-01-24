@@ -13,11 +13,6 @@ class SignUpUseCase {
             return
         }
         
-        guard password.count >= 6 else {
-            completion(.failure(NSError(domain: "ValidationError", code: -2, userInfo: [NSLocalizedDescriptionKey: "Password must be at least 6 characters"])))
-            return
-        }
-        
         authRepository.signUp(email: email, password: password, fullName: fullName, username: username, completion: completion)
     }
 }

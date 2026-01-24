@@ -57,8 +57,8 @@ final class SettingsViewModel: ObservableObject {
     }
     
     func validatePassword(_ password: String) -> String? {
-        guard password.count >= 8 else {
-            return "Password must be at least 8 characters"
+        guard password.count >= 6 else {
+            return "Password must be at least 6 characters"
         }
         
         guard password.rangeOfCharacter(from: .uppercaseLetters) != nil else {
