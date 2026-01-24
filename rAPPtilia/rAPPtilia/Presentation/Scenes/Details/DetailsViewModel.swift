@@ -18,7 +18,22 @@ final class DetailsViewModel: ObservableObject {
         self.getFavoriteUseCase = GetFavoritesUseCase(userRepositoryProtocol: userRepository)
         
         checkIfFavorite()
+        
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(handleFavoritesChange),
+            name: .favoritesDidChange,
+            object: nil
+            )
     }
+    
+    deinit {
+           NotificationCenter.default.removeObserver(self)
+    }
+    
+    @objc private func handleFavoritesChange() {
+          checkIfFavorite()
+      }
     
     var descriptionItems: [DescriptionItem] {
         [
