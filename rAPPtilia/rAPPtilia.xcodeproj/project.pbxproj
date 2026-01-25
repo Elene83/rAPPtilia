@@ -36,9 +36,8 @@
 			exceptions = (
 				FAE9761C2F0E8DEE00405FCB /* Exceptions for "rAPPtilia" folder in "rAPPtilia" target */,
 			);
-			name = rAPPtilia;
-			path = /Users/macbook/Desktop/FinalProject/rAPPtilia/rAPPtilia;
-			sourceTree = "<absolute>";
+			path = rAPPtilia;
+			sourceTree = "<group>";
 		};
 /* End PBXFileSystemSynchronizedRootGroup section */
 
