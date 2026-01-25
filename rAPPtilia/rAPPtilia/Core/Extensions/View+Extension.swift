@@ -7,3 +7,15 @@ extension View {
         }
     }
 }
+
+extension View {
+    func getNavigationController() -> UINavigationController? {
+        guard let scene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
+              let rootVC = scene.windows.first?.rootViewController,
+              let tabBarController = rootVC as? UITabBarController,
+              let navController = tabBarController.selectedViewController as? UINavigationController else {
+            return nil
+        }
+        return navController
+    }
+}

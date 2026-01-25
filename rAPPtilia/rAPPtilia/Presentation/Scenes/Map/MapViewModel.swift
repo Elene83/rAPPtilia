@@ -313,19 +313,12 @@ final class MapViewModel: NSObject, ObservableObject, CLLocationManagerDelegate 
         errorMessage = nil
         
         addLocationUseCase.execute(userId: userId, location: newLocation) { [weak self] result in
-            DispatchQueue.main.async {
-                self?.isLoading = false
-                
-                switch result {
-                case .success:
-                    self?.cancelAddingLocation()
-                    Task {
-                        await self?.loadLocations()
-                    }
-                NotificationCenter.default.post(name: .locationsDidChange, object: nil)
-                case .failure(let error):
-                    self?.errorMessage = "Failed to add location: \(error.localizedDescription)"
-                }
+            Task { @MainActor in
+                await self?.handleLocationOperationResult(
+                    result: result,
+                    shouldCancelAdding: true,
+                    errorPrefix: "Failed to add location"
+                )
             }
         }
     }
@@ -342,19 +335,33 @@ final class MapViewModel: NSObject, ObservableObject, CLLocationManagerDelegate 
         errorMessage = nil
         
         removeLocationUseCase.execute(userId: userId, locationId: location.id) { [weak self] result in
-            DispatchQueue.main.async {
-                self?.isLoading = false
-                
-                switch result {
-                case .success:
-                    Task {
-                        await self?.loadLocations()
-                    }
-                NotificationCenter.default.post(name: .locationsDidChange, object: nil)
-                case .failure(let error):
-                    self?.errorMessage = "Failed to remove location: \(error.localizedDescription)"
-                }
+            Task { @MainActor in
+                await self?.handleLocationOperationResult(
+                    result: result,
+                    shouldCancelAdding: false,
+                    errorPrefix: "Failed to remove location"
+                )
             }
+        }
+    }
+    
+    @MainActor
+    private func handleLocationOperationResult(
+        result: Result<Void, Error>,
+        shouldCancelAdding: Bool,
+        errorPrefix: String
+    ) async {
+        isLoading = false
+        
+        switch result {
+        case .success:
+            if shouldCancelAdding {
+                cancelAddingLocation()
+            }
+            await loadLocations()
+            NotificationCenter.default.post(name: .locationsDidChange, object: nil)
+        case .failure(let error):
+            errorMessage = "\(errorPrefix): \(error.localizedDescription)"
         }
     }
     
@@ -362,32 +369,7 @@ final class MapViewModel: NSObject, ObservableObject, CLLocationManagerDelegate 
         allReptiles.first { $0.id == location.reptileId }
     }
     
-    func getMarkerIcon(for order: String) -> String {
-        switch order.lowercased() {
-        case "testudines":
-            return "turtlepin"
-        case "serpentes":
-            return "snakepin"
-        case "sauria":
-            return "lizpin"
-        default:
-            return "turtlepin"
-        }
-    }
-    
     func getObserver(for location: LocationModel) -> String {
         return location.userId
-    }
-}
-
-extension View {
-    func getNavigationController() -> UINavigationController? {
-        guard let scene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
-              let rootVC = scene.windows.first?.rootViewController,
-              let tabBarController = rootVC as? UITabBarController,
-              let navController = tabBarController.selectedViewController as? UINavigationController else {
-            return nil
-        }
-        return navController
     }
 }

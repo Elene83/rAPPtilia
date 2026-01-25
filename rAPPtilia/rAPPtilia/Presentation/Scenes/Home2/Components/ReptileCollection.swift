@@ -22,11 +22,7 @@ struct ReptileCollection: View {
                     )
                     .onTapGesture {
                         navigateToDetails(reptile: reptile)
-                        print("hi?")
                     }
-                    .onLongPressGesture(minimumDuration: 0.5, perform: {
-                        print("hi im zoomed in")
-                    })
                 }
             }
             .padding(.horizontal, 20)

@@ -1,6 +1,7 @@
 import SwiftUI
 
 struct StatusView: View {
+    //MARK: Properties
     let isUpdating: Bool
     let errorMessage: String?
     let successMessage: String?

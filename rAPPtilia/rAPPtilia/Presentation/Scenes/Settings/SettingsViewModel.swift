@@ -2,6 +2,7 @@ import SwiftUI
 import FirebaseAuth
 
 final class SettingsViewModel: ObservableObject {
+    //MARK: Properties
     @Published var isUpdating = false
     @Published var errorMessage: String?
     @Published var successMessage: String?
@@ -36,6 +37,7 @@ final class SettingsViewModel: ObservableObject {
         themeManager.themeOption
     }
     
+    //MARK: Inits
     init(
         profile: User? = nil,
         changePasswordUseCase: ChangePasswordUseCase,
@@ -48,6 +50,7 @@ final class SettingsViewModel: ObservableObject {
         self.coordinator = coordinator
     }
     
+    //MARK: Methods
     func setColorScheme(_ scheme: ColorScheme) {
         themeManager.setColorScheme(scheme)
     }

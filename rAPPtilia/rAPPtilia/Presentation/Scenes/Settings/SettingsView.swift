@@ -103,6 +103,7 @@ struct SettingsView: View {
         }
     }
     
+    //MARK: Methods
     private func getRootVC() -> UIViewController? {
         UIApplication.shared.connectedScenes
             .compactMap { $0 as? UIWindowScene }

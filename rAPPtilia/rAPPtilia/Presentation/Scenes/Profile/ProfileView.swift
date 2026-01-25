@@ -1,8 +1,8 @@
 import SwiftUI
 
 struct ProfileView: View {
+    //MARK: Properties
     @StateObject var vm: ProfileViewModel
-    
     @State private var isEditingFullName = false
     @State private var isEditingUsername = false
     @State private var editedFullName = ""

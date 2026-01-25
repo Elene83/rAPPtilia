@@ -2,6 +2,7 @@ import SwiftUI
 import CoreLocation
 
 final class ProfileViewModel: ObservableObject {
+    //MARK: Properties
     @Published var profile: User?
     @Published var userReptiles: [Reptile] = []
     @Published var userLocations: [LocationModel] = []
@@ -29,6 +30,7 @@ final class ProfileViewModel: ObservableObject {
     private let geocoder = CLGeocoder()
     @Published var addresses: [String: String] = [:]
 
+    //MARK: Inits
     init(
         profile: User? = nil,
         isLoadingReptiles: Bool = false,
@@ -79,6 +81,7 @@ final class ProfileViewModel: ObservableObject {
         NotificationCenter.default.removeObserver(self)
     }
     
+    //MARK: Methods
     @objc private func handleFavoritesChange() {
         refreshFavorites()
     }
