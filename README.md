@@ -24,19 +24,21 @@ rAPPtilia is an iOS application created to raise awareness about one of the most
 ## Screenshots
 
 <p>
-  <img src="./screenshots/onboard.png" width="150" />
-  <img src="./screenshots/login.png" width="150" />
-  <img src="./screenshots/signup.png" width="150" />
-  <img src="./screenshots/home1.png" width="150" />
-  <img src="./screenshots/home2.png" width="150" />
+  <img src="./screenshots/onboard.png" width="100" />
+  <img src="./screenshots/login.png" width="100" />
+  <img src="./screenshots/signup.png" width="100" />
+  <img src="./screenshots/home1.png" width="100" />
+  <img src="./screenshots/details.png" width="100" />
+  <img src="./screenshots/home2.png" width="100"
 </p>
 
 <p>
-  <img src="./screenshots/map.png" width="150" />
-  <img src="./screenshots/chat1.png" width="150" />
-  <img src="./screenshots/chat2.png" width="150" />
-  <img src="./screenshots/profile.png" width="150" />
-  <img src="./screenshots/settings.png" width="150" />
+  <img src="./screenshots/map.png" width="100" />
+    <img src="./screenshots/map2.png" width="100" />
+  <img src="./screenshots/chat1.png" width="100" />
+  <img src="./screenshots/chat2.png" width="100" />
+  <img src="./screenshots/profile.png" width="100" />
+  <img src="./screenshots/settings.png" width="100" />
 </p>
 
 For the rest of the visuals, including dark mode, check out the [Figma design](https://www.figma.com/design/XQgMDXxoRR7zp4eHXgeeT9/rAPPtilia?node-id=0-1&p=f&t=Gt7GsqArJoiKEzMc-0) or install the app. 🦎
