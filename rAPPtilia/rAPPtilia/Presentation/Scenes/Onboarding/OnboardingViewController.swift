@@ -94,7 +94,7 @@ class OnboardingViewController: UIViewController {
                 
         scrollView.contentSize = CGSize(width: pageWidth * CGFloat(viewModel.numberOfPages), height: pageHeight)
         
-        for index in 0..<viewModel.numberOfPages { //TODO: perhaps viewmodelshi es
+        for index in 0..<viewModel.numberOfPages { 
             let page = viewModel.getPage(at: index)
             let pageView = OnboardingPageView(frame: CGRect(
                 x: CGFloat(index) * pageWidth,
