@@ -27,6 +27,7 @@ struct SettingsView: View {
                         confirmNewPassword: $vm.confirmNewPassword,
                         focusedField: $focusedField,
                         isUpdating: vm.isUpdating,
+                        isGoogleUser: vm.isGoogleUser,
                         onChangePassword: {
                             vm.changePassword()
                             focusedField = nil

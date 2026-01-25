@@ -6,10 +6,23 @@ import FirebaseCore
 class FirebaseAuthRepository: AuthRepository {
     private let db = Firestore.firestore()
     
-    func changePassword(currentPassword: String, newPassword: String, completion: @escaping (Result<Void, Error>) -> Void) {
+    func changePassword(currentPassword: String?, newPassword: String?, completion: @escaping (Result<Void, Error>) -> Void) {
         guard let user = Auth.auth().currentUser,
               let email = user.email else {
             completion(.failure(NSError(domain: "AuthError", code: -1, userInfo: [NSLocalizedDescriptionKey: "No user logged in"])))
+            return
+        }
+        
+        let isGoogleProvider = user.providerData.contains { $0.providerID == "google.com" }
+        
+        if isGoogleProvider {
+            completion(.failure(NSError(domain: "AuthError", code: -5, userInfo: [NSLocalizedDescriptionKey: "Cannot change password for Google-authenticated accounts. Please manage your password through your Google account.🦎"])))
+            return
+        }
+        
+        guard let currentPassword = currentPassword,
+              let newPassword = newPassword else {
+            completion(.failure(NSError(domain: "AuthError", code: -1, userInfo: [NSLocalizedDescriptionKey: "Current password and new password are required"])))
             return
         }
         
