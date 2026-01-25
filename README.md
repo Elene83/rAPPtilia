@@ -27,9 +27,9 @@ rAPPtilia is an iOS application created to raise awareness about one of the most
   <img src="./screenshots/onboard.png" width="120" />
   <img src="./screenshots/login.png" width="120" />
   <img src="./screenshots/signup.png" width="120" />
-  <img src="./screenshots/home1.png" width="120" />
-  <img src="./screenshots/details.png" width="120" />
   <img src="./screenshots/home2.png" width="120" />
+  <img src="./screenshots/details.png" width="120" />
+  <img src="./screenshots/home1.png" width="120" />
 </p>
 
 <p>
